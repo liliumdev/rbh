@@ -1,0 +1,88 @@
+<div class="jumbotron vertical-align index">
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="centering text-center">
+                <h1>Make a free reservation</h1>
+                <p>Choose your table from 757 restaurants near you</p>
+                <br>
+                <br>
+
+                <div class="container">
+                    <br>
+                    <form role="search" class="filter-box landing">
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </span>
+                            
+                            <input type="text" name="query" class="form-control" placeholder="Location, Restaurant or Cousine">
+                            
+                            <span class="input-group-btn">                                
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                   2 people <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">2 People</a></li>
+                                    <li><a href="#">3 People</a></li>
+                                    <li><a href="#">4 People</a></li>
+                                    <li><a href="#">5 People</a></li>
+                                </ul>
+                            </span>
+                            
+                            <span class="input-group-btn">                                
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Apr 29, 2016  <i class="fa fa-chevron-down" aria-hidden="true"></i> </button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">to-do</a></li>
+                                </ul>
+                            </span>
+                            
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">7:00 PM  <i class="fa fa-chevron-down" aria-hidden="true"></i></button>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">to-do</a></li>
+                                </ul>
+                            </span>
+                            
+                            <span class="input-group-btn red">
+                                <button class="btn btn-primary" type="submit">Find a table</button>
+                            </span>
+                        </div>
+                    </form>
+
+                    <br>
+                    <br>
+
+                </div>
+                <!-- /.col-lg-6 -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Popular for lunch today</h2>
+        </div>
+
+        {{#each restaurants as |restaurant|}}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                {{#restaurant-listing item=restaurant}}
+                {{/restaurant-listing}}
+            </div>
+        {{/each}}
+
+    </div>
+</div>
+
+<div class="container">
+    <h2>Popular locations</h2>
+    <ul class="row block-grid-4">
+        {{#each locations as |location|}}
+            <li class="popular-location">
+                <p class="title">{{ location.[0] }}</p>
+                <p class="subtitle">{{ location.[1] }} restaurants</p>
+            </li>
+        {{/each}}
+    </ul>
+</div>

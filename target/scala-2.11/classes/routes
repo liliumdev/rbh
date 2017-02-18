@@ -1,0 +1,43 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+
+GET     /                              controllers.HomeController.index()
+
+GET     /api/v1/accounts                       controllers.AccountController.all()
+GET     /api/v1/accounts/:id                   controllers.AccountController.get(id:Long)
+GET     /api/v1/accounts/exists/:email         controllers.AccountController.emailExists(email:String)
+POST    /api/v1/accounts                       controllers.AccountController.register()
+POST    /api/v1/accounts/login                 controllers.AccountController.login()
+POST    /api/v1/accounts/forgot                controllers.AccountController.forgot()
+POST    /api/v1/accounts/reset/:token          controllers.AccountController.reset(token:String)
+POST    /api/v1/accounts/valid-token/:token    controllers.AccountController.isValidToken(token:String)
+PUT     /api/v1/accounts/:id                   controllers.AccountController.update(id:Long)
+DELETE  /api/v1/accounts/:id                   controllers.AccountController.delete(id:Long)
+
+
+GET     /api/v1/countries                                  controllers.CountryController.all()
+GET     /api/v1/countries/:id                              controllers.CountryController.get(id:Long)
+POST    /api/v1/countries                                  controllers.CountryController.create()
+PUT     /api/v1/countries/:id                              controllers.CountryController.update(id:Long)
+DELETE  /api/v1/countries/:id                              controllers.CountryController.delete(id:Long)
+
+GET     /api/v1/cities                                     controllers.CityController.all()
+GET     /api/v1/cities/with-count                          controllers.CityController.allWithCount()
+GET     /api/v1/cities/:id                                 controllers.CityController.get(id:Long)
+PUT     /api/v1/cities/:id                                 controllers.CityController.update(id:Long)
+DELETE  /api/v1/cities/:id                                 controllers.CityController.delete(id:Long)
+GET     /api/v1/countries/:countryId/cities                controllers.CityController.allFromCountry(countryId:Long)
+POST    /api/v1/countries/:countryId/cities                controllers.CityController.create(countryId:Long)
+
+GET     /api/v1/restaurants                                controllers.RestaurantController.all(limit: Integer ?= 0)
+GET     /api/v1/restaurants/:id                            controllers.RestaurantController.get(id:Long)
+POST     /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
+GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
+
+# Deployment helper routes
+GET     /seedDb                               controllers.DatabaseFakerController.seedDatabase()
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

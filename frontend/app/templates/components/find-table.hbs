@@ -1,0 +1,28 @@
+<form role="search" class="filter-box not-landing" {{action (action findTableHandler) on='submit'}}>
+	<div class="row row-no-padding">
+		<div class="col-md-3 option">
+			{{  
+				ember-selectize
+				content=selectPeopleOptions
+				value=reservation.people
+				placeholder="Number of people"
+				class="filter-selectize"
+			}}
+		</div>
+		<div class="col-md-3 option">
+			{{bootstrap-datepicker autoclose=true todayHighlight=true format="M d, yyyy" startDate=startDate endDate=endDate value=reservation.date}}
+		</div>
+		<div class="col-md-3 option">
+			{{  
+				ember-selectize
+				content=selectTimeOptions
+				value=reservation.wishedTime
+				placeholder="Time"
+				class="filter-selectize"
+			}}
+		</div>
+		<div class="col-md-3 option">
+			<button class="btn btn-primary" type="submit">Find a table</button>
+		</div>
+	</div>
+</form>

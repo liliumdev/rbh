@@ -1,0 +1,16 @@
+
+<form class="col-md-12" {{action (action authHandler) on='submit'}}>                                            
+  <div class="form-group">
+  	{{validated-input type="email" model=this placeholder="Email" valuePath="identification"}}
+  </div>
+                        
+  <div class="form-group">
+  	{{validated-input type="password" model=this placeholder="Password" valuePath="password"}}
+  </div>                        
+
+  <button type="submit" class="btn btn-primary">Login</button>
+
+  <div class="form-tip"> 
+    {{#link-to 'forgot-password'}}Did you forget your password?{{/link-to}}
+  </div>   
+</form>

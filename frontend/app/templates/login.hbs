@@ -1,0 +1,23 @@
+<div class="container" id="normal-container">
+   <div class="row">
+   	{{#each flashMessages.queue as |flash|}}
+	  {{flash-message flash=flash}}
+	{{/each}}
+
+      <div class="col-md-6 col-sm-8 col-xs-12 col-centered">
+          <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-6 page-title v-align-center">
+                Login
+            </div><!--
+         --><div class="col-md-4 col-sm-4 col-xs-6 page-subtitle v-align-center">
+                    {{#link-to 'register'}}Create Account{{/link-to}}
+            </div>
+          </div>
+          <div class="row">
+              {{login-form authHandler=(action "loginNormal") identification=identification password=password}}
+          </div>
+       </div>
+       
+   </div>
+   
+</div>

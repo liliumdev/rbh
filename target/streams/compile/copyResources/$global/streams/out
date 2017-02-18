@@ -1,0 +1,6 @@
+[debug] Copy resource mappings: 
+[debug] 	(C:\rests\restaurants\conf\application.conf,C:\rests\restaurants\target\scala-2.11\classes\application.conf)
+[debug] 	(C:\rests\restaurants\conf\logback.xml,C:\rests\restaurants\target\scala-2.11\classes\logback.xml)
+[debug] 	(C:\rests\restaurants\conf\META-INF,C:\rests\restaurants\target\scala-2.11\classes\META-INF)
+[debug] 	(C:\rests\restaurants\conf\routes,C:\rests\restaurants\target\scala-2.11\classes\routes)
+[debug] 	(C:\rests\restaurants\conf\META-INF\persistence.xml,C:\rests\restaurants\target\scala-2.11\classes\META-INF\persistence.xml)

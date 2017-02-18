@@ -1,0 +1,1364 @@
+@import "bootstrap";
+@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700);
+
+body
+{
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body.grey-back
+{
+    background-color: #f9f9f9;
+}
+
+.row-no-padding {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.row-no-padding > [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;    
+}
+
+@media(min-width: 767px)
+{
+    .pull-right-sm
+    {
+        float: right;
+    }
+}
+
+h2 
+{
+    padding: 60px 0 60px;
+    text-align: center;
+    font-size: 30px;
+    color: #131d24;
+    font-weight: 300;
+}
+
+h2.white 
+{
+    color: #fff;
+}
+
+
+a 
+{   
+    color: #fd6f60; 
+    font-weight: 600;
+}
+
+a:hover
+{   
+    color: #f84735; 
+    text-decoration: none;
+}
+
+.container-fluid
+{
+  height: 100%;
+  display: table;
+  width: 100%;
+  padding: 0;
+}
+ 
+.row-fluid 
+{
+    height: 100%; 
+    display: table-cell; 
+    vertical-align: middle;
+}
+
+.v-align-center
+{
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.col-centered
+{
+    float: none;
+    margin: 0 auto;
+}
+
+.centering 
+{
+  float: none;
+  margin: 0 auto;
+}
+
+.navbar
+{
+    margin-bottom: 0;  
+    height: 85px;
+    border: none;
+}
+
+.navbar .navbar-nav > li > a
+{
+    line-height: 55px;
+}
+
+.navbar .navbar-nav > li.active > a
+{
+    color: #fd6f60;
+}
+
+.navbar-transparent .navbar-nav > li > a:hover, 
+.navbar-transparent .navbar-nav > li > a:focus,
+.navbar-transparent .navbar-nav > li > a:active 
+{
+    background-color: transparent;
+    opacity: 0.6;
+}
+
+.navbar a.navbar-brand
+{
+    font-size: 18px;
+    line-height: 52px;
+    height: 85px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar-transparent a.navbar-brand
+{
+    color: #fff;
+}
+
+.navbar-transparent a.navbar-brand:hover
+{
+    color: #fff;
+}
+
+.navbar-transparent
+{
+    color: #fff;
+}
+
+.nav.navbar-nav li a
+{
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.navbar-white
+{
+    background-color: #fff;
+    margin-bottom: 50px;
+}
+
+.navbar-white a.navbar-brand
+{
+  color: #131d24;
+}
+
+.navbar-white .navbar-nav li a 
+{    
+    color: #131d24;
+}
+
+.navbar-white .navbar-nav > li > a:hover, 
+.navbar-white .navbar-nav > li > a:focus,
+.navbar-white .navbar-nav > li > a:active 
+{
+    background-color: #fff;
+    color: #fd6f60;
+}
+
+.jumbotron.index
+{
+    background-image: url('/assets/images/cover-restaurant-dark.jpg');
+    background-size: cover;  
+    background-position: center center;
+    color: #fff;
+    text-align: center;
+    height: 595px;
+    margin: -85px 0 0 0;
+    padding-top: 85px;
+}
+
+.jumbotron.index.restaurant
+{
+    height: 340px;
+}
+
+.jumbotron h1 
+{
+    font-size: 48px;
+    font-weight: 300;
+}
+
+.jumbotron p
+{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.restaurant-listing
+{
+    
+    margin-bottom: 50px;
+}
+
+.restaurant-listing h3 a 
+{
+    color: #131d24;
+    font-size: 24px;
+}
+
+.restaurant-listing h3 a:hover 
+{
+    color: #425855;
+    text-decoration: none;
+}
+
+.restaurant-listing .rating .fa.fa-star
+{
+    color: #fd6f60;
+    font-size: 16px;
+    padding: 0px 2px 0 2px;
+}
+
+.restaurant-listing .rating .fa.fa-star.inactive
+{
+    color: rgba(0, 0, 0, 0.15);
+}
+
+
+.restaurant-listing .rating .count 
+{
+    color: #131d24;
+    opacity: 0.4;
+    font-size: 16px;   
+    padding-left: 10px;
+}
+
+.restaurant-listing .rating .dollars 
+{
+    color: #131d24;
+    font-size: 12px;
+    position: absolute;
+    margin: 3px 10px;
+    letter-spacing: 2.3px;
+}
+
+.restaurant-listing .tags
+{
+    border-top: 1px solid #e5e5e5;
+    padding-top: 10px;
+    padding-bottom: 18px;
+    color: #131d24;
+    opacity: 0.6;
+}
+
+.restaurant-listing .tags a
+{
+    color: #131d24;
+    opacity: 0.6;
+    font-size: 16px;
+}
+
+.restaurant-listing .tags span:after {
+    content: ' | ';
+}
+
+.restaurant-listing .tags span:last-of-type:after {
+    content: '';
+}
+
+
+.restaurant-listing .tags a:hover
+{
+    text-decoration: none;
+    opacity: 1;
+}
+
+.btn
+{
+    border-radius: 2px;    
+}
+
+.restaurant-listing .btn.btn-default
+{
+    background-color: #f9f9f9;
+    border: solid 1px #e5e5e5;
+    width: 100%;
+    font-size: 18px;
+    color: #131d24;
+    font-weight: 600;
+}
+
+.restaurant-listing .btn.btn-default:hover
+{
+    border: solid 1px #c9c9c9;
+    background-color: #f0efef;    
+}
+
+.restaurant-listing .btn.btn-default:active, .restaurant-listing .btn.btn-default:focus 
+{
+    outline: 0;
+    background-color: #e8e7e7;  
+    box-shadow: none;
+}
+
+.restaurant-listing.horizontal h3 a 
+{
+    font-size: 30px;
+    color: #fff;
+    font-weight: normal;
+}
+
+.restaurant-listing.horizontal .count, .restaurant-listing.horizontal .dollars
+{
+    color: rgba(255, 255, 255, 0.6);  
+    opacity: 1;
+}
+
+.restaurant-listing.horizontal .tags a, .restaurant-listing.horizontal .tags
+{
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.restaurant-listing.horizontal .tags a
+{
+    padding: 0 8px;
+}
+
+.restaurant-listing.horizontal .rating .fa.fa-star.inactive
+{
+    color: rgba(255, 255, 255, 0.2);
+}
+
+/*
+.restaurant-listing.horizontal .rating .fa.fa-star:hover,
+.restaurant-listing.horizontal .rating .fa.fa-star.inactive:hover
+{
+    color: #fd6f60;
+    cursor: pointer;
+}
+
+.restaurant-listing.horizontal .rating .fa.fa-star:hover ~ .fa.fa-star,
+.restaurant-listing.horizontal .rating .fa.fa-star:hover ~ .fa.fa-star.inactive {
+    color: rgba(255, 255, 255, 0.2);
+}
+*/
+.restaurant-listing.horizontal > div, .restaurant-listing.horizontal .btn
+{
+    display: inline-block;
+    border: 0;
+}
+
+.restaurant-listing.horizontal .btn.btn-default
+{
+    width: auto;
+    float: right;
+}
+
+.restaurant-listing.horizontal .rating
+{
+    display: inline-block;
+    width: auto;
+}
+
+.restaurant-listing.horizontal .tags
+{
+    padding: 0;
+    border: 0;
+    width: auto;
+    display: inline-block;
+}
+
+.restaurant-listing.horizontal .dollars
+{
+    display: inline-block;
+    margin:0 8px 0 15px;
+}
+
+.restaurant-listing.horizontal .dollars b 
+{
+    padding: 0 3px;
+}
+
+.restaurant-listing.horizontal .btn.btn-default
+{
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.restaurant-listing.horizontal .btn.btn-default i 
+{
+    color: #fd6f60;
+    margin-right: 8px
+}
+
+.restaurant-listing.horizontal .btn.btn-default:hover
+{
+    border: 0;
+}
+
+.restaurant-listing.horizontal .btn.btn-default:hover i
+{
+    color: #f04735;
+    border: 0;
+}
+
+.carousel-control .icon-prev, .carousel-control .icon-next, .carousel-control .glyphicon-chevron-left, .carousel-control .glyphicon-chevron-right, .fa.fa-arrow-right, .fa.fa-arrow-left {
+    position: absolute;
+    top: 50%;
+    margin-top: -10px;
+    z-index: 5;
+    display: inline-block;
+}
+
+.carousel.with-background
+{
+    color: #fff;
+    text-align: center;    
+    background-image: url('/assets/images/cover-restaurant-dark.jpg');
+    background-size: cover;    
+}
+
+.carousel.with-background h3 
+{
+    padding: 0 0 60px 0;
+    font-weight: 300;
+    font-size: 30px;
+}
+
+.carousel.with-background a
+{
+    color: #fff;
+}
+
+a.recipe-featured 
+{
+    text-align: left;
+    display: block;
+}
+
+a.recipe-featured:hover
+{
+    text-decoration: none;
+}
+
+a.recipe-featured p.title
+{
+    font-size: 24px;
+    font-weight: normal;
+    margin: 15px 0 0 0px;
+}
+
+a.recipe-featured p.subtitle
+{
+    font-size: 17px;
+    font-weight: 300;
+}
+
+.carousel.with-background a.featured-link
+{
+    display: block;
+    padding: 60px 0 60px 0;
+    font-size: 18px;
+    font-weight: 600;
+    opacity: 0.6;
+}
+
+.carousel.with-background a.featured-link:hover
+{
+    text-decoration: none;
+    opacity: 0.8;
+}
+
+ul.block-grid-4 {
+   display: block;
+   overflow: hidden;
+   padding: 0;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}
+
+ul.block-grid-4 > li {
+   width: 25%;
+   float: left;
+   padding: 0 12px 12px;
+   display: block;
+   height: auto;
+   -webkit-box-sizing: border-box;
+   -moz-box-sizing: border-box;
+   box-sizing: border-box;
+}  
+
+ul.block-grid-4 > li:nth-of-type(4n+1) {
+   clear: left;
+}
+
+.popular-location
+{
+    margin-bottom: 20px;
+}
+
+.popular-location p.title
+{
+    font-size: 20px;
+    color: #131d24;
+}
+
+.popular-location p.subtitle
+{
+    font-size: 18px;
+    color: #131d24;
+    opacity: 0.4;
+}
+
+#footer 
+{
+    background-color: #131d24;
+    padding: 50px 0 50px 0;
+    color: rgba(255, 255, 255, 0.4);
+    margin-top: 200px;
+}
+
+#footer ul
+{
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+}
+
+#footer ul li 
+{
+    display: inline-block;
+}
+
+#footer ul li.active a 
+{
+    color: #fff;
+}
+
+#footer ul li a 
+{
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+#footer ul li a:first-child
+{
+    padding-left: 0;
+}
+
+#footer ul li a:hover
+{
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+#footer ul.white
+{
+    text-align: right;
+}
+
+#footer ul.white li a
+{
+    color: #fff;
+}
+
+#footer ul.white li.active a
+{
+    opacity: 0.6;
+}
+
+#footer ul.white li a:hover
+{
+    opacity: 0.6;
+}
+
+@media(max-width: 767px)
+{
+    #footer, #footer ul.white
+    {
+        text-align: center;
+    }
+    
+    .popular-location
+    {
+        text-align: center;
+    }
+}
+
+
+/* ember custom for filter box */
+.filter-box input {    
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+}
+
+.filter-box .selectize-control.filter-selectize.ember-selectize .selectize-input {
+    height: 51px;
+    background-color: #fff;
+    background-image: none;
+    border-radius: 0px;
+    border: none;
+    box-shadow: none;
+}
+
+.filter-box .selectize-control.filter-selectize.ember-selectize .selectize-input.dropdown-active::before {
+    display: none;
+}
+
+.filter-box .selectize-control.filter-selectize.ember-selectize input {
+    height: 36px;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.filter-box .selectize-input,
+.filter-box .selectize-input input {
+}
+
+.filter-box .selectize-control.filter-selectize.ember-selectize .selectize-input:after {
+    margin-top: 0px;
+}
+
+
+.filter-box .selectize-control .selectize-dropdown {
+    border: 1px solid #e3e3e3;
+    top: 58px;
+}
+
+/* not landing borders */
+.filter-box.not-landing .row-no-padding > .option 
+{
+    border: 1px solid #e3e3e3;
+}
+
+.filter-box.not-landing .row-no-padding > .option:nth-child(2) {
+    border-left: none;
+    border-right: none;
+}
+
+.filter-box.not-landing .row-no-padding > .option:nth-child(3) {
+    border-right: none;
+}
+
+.filter-box.not-landing .row-no-padding > .option:last-child {
+    border: none;
+}
+
+.filter-box.not-landing .btn-primary
+{
+    width: 100%;
+    height: 58px;
+}
+/* end not landing borders */
+
+.filter-box .selectize-control .item {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    width: 100%;
+    line-height: 36px;
+}
+
+.filter-box .selectize-control .selectize-input.input-active .item, .filter-box .selectize-control .selectize-input.input-active input {
+    opacity: 0;
+}
+
+/* end of ember custom for filter box */
+
+.filter-box .fa.fa-chevron-down
+{
+    font-size: 11px;
+    opacity: 0.3;
+    position: absolute;
+    margin: 8px 10px;
+}
+
+.filter-box input, 
+.filter-box .input-group-lg > .input-group-btn > .btn, 
+.filter-box .input-group-addon:first-child
+{
+    border-radius: 0;
+    border: 0;
+    height: 56px;
+}
+
+.filter-box .input-group-addon:first-child
+{
+    background-color: #fff;
+    color: rgba(0, 0, 0, 0.6);
+    height: 56px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.filter-box input 
+{
+    box-shadow: none;
+}
+
+.input-group-lg>.form-control
+{
+    height: 56px;
+}
+
+.btn.btn-primary
+{    
+    background-color: #fd6f60;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-right: 10px;
+    border: none;
+}
+
+.filter-box .btn.btn-primary 
+{
+    font-size: 18px;
+    font-weight: 600;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-right: 0px;
+}
+
+.filter-box .btn.btn-primary:last-child
+{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.btn.btn-primary:hover
+{
+    background-color: #fc5746;
+    color: #fff;
+}
+
+.btn.btn-primary:active
+{
+    outline: 0;
+    background-color: #f83d29;
+    box-shadow: none;
+}
+
+.btn.btn-primary:focus
+{
+    outline: 0;
+}
+
+.filter-box .btn.btn-primary.dropdown-toggle
+{
+    background-color: #fff;
+    color: #131d24;
+    margin-right: -1px;    
+}
+
+.filter-box .btn.btn-primary.dropdown-toggle:hover
+{
+    color: #535e67;
+}
+
+.filter-box .btn.btn-primary.dropdown-toggle:active, .filter-box .btn.btn-primary.dropdown-toggle:focus
+{
+    color: #535e67;
+    outline: 0;
+    box-shadow: none;
+}
+
+.filter-box .dropdown-menu
+{ 
+    margin-top: -3px;
+    left: 50%;
+    right: auto;
+    text-align: center;
+    transform: translate(-50%, 0);
+    border-radius: 3px;
+    box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.1);
+    border: solid 1px #dbdbdb;
+    width: 100%;
+}
+
+.filter-box .dropdown-menu:after {
+	bottom: 100%;
+	left: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(136, 183, 213, 0);
+	border-bottom-color: #fff;
+	border-width: 7px;
+	margin-left: -7px;
+    filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
+}
+
+.filter-box .dropdown-menu li a
+{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.filter-box.not-landing 
+{
+    padding: 20px 0px;
+}
+
+.filter-box.not-landing .input-group-btn:not(.red)
+{
+    border: 1px solid #e3e3e3;
+}
+
+.filter-box.not-landing .input-group-btn:not(.red):not(:first-child):not(:nth-last-child(2))
+{
+    border-left: none;
+    border-right: none;
+}
+
+.filter-box.not-landing .input-group-btn.red button
+{
+    width: 100%;
+}
+
+@media (max-width: 991px) {   
+    .filter-box .input-group-btn 
+    {
+        width: 100%;
+        display: block;
+        margin-bottom: 10px;
+        clear: both;
+    }    
+    
+    .filter-box .input-group-btn button
+    {
+        width: 100%;
+        margin-left: 0px;
+    }
+    
+    .filter-box .input-group 
+    {
+        display: block;
+    }
+    
+    .filter-box.not-landing .input-group-btn:not(.red):not(:first-child):not(:nth-last-child(2))
+    {
+        border: 1px solid #e3e3e3;
+    }
+    
+    .filter-box.landing .input-group-btn 
+    {
+        margin-bottom: 0px;
+    }
+    
+    .filter-box.landing .input-group-addon
+    {
+        display: none;
+    }
+    
+    .filter-box.landing input
+    {
+        margin-left: 1px;
+        text-align: center;
+    }
+    
+    .filter-box .input-group-btn:not(.red)
+    {
+        border-top: 1px solid #e3e3e3;
+    }
+    
+    .filter-box .btn.btn-primary:last-child
+    {
+        margin-left: 1px;
+        border-radius: 0px;
+    }
+    
+    .jumbotron.index
+    {
+        height: 650px;
+    }    
+}
+
+#restaurant-container
+{
+    margin-top: -130px;
+}
+
+#restaurant-container #profile-pic
+{
+    display: block;
+    border: 8px solid #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+}
+
+
+@media(max-width: 991px)
+{
+    #restaurant-container
+    {
+        margin-top: -115px;
+    }
+    
+    .restaurant-listing.horizontal .tags
+    {
+        display: none;
+    }
+}
+
+@media(max-width: 767px)
+{
+    #restaurant-container
+    {
+        margin-top: -230px;
+    }
+    
+    .jumbotron.index.restaurant
+    {
+        height: 330px;
+    }
+    
+    .restaurant-listing.horizontal 
+    {
+        text-align: center;
+    }
+    
+    .restaurant-listing.horizontal .rating, .restaurant-listing.horizontal .dollars, .restaurant-listing.horizontal .tags
+    {
+        display: block;
+    }
+    
+    .restaurant-listing.horizontal .btn.btn-default
+    {
+        float: none;
+        margin-top: 15px;
+    }
+    
+    #restaurant-container #profile-pic
+    {
+        margin: 0 auto;
+    }
+    
+    #restaurant-container .sidebar
+    {
+        text-align: center;
+    }
+
+}
+
+@media(min-width: 991px)
+{
+    #pull-up-column
+    {
+        margin-top: -60px;
+    }
+}
+
+#restaurant-container .sidebar
+{
+    list-style: none;
+    margin: 20px 0  0 0;
+    padding: 10px;
+}
+
+#restaurant-container .sidebar li
+{
+    padding: 7px 0;
+}
+
+#restaurant-container .sidebar li a 
+{
+    font-size: 18px;
+    font-weight: 600;    
+    color: #131d24;
+    opacity: 0.4;
+}
+
+#restaurant-container .sidebar li.active a
+{
+    opacity: 1;
+}
+
+#restaurant-container .sidebar li a:hover
+{
+    opacity: 1;
+    text-decoration: none;
+}
+
+#map
+{
+    height: 250px;
+}
+
+.g-map-canvas {
+  width: 100%;
+  height: 250px;
+}
+
+.card 
+{
+    padding: 0 0 30px 0;
+    box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    margin-top: 30px;
+    border-radius: 2px;
+}
+
+.card a 
+{
+    color: #131d24;
+}
+
+.card a:hover
+{
+    color: #fc6e5f;
+    text-decoration: none;
+}
+
+.card.padded
+{
+    padding: 30px;
+}
+
+.card .padded
+{
+    padding: 0 30px;
+}
+
+.card .padded.top-border
+{
+    border-top: 1px solid #d8d8d8;
+}
+
+.card .title
+{
+    padding: 17px 0;
+}
+
+.card .title .main
+{
+    font-size: 20px;
+    color: rgba(19, 29, 36, 0.4);
+}
+
+.card .title .sub
+{
+    font-size: 13px;
+    font-weight: 600;
+    color: #131d24;
+    text-align: right;
+}
+
+.card .subtitle
+{
+    font-size: 18px;
+    color: rgba(19, 29, 36, 0.4);
+    padding: 24px 0;
+}
+
+.card .content
+{
+    margin-top: 10px;
+}
+
+.card .regular-header
+{
+    font-size: 20px;
+    color: #131d24;
+}
+
+.card .regular-text
+{
+    font-size: 18px;
+    color: #1a1a1a;
+    margin: 15px 0px;
+}
+
+.card .tiny-text
+{
+    font-size: 14px;
+}
+
+.card .grey
+{
+    color: #aaa;
+}
+
+.card .green
+{
+    color: #6eaa4e;
+}
+
+table.restaurant-menu
+{
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+table.restaurant-menu .menu-item
+{
+    font-size: 18px;
+    color: #1a1a1a;
+}
+
+
+table.restaurant-menu tr.menu-item td
+{
+    padding: 5px 0 0 0;
+}
+
+table.restaurant-menu tr.menu-item td:first-child
+{
+    height: auto;
+}
+
+table.restaurant-menu .menu-item td:last-child
+{
+    text-align: right;
+}
+
+table.restaurant-menu .menu-item-sub td
+{
+    color: #aaa;
+    padding-bottom: 8px;
+}
+
+ul.restaurant-menu 
+{
+    width: 100%;
+    padding: 0;
+    overflow-x: hidden;
+    list-style: none;
+}
+
+ul.restaurant-menu li
+{
+    color: #aaa;
+}
+
+ul.restaurant-menu li.item
+{
+    margin-top: 8px;
+}
+
+ul.restaurant-menu li.item:before 
+{
+    float: left;
+    width: 0;
+    white-space: nowrap;
+    color: #a33131;
+    content: " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ";
+    margin-top: 6px;
+}
+
+ul.restaurant-menu li.item span:first-child 
+{
+    padding-right: 0.33em;
+    background: #fff;    
+    font-size: 18px;
+    color: #1a1a1a;
+}
+
+ul.restaurant-menu li.item span + span 
+{
+    float: right;
+    padding-left: 0.33em;
+    background: #fff;    
+    font-size: 18px;
+    color: #1a1a1a;
+}
+
+ul.restaurant-menu li.item span + span:before 
+{
+  padding-right: 0.15em;
+}
+
+.restaurant-img
+{
+    display: block;
+    margin-top: 30px;
+}
+
+.restaurant-img:first-child
+{
+    margin-top: 0px;
+}
+
+.page-title
+{
+    font-size: 24px;
+    color: #131d24;
+}
+
+.page-subtitle
+{
+    font-size: 18px;
+    color: #fd6f60;
+    text-align: right;
+}
+
+form:not(.filter-box)
+{
+    margin-top: 20px;
+}
+
+form:not(.filter-box) .form-group
+{
+    margin-bottom: 10px;
+}
+
+form:not(.filter-box) .form-group input, form .form-group select
+{
+    border-radius: 2px;
+    box-shadow: none;
+    border: solid 1px #e1e1e1;
+    font-size: 16px;
+    font-weight: 600;
+    color: #131d24;
+    height: 53px;
+}
+
+form:not(.filter-box) .form-group.form-group-inline
+{
+    height: 53px;
+}
+
+form:not(.filter-box) .form-group.form-group-inline select
+{
+    float: left;
+    width: 50%;
+}
+
+
+form:not(.filter-box) .form-group.form-group-inline select:first-child
+{
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+form:not(.filter-box) .form-group.form-group-inline select:last-child
+{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left: 0px;
+}
+
+form:not(.filter-box) .btn
+{
+    width: 100%;
+    height: 53px;
+    margin-top: 30px;
+}
+
+.input-error .error {
+    font-style: italic;
+    font-size: 13px;
+    padding-top: 5px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+form:not(.filter-box) .form-group select
+{
+    padding-left: 8px;
+}
+
+form .form-result
+{
+    font-size: 20px;
+    color: #131d24;
+    text-align: center;
+    font-weight: 300;
+    margin: 40px;
+}
+
+form .form-tip
+{
+    font-size: 15px;
+    color: #131d24;
+    font-weight: 300;
+    text-align: center;
+    margin: 10px;
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;  
+}
+
+#rateModal p.title {
+    font-size: 24px;
+    color: #131d24;
+    font-weight: normal;
+    padding: 15px;
+}
+
+#rateModal .stars {
+    padding-bottom: 25px;
+    font-size: 36px;    
+}
+
+#rateModal textarea {
+    width: 85%;
+    height: 230px;
+    border-radius: 2px;
+    border: solid 1px #e1e1e1;
+    margin-top: 30px;
+}
+
+#rateModal .btn.btn-primary {
+    width: 85%;
+    margin-top: 15px;
+    margin-right: 0px;
+    height: 56px;
+}
+
+#rateModal .rating-panel {
+    color: #fd6f60;
+}
+
+#rateModal .rating-panel .fa.fa-star {
+    padding: 0 2px;
+    font-size: 36px;
+}
+
+/* inactive color is grayish */
+#rateModal .rating-panel .fa.fa-star.active {
+    color: #fd6f60;
+}
+
+#rateModal .rating-panel .fa.fa-star.inactive {
+    color: rgba(253, 111, 96, 0.3);
+}
+
+#rateModal .rating-panel .fa.fa-star:focus,
+#rateModal .rating-panel .fa.fa-star:active {
+    text-decoration: none;
+}

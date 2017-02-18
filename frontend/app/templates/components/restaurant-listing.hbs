@@ -1,0 +1,32 @@
+<div class="restaurant-listing">
+	{{#link-to 'restaurants.restaurant' item.id class='img-responsive'}}
+		<img class="img-responsive" src="/assets/images/restaurants/logos/{{item.logoImageUrl}}" alt="{{item.name}}">
+	{{/link-to}}
+
+	<h3>{{#link-to 'restaurants.restaurant' item.id}} {{item.name}} {{/link-to}} </h3>
+
+	<p class="rating">
+	    {{#each item.activeStars as |star|}}
+	  		<i class="fa fa-star" aria-hidden="true"></i>
+		{{/each}}
+		{{#each item.inactiveStars as |star|}}
+	    	<i class="fa fa-star inactive" aria-hidden="true"></i>
+		{{/each}}
+
+	    <span class="count">({{item.reviewCount}})</span>
+		
+	    <span class="dollars">
+	        {{#each item.activeDollars as |star|}}
+	  		<b>$</b>
+			{{/each}}
+			{{#each item.inactiveDollars as |star|}}
+		    $
+			{{/each}}
+
+	    </span>
+	</p>
+	
+	{{ restaurant-tags categories=item.categories }}
+
+	{{#link-to 'restaurants.restaurant' item.id class='btn btn-default'}}Reserve Now{{/link-to}}
+</div>

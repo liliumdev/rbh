@@ -1,0 +1,225 @@
+<div class="jumbotron index restaurant" style="background-image: url('/assets/images/restaurants/covers/{{ model.restaurant.coverImageUrl }}');">
+</div>
+
+<div class="container" id="restaurant-container">
+       <div class="row">
+          
+            <div class="col-md-9 col-sm-9 col-xs-12 pull-right-sm">
+                <div class="restaurant-listing horizontal">
+                    <h3><a href="#">{{ model.restaurant.name }}</a></h3>
+
+                    <p class="rating">
+	                    {{#each model.restaurant.activeStars as |star|}}
+					  		<i class="fa fa-star" aria-hidden="true"></i>
+						{{/each}}
+						{{#each model.restaurant.inactiveStars as |star|}}
+					    	<i class="fa fa-star inactive" aria-hidden="true"></i>
+						{{/each}}
+
+						<span class="count">({{model.restaurant.reviewCount}})</span>
+                    </p>
+
+                    <span class="dollars">
+				        {{#each model.restaurant.activeDollars as |star|}}
+				  		<b>$</b>
+						{{/each}}
+						{{#each model.restaurant.inactiveDollars as |star|}}
+					    $
+						{{/each}}
+				    </span>
+ 
+                    {{ restaurant-tags categories=model.restaurant.categories }}
+                    
+                    {{#if session.isAuthenticated}}
+                        {{#if model.review.didRate }}
+                            <button type="button" class="btn btn-default" disabled="true"><i class="fa fa-star" aria-hidden="true"></i>Already rated</button>
+                        {{else}}
+                            <button type="button" class="btn btn-default" data-toggle="modal" data-target="#rateModal"><i class="fa fa-star" aria-hidden="true"></i> Rate this place</button>
+                        {{/if}}                        
+                    {{else}}
+                        <button type="button" class="btn btn-default" disabled="true"><i class="fa fa-star" aria-hidden="true"></i>Login to rate</button>
+                    {{/if}}
+                </div>
+            </div>
+           <div class="col-md-3 col-sm-3 col-xs-12">
+                <a href="#" id="profile-pic">
+                    <img class="img-responsive" src="/assets/images/restaurants/logos/{{ model.restaurant.logoImageUrl }}" alt="{{ model.restaurant.name }}">
+                </a>
+            </div>
+       </div>
+       
+        <div class="row">
+            <div class="col-md-3 col-sm-3 col-xs-12">
+                <ul class="sidebar">
+                    <li>{{scroll-to href='#section-reservation' label='Reservation'}}</li>
+                    <li>{{scroll-to href='#section-about' label='About'}}</li>
+                    <li>{{scroll-to href='#section-menu' label='Menu'}}</li>
+                    <li>{{scroll-to href='#section-photos' label='Photos'}}</li>
+                </ul>
+            </div>
+
+            <div class="col-md-9 col-sm-9 col-xs-12" id="pull-up-column">
+                <div class="card" id="section-reservation">
+                    <div class="padded">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-md-9 col-sm-9 col-xs-6 main v-align-center">
+                                    Make a free reservation
+                                </div><!--
+                             --><div class="col-md-3 col-sm-3 col-xs-6 sub v-align-center">
+                                    <span style="height: 10px;">Booked 72 times today</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                           <div class="row">
+                               <div class="col-md-12">
+                                    {{find-table reservation=reservation findTableHandler=(action "findTable") }}
+                                        
+                                                                        
+                                    <div class="regular-header">
+                                        Availability on Jan 17, 2017 around 7:00 PM for 2 people:
+                                    </div>
+                                    
+                                    <div class="tiny-text grey">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i> 12 tables left
+                                        &nbsp; &nbsp; &nbsp; &nbsp;
+                                        <i class="fa fa-check-circle green" aria-hidden="true"></i> 72 reservations today
+                                    </div>
+                                    
+                                    <div class="regular-text">
+                                        Select the best time that fits you:
+                                    </div>
+                                    
+                                    <a class="btn btn-primary" href="#">06:30 PM</a>
+                                    <a class="btn btn-primary" href="#">06:30 PM</a>
+                                    <a class="btn btn-primary" href="#">06:30 PM</a>
+                                    <a class="btn btn-primary" href="#">06:30 PM</a>
+                                    
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="card" id="section-about">
+                    <div class="padded">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-md-12 main">
+                                    About {{ model.restaurant.name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="map">
+                    	{{#g-map lat=model.restaurant.lat lng=model.restaurant.long zoom=15 as |context|}}
+                    		{{g-map-marker context lat=model.restaurant.lat lng=model.restaurant.long}}
+                    	{{/g-map}}
+                    </div>
+                    <div class="padded">
+                        <div class="content">
+                           <div class="row">
+                               <div class="col-md-12">
+                                    <div class="subtitle">
+                                        Description
+                                    </div>
+                                    <p class="regular-text">
+                                        {{{ model.restaurant.description }}}
+                                    </p>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" id="section-menu">
+                    <div class="padded">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-md-12 main">
+                                    Menu
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="padded top-border">
+                        <div class="content">
+                           <div class="row">
+                               <div class="col-md-12">
+                                   <ul class="restaurant-menu">
+									{{#each model.restaurant.menuItems as |menuItem|}}
+								  		<li class="item">
+	                                      <span>{{ menuItem.name }}</span>
+	                                      <span>${{ menuItem.price }}</span>
+	                                    </li>
+	                                    <li>
+	                                        <span>
+	                                            {{ menuItem.description }}
+	                                        </span>
+	                                    </li>
+									{{/each}}
+                                  </ul>
+                                   
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" id="section-photos">
+                    <div class="padded">
+                        <div class="title">
+                            <div class="row">
+                                <div class="col-md-9 col-sm-9 col-xs-6 main v-align-center">
+                                    Restaurants Photo
+                                </div><!--
+                             --><div class="col-md-3 col-sm-3 col-xs-6 sub v-align-center">
+                                    <span style="height: 10px;"><a href="#">See All Photos (12)</a></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                           <div class="row">
+                               <div class="col-md-6">
+                                    <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-featured.png">
+                                    </a>
+                               </div>
+                               <div class="col-md-3">
+                                   <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                                    
+                                    <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                                    
+                                    <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                               </div>
+                               <div class="col-md-3">
+                                   <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                                    
+                                    <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                                    
+                                    <a class="restaurant-img" href="#">
+                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
+                                    </a>
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {{ restaurant-rate-modal review=model.review starClickedAction=(action "starClicked") rateAction=(action "rate")}}
