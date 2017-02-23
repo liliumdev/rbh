@@ -4,7 +4,7 @@
 		module="play-java$sources_2.11"
 		revision="1.0-SNAPSHOT"
 		status="integration"
-		publication="20170222105506"
+		publication="20170223164032"
 	/>
 	<configurations>
 		<conf name="compile" visibility="public" description=""/>
