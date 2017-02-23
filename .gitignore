@@ -1,8 +1,9 @@
 .idea/
 frontend/tmp/
-project/boot
-project/target
-project/plugins/target
+project/boot/
+project/target/
+project/plugins/target/
+project/project/target
 target
 .target
 logs/
