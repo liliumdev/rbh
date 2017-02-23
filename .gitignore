@@ -1,2 +1,8 @@
 .idea/
 frontend/tmp/
+project/boot
+project/target
+project/plugins/target
+target
+.target
+logs/
