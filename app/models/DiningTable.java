@@ -1,6 +1,7 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -41,6 +42,7 @@ public class DiningTable extends BaseModel<DiningTable> {
         this.restaurant = restaurant;
     }
 
+    @JsonIgnore
     @OneToMany(mappedBy = "diningTable")
     public List<Reservation> getReservations() {
         return reservations;

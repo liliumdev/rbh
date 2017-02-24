@@ -5,37 +5,43 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+
+import java.util.Date;
 import java.sql.Timestamp;
+
+import javax.persistence.TemporalType;
 
 /**
  * Created by Lilium on 14.1.2017.
  */
 @Entity
 public class Reservation extends BaseModel<Reservation> {
-    private Timestamp forTime;
-    private Timestamp createdAt;
+    private Date forTime;
+    private Date createdAt;
     private Integer persons;
     private String request;
     private DiningTable diningTable;
     private Account account;
 
     @Basic
-    @Column(name = "for_time")
-    public Timestamp getForTime() {
+    @Column(name = "for_time", columnDefinition = "timestamp without time zone")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getForTime() {
         return forTime;
     }
 
-    public void setForTime(Timestamp forTime) {
+    public void setForTime(Date forTime) {
         this.forTime = forTime;
     }
 
     @Basic
-    @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
+    @Column(name = "created_at", columnDefinition = "timestamp without time zone")
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -103,5 +109,46 @@ public class Reservation extends BaseModel<Reservation> {
         setForTime(data.getForTime());
         setPersons(data.getPersons());
         setRequest(data.getRequest());
+    }
+
+    public static class ReservationSuggestionDto {
+        private Integer persons;
+        private Integer freeTables;
+        private Integer tableId;
+        private Timestamp suggestedTime;
+
+        public ReservationSuggestionDto() { }
+
+        public Integer getPersons() {
+            return persons;
+        }
+
+        public void setPersons(Integer persons) {
+            this.persons = persons;
+        }
+
+        public Integer getFreeTables() {
+            return freeTables;
+        }
+
+        public void setFreeTables(Integer freeTables) {
+            this.freeTables = freeTables;
+        }
+
+        public Integer getTableId() {
+            return tableId;
+        }
+
+        public void setTableId(Integer tableId) {
+            this.tableId = tableId;
+        }
+
+        public Timestamp getSuggestedTime() {
+            return suggestedTime;
+        }
+
+        public void setSuggestedTime(Timestamp suggestedTime) {
+            this.suggestedTime = suggestedTime;
+        }
     }
 }

@@ -1,5 +1,7 @@
 package services;
 
+import models.DiningTable;
+import models.Reservation;
 import models.Restaurant;
 import models.Review;
 import org.hibernate.Criteria;
@@ -39,6 +41,25 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
         return criteria.list();
     }
 
+    public Long getNumberOfReservationsToday(Long restaurantId) throws ServiceException {
+        try {
+            Restaurant restaurant = this.get(restaurantId);
+            Date today = new Date(); today.setHours(0); today.setMinutes(0);
+
+            Criteria criteria = repository.getSession().createCriteria(Reservation.class, "reservation");
+            criteria.createAlias("reservation.diningTable", "diningTable");
+            criteria.createAlias("diningTable.restaurant", "restaurant");
+            criteria.add(Restrictions.eqProperty("reservation.diningTable.id", "diningTable.id"));
+            criteria.add(Restrictions.eqProperty("diningTable.restaurant.id", "restaurant.id"));
+            criteria.add(Restrictions.ge("reservation.createdAt", today));
+            criteria.setProjection(Projections.rowCount());
+
+            return (Long)criteria.uniqueResult();
+        } catch (ServiceException e) {
+            throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
+        }
+    }
+
     public Double rate(Long restaurantId, Integer rating, String description, String email) throws ServiceException {
         try {
             // Did this user already review the retaurant?
@@ -46,6 +67,8 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
                 return null;
 
             Restaurant restaurant = this.get(restaurantId);
+            if(restaurant == null)
+                return null;
 
             // Create this review
             Review review = new Review();

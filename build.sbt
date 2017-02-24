@@ -7,6 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.11.7"
 
 resolvers += "jitpack" at "https://jitpack.io"
+resolvers += "repo1" at "http://repo1.maven.org/maven2/"
 
 libraryDependencies ++= Seq(
   javaJdbc,

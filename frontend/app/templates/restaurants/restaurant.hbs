@@ -76,25 +76,33 @@
                                <div class="col-md-12">
                                     {{find-table reservation=reservation findTableHandler=(action "findTable") }}
                                         
+                                    {{#if hasError}}
+                                        <div class="regular-header">
+                                            <i>{{errorMsg}}</i>
+                                        </div>
+                                    {{else}}
+                                        {{#if gotSuggestions}}
+                                             <div class="regular-header">
+                                                Availability on {{moment-format reservation.date 'MMM DD, YYYY'}} around {{ reservation.wishedTime }} for {{ reservation.persons }}:
+                                            </div>
+                                            
+                                            <div class="tiny-text grey">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i> {{ tablesLeft }} tables left
+                                                &nbsp; &nbsp; &nbsp; &nbsp;
+                                                <i class="fa fa-check-circle green" aria-hidden="true"></i> {{ model.restaurant.reservationsToday}} reservations today
+                                            </div>
+                                            
+                                            <div class="regular-text">
+                                                Select the best time that fits you:
+                                            </div>
+                                            
+                                            {{#each suggestions as |suggestion|}}
+                                                <a class="btn btn-primary" {{ action "reserveTable" suggestion.suggestedTime suggestion.tableId }} disabled={{ inProcessOfReservation }}>{{moment-format suggestion.suggestedTime 'h:mm A'}}</a>
+                                            {{/each}}
+                                        {{/if}}
+                                    {{/if}}
                                                                         
-                                    <div class="regular-header">
-                                        Availability on Jan 17, 2017 around 7:00 PM for 2 people:
-                                    </div>
-                                    
-                                    <div class="tiny-text grey">
-                                        <i class="fa fa-info-circle" aria-hidden="true"></i> 12 tables left
-                                        &nbsp; &nbsp; &nbsp; &nbsp;
-                                        <i class="fa fa-check-circle green" aria-hidden="true"></i> 72 reservations today
-                                    </div>
-                                    
-                                    <div class="regular-text">
-                                        Select the best time that fits you:
-                                    </div>
-                                    
-                                    <a class="btn btn-primary" href="#">06:30 PM</a>
-                                    <a class="btn btn-primary" href="#">06:30 PM</a>
-                                    <a class="btn btn-primary" href="#">06:30 PM</a>
-                                    <a class="btn btn-primary" href="#">06:30 PM</a>
+                                   
                                     
                                </div>
                             </div>

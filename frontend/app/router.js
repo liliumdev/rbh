@@ -20,6 +20,9 @@ Router.map(function() {
   this.route('forgot-password');
   this.route('reset-password', {path: '/reset-password/:token'});
   this.route('categories', {path: '/categories/:category'});
+  this.route('reserve');
+  this.route('reserve.register');
+  this.route('reserve.login');
 });
 
 export default Router;

@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Thu Feb 23 00:25:18 CET 2017
+// @DATE:Fri Feb 24 02:25:49 CET 2017
 
 package router
 
@@ -19,17 +19,19 @@ class Routes(
   // @LINE:6
   HomeController_0: controllers.HomeController,
   // @LINE:8
-  AccountController_6: controllers.AccountController,
+  AccountController_7: controllers.AccountController,
   // @LINE:20
   CountryController_1: controllers.CountryController,
   // @LINE:26
-  CityController_4: controllers.CityController,
+  CityController_5: controllers.CityController,
   // @LINE:34
   RestaurantController_2: controllers.RestaurantController,
   // @LINE:40
+  ReservationController_4: controllers.ReservationController,
+  // @LINE:44
   DatabaseFakerController_3: controllers.DatabaseFakerController,
-  // @LINE:43
-  Assets_5: controllers.Assets,
+  // @LINE:47
+  Assets_6: controllers.Assets,
   val prefix: String
 ) extends GeneratedRouter {
 
@@ -38,24 +40,26 @@ class Routes(
     // @LINE:6
     HomeController_0: controllers.HomeController,
     // @LINE:8
-    AccountController_6: controllers.AccountController,
+    AccountController_7: controllers.AccountController,
     // @LINE:20
     CountryController_1: controllers.CountryController,
     // @LINE:26
-    CityController_4: controllers.CityController,
+    CityController_5: controllers.CityController,
     // @LINE:34
     RestaurantController_2: controllers.RestaurantController,
     // @LINE:40
+    ReservationController_4: controllers.ReservationController,
+    // @LINE:44
     DatabaseFakerController_3: controllers.DatabaseFakerController,
-    // @LINE:43
-    Assets_5: controllers.Assets
-  ) = this(errorHandler, HomeController_0, AccountController_6, CountryController_1, CityController_4, RestaurantController_2, DatabaseFakerController_3, Assets_5, "/")
+    // @LINE:47
+    Assets_6: controllers.Assets
+  ) = this(errorHandler, HomeController_0, AccountController_7, CountryController_1, CityController_5, RestaurantController_2, ReservationController_4, DatabaseFakerController_3, Assets_6, "/")
 
   import ReverseRouteContext.empty
 
   def withPrefix(prefix: String): Routes = {
     router.RoutesPrefix.setPrefix(prefix)
-    new Routes(errorHandler, HomeController_0, AccountController_6, CountryController_1, CityController_4, RestaurantController_2, DatabaseFakerController_3, Assets_5, prefix)
+    new Routes(errorHandler, HomeController_0, AccountController_7, CountryController_1, CityController_5, RestaurantController_2, ReservationController_4, DatabaseFakerController_3, Assets_6, prefix)
   }
 
   private[this] val defaultPrefix: String = {
@@ -90,6 +94,9 @@ class Routes(
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/restaurants/""" + "$" + """id<[^/]+>""", """controllers.RestaurantController.get(id:Long)"""),
     ("""POST""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/restaurants/""" + "$" + """id<[^/]+>/rate""", """controllers.RestaurantController.rate(id:Long)"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/restaurants/""" + "$" + """id<[^/]+>/did-rate""", """controllers.RestaurantController.didRate(id:Long)"""),
+    ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/restaurants/""" + "$" + """id<[^/]+>/reservations-today""", """controllers.RestaurantController.getNumberOfReservationsToday(id:Long)"""),
+    ("""POST""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/reservations/suggestions""", """controllers.ReservationController.getReservationSuggestions()"""),
+    ("""POST""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """api/v1/reservations/available""", """controllers.ReservationController.isReservationAvailable()"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """seedDb""", """controllers.DatabaseFakerController.seedDatabase()"""),
     ("""GET""", this.prefix + (if(this.prefix.endsWith("/")) "" else "/") + """assets/""" + "$" + """file<.+>""", """controllers.Assets.versioned(path:String = "/public", file:Asset)"""),
     Nil
@@ -121,7 +128,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts")))
   )
   private[this] lazy val controllers_AccountController_all1_invoker = createInvoker(
-    AccountController_6.all(),
+    AccountController_7.all(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -138,7 +145,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_get2_invoker = createInvoker(
-    AccountController_6.get(fakeValue[Long]),
+    AccountController_7.get(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -155,7 +162,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/exists/"), DynamicPart("email", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_emailExists3_invoker = createInvoker(
-    AccountController_6.emailExists(fakeValue[String]),
+    AccountController_7.emailExists(fakeValue[String]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -172,7 +179,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts")))
   )
   private[this] lazy val controllers_AccountController_register4_invoker = createInvoker(
-    AccountController_6.register(),
+    AccountController_7.register(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -189,7 +196,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/login")))
   )
   private[this] lazy val controllers_AccountController_login5_invoker = createInvoker(
-    AccountController_6.login(),
+    AccountController_7.login(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -206,7 +213,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/forgot")))
   )
   private[this] lazy val controllers_AccountController_forgot6_invoker = createInvoker(
-    AccountController_6.forgot(),
+    AccountController_7.forgot(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -223,7 +230,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/reset/"), DynamicPart("token", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_reset7_invoker = createInvoker(
-    AccountController_6.reset(fakeValue[String]),
+    AccountController_7.reset(fakeValue[String]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -240,7 +247,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/valid-token/"), DynamicPart("token", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_isValidToken8_invoker = createInvoker(
-    AccountController_6.isValidToken(fakeValue[String]),
+    AccountController_7.isValidToken(fakeValue[String]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -257,7 +264,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_update9_invoker = createInvoker(
-    AccountController_6.update(fakeValue[Long]),
+    AccountController_7.update(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -274,7 +281,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/accounts/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_AccountController_delete10_invoker = createInvoker(
-    AccountController_6.delete(fakeValue[Long]),
+    AccountController_7.delete(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.AccountController",
@@ -376,7 +383,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/cities")))
   )
   private[this] lazy val controllers_CityController_all16_invoker = createInvoker(
-    CityController_4.all(),
+    CityController_5.all(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -393,7 +400,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/cities/with-count")))
   )
   private[this] lazy val controllers_CityController_allWithCount17_invoker = createInvoker(
-    CityController_4.allWithCount(),
+    CityController_5.allWithCount(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -410,7 +417,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/cities/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_CityController_get18_invoker = createInvoker(
-    CityController_4.get(fakeValue[Long]),
+    CityController_5.get(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -427,7 +434,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/cities/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_CityController_update19_invoker = createInvoker(
-    CityController_4.update(fakeValue[Long]),
+    CityController_5.update(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -444,7 +451,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/cities/"), DynamicPart("id", """[^/]+""",true)))
   )
   private[this] lazy val controllers_CityController_delete20_invoker = createInvoker(
-    CityController_4.delete(fakeValue[Long]),
+    CityController_5.delete(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -461,7 +468,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/countries/"), DynamicPart("countryId", """[^/]+""",true), StaticPart("/cities")))
   )
   private[this] lazy val controllers_CityController_allFromCountry21_invoker = createInvoker(
-    CityController_4.allFromCountry(fakeValue[Long]),
+    CityController_5.allFromCountry(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -478,7 +485,7 @@ class Routes(
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/countries/"), DynamicPart("countryId", """[^/]+""",true), StaticPart("/cities")))
   )
   private[this] lazy val controllers_CityController_create22_invoker = createInvoker(
-    CityController_4.create(fakeValue[Long]),
+    CityController_5.create(fakeValue[Long]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.CityController",
@@ -558,11 +565,62 @@ class Routes(
     )
   )
 
+  // @LINE:38
+  private[this] lazy val controllers_RestaurantController_getNumberOfReservationsToday27_route = Route("GET",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/restaurants/"), DynamicPart("id", """[^/]+""",true), StaticPart("/reservations-today")))
+  )
+  private[this] lazy val controllers_RestaurantController_getNumberOfReservationsToday27_invoker = createInvoker(
+    RestaurantController_2.getNumberOfReservationsToday(fakeValue[Long]),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.RestaurantController",
+      "getNumberOfReservationsToday",
+      Seq(classOf[Long]),
+      "GET",
+      """""",
+      this.prefix + """api/v1/restaurants/""" + "$" + """id<[^/]+>/reservations-today"""
+    )
+  )
+
   // @LINE:40
-  private[this] lazy val controllers_DatabaseFakerController_seedDatabase27_route = Route("GET",
+  private[this] lazy val controllers_ReservationController_getReservationSuggestions28_route = Route("POST",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/reservations/suggestions")))
+  )
+  private[this] lazy val controllers_ReservationController_getReservationSuggestions28_invoker = createInvoker(
+    ReservationController_4.getReservationSuggestions(),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.ReservationController",
+      "getReservationSuggestions",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """api/v1/reservations/suggestions"""
+    )
+  )
+
+  // @LINE:41
+  private[this] lazy val controllers_ReservationController_isReservationAvailable29_route = Route("POST",
+    PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("api/v1/reservations/available")))
+  )
+  private[this] lazy val controllers_ReservationController_isReservationAvailable29_invoker = createInvoker(
+    ReservationController_4.isReservationAvailable(),
+    HandlerDef(this.getClass.getClassLoader,
+      "router",
+      "controllers.ReservationController",
+      "isReservationAvailable",
+      Nil,
+      "POST",
+      """""",
+      this.prefix + """api/v1/reservations/available"""
+    )
+  )
+
+  // @LINE:44
+  private[this] lazy val controllers_DatabaseFakerController_seedDatabase30_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("seedDb")))
   )
-  private[this] lazy val controllers_DatabaseFakerController_seedDatabase27_invoker = createInvoker(
+  private[this] lazy val controllers_DatabaseFakerController_seedDatabase30_invoker = createInvoker(
     DatabaseFakerController_3.seedDatabase(),
     HandlerDef(this.getClass.getClassLoader,
       "router",
@@ -575,12 +633,12 @@ class Routes(
     )
   )
 
-  // @LINE:43
-  private[this] lazy val controllers_Assets_versioned28_route = Route("GET",
+  // @LINE:47
+  private[this] lazy val controllers_Assets_versioned31_route = Route("GET",
     PathPattern(List(StaticPart(this.prefix), StaticPart(this.defaultPrefix), StaticPart("assets/"), DynamicPart("file", """.+""",false)))
   )
-  private[this] lazy val controllers_Assets_versioned28_invoker = createInvoker(
-    Assets_5.versioned(fakeValue[String], fakeValue[Asset]),
+  private[this] lazy val controllers_Assets_versioned31_invoker = createInvoker(
+    Assets_6.versioned(fakeValue[String], fakeValue[Asset]),
     HandlerDef(this.getClass.getClassLoader,
       "router",
       "controllers.Assets",
@@ -604,61 +662,61 @@ class Routes(
     // @LINE:8
     case controllers_AccountController_all1_route(params) =>
       call { 
-        controllers_AccountController_all1_invoker.call(AccountController_6.all())
+        controllers_AccountController_all1_invoker.call(AccountController_7.all())
       }
   
     // @LINE:9
     case controllers_AccountController_get2_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_AccountController_get2_invoker.call(AccountController_6.get(id))
+        controllers_AccountController_get2_invoker.call(AccountController_7.get(id))
       }
   
     // @LINE:10
     case controllers_AccountController_emailExists3_route(params) =>
       call(params.fromPath[String]("email", None)) { (email) =>
-        controllers_AccountController_emailExists3_invoker.call(AccountController_6.emailExists(email))
+        controllers_AccountController_emailExists3_invoker.call(AccountController_7.emailExists(email))
       }
   
     // @LINE:11
     case controllers_AccountController_register4_route(params) =>
       call { 
-        controllers_AccountController_register4_invoker.call(AccountController_6.register())
+        controllers_AccountController_register4_invoker.call(AccountController_7.register())
       }
   
     // @LINE:12
     case controllers_AccountController_login5_route(params) =>
       call { 
-        controllers_AccountController_login5_invoker.call(AccountController_6.login())
+        controllers_AccountController_login5_invoker.call(AccountController_7.login())
       }
   
     // @LINE:13
     case controllers_AccountController_forgot6_route(params) =>
       call { 
-        controllers_AccountController_forgot6_invoker.call(AccountController_6.forgot())
+        controllers_AccountController_forgot6_invoker.call(AccountController_7.forgot())
       }
   
     // @LINE:14
     case controllers_AccountController_reset7_route(params) =>
       call(params.fromPath[String]("token", None)) { (token) =>
-        controllers_AccountController_reset7_invoker.call(AccountController_6.reset(token))
+        controllers_AccountController_reset7_invoker.call(AccountController_7.reset(token))
       }
   
     // @LINE:15
     case controllers_AccountController_isValidToken8_route(params) =>
       call(params.fromPath[String]("token", None)) { (token) =>
-        controllers_AccountController_isValidToken8_invoker.call(AccountController_6.isValidToken(token))
+        controllers_AccountController_isValidToken8_invoker.call(AccountController_7.isValidToken(token))
       }
   
     // @LINE:16
     case controllers_AccountController_update9_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_AccountController_update9_invoker.call(AccountController_6.update(id))
+        controllers_AccountController_update9_invoker.call(AccountController_7.update(id))
       }
   
     // @LINE:17
     case controllers_AccountController_delete10_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_AccountController_delete10_invoker.call(AccountController_6.delete(id))
+        controllers_AccountController_delete10_invoker.call(AccountController_7.delete(id))
       }
   
     // @LINE:20
@@ -694,43 +752,43 @@ class Routes(
     // @LINE:26
     case controllers_CityController_all16_route(params) =>
       call { 
-        controllers_CityController_all16_invoker.call(CityController_4.all())
+        controllers_CityController_all16_invoker.call(CityController_5.all())
       }
   
     // @LINE:27
     case controllers_CityController_allWithCount17_route(params) =>
       call { 
-        controllers_CityController_allWithCount17_invoker.call(CityController_4.allWithCount())
+        controllers_CityController_allWithCount17_invoker.call(CityController_5.allWithCount())
       }
   
     // @LINE:28
     case controllers_CityController_get18_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_CityController_get18_invoker.call(CityController_4.get(id))
+        controllers_CityController_get18_invoker.call(CityController_5.get(id))
       }
   
     // @LINE:29
     case controllers_CityController_update19_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_CityController_update19_invoker.call(CityController_4.update(id))
+        controllers_CityController_update19_invoker.call(CityController_5.update(id))
       }
   
     // @LINE:30
     case controllers_CityController_delete20_route(params) =>
       call(params.fromPath[Long]("id", None)) { (id) =>
-        controllers_CityController_delete20_invoker.call(CityController_4.delete(id))
+        controllers_CityController_delete20_invoker.call(CityController_5.delete(id))
       }
   
     // @LINE:31
     case controllers_CityController_allFromCountry21_route(params) =>
       call(params.fromPath[Long]("countryId", None)) { (countryId) =>
-        controllers_CityController_allFromCountry21_invoker.call(CityController_4.allFromCountry(countryId))
+        controllers_CityController_allFromCountry21_invoker.call(CityController_5.allFromCountry(countryId))
       }
   
     // @LINE:32
     case controllers_CityController_create22_route(params) =>
       call(params.fromPath[Long]("countryId", None)) { (countryId) =>
-        controllers_CityController_create22_invoker.call(CityController_4.create(countryId))
+        controllers_CityController_create22_invoker.call(CityController_5.create(countryId))
       }
   
     // @LINE:34
@@ -757,16 +815,34 @@ class Routes(
         controllers_RestaurantController_didRate26_invoker.call(RestaurantController_2.didRate(id))
       }
   
-    // @LINE:40
-    case controllers_DatabaseFakerController_seedDatabase27_route(params) =>
-      call { 
-        controllers_DatabaseFakerController_seedDatabase27_invoker.call(DatabaseFakerController_3.seedDatabase())
+    // @LINE:38
+    case controllers_RestaurantController_getNumberOfReservationsToday27_route(params) =>
+      call(params.fromPath[Long]("id", None)) { (id) =>
+        controllers_RestaurantController_getNumberOfReservationsToday27_invoker.call(RestaurantController_2.getNumberOfReservationsToday(id))
       }
   
-    // @LINE:43
-    case controllers_Assets_versioned28_route(params) =>
+    // @LINE:40
+    case controllers_ReservationController_getReservationSuggestions28_route(params) =>
+      call { 
+        controllers_ReservationController_getReservationSuggestions28_invoker.call(ReservationController_4.getReservationSuggestions())
+      }
+  
+    // @LINE:41
+    case controllers_ReservationController_isReservationAvailable29_route(params) =>
+      call { 
+        controllers_ReservationController_isReservationAvailable29_invoker.call(ReservationController_4.isReservationAvailable())
+      }
+  
+    // @LINE:44
+    case controllers_DatabaseFakerController_seedDatabase30_route(params) =>
+      call { 
+        controllers_DatabaseFakerController_seedDatabase30_invoker.call(DatabaseFakerController_3.seedDatabase())
+      }
+  
+    // @LINE:47
+    case controllers_Assets_versioned31_route(params) =>
       call(Param[String]("path", Right("/public")), params.fromPath[Asset]("file", None)) { (path, file) =>
-        controllers_Assets_versioned28_invoker.call(Assets_5.versioned(path, file))
+        controllers_Assets_versioned31_invoker.call(Assets_6.versioned(path, file))
       }
   }
 }

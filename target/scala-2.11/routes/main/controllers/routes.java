@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Thu Feb 23 00:25:18 CET 2017
+// @DATE:Fri Feb 24 02:25:49 CET 2017
 
 package controllers;
 
@@ -14,6 +14,7 @@ public class routes {
   public static final controllers.ReverseCityController CityController = new controllers.ReverseCityController(RoutesPrefix.byNamePrefix());
   public static final controllers.ReverseCountryController CountryController = new controllers.ReverseCountryController(RoutesPrefix.byNamePrefix());
   public static final controllers.ReverseDatabaseFakerController DatabaseFakerController = new controllers.ReverseDatabaseFakerController(RoutesPrefix.byNamePrefix());
+  public static final controllers.ReverseReservationController ReservationController = new controllers.ReverseReservationController(RoutesPrefix.byNamePrefix());
   public static final controllers.ReverseHomeController HomeController = new controllers.ReverseHomeController(RoutesPrefix.byNamePrefix());
   public static final controllers.ReverseAccountController AccountController = new controllers.ReverseAccountController(RoutesPrefix.byNamePrefix());
 
@@ -24,6 +25,7 @@ public class routes {
     public static final controllers.javascript.ReverseCityController CityController = new controllers.javascript.ReverseCityController(RoutesPrefix.byNamePrefix());
     public static final controllers.javascript.ReverseCountryController CountryController = new controllers.javascript.ReverseCountryController(RoutesPrefix.byNamePrefix());
     public static final controllers.javascript.ReverseDatabaseFakerController DatabaseFakerController = new controllers.javascript.ReverseDatabaseFakerController(RoutesPrefix.byNamePrefix());
+    public static final controllers.javascript.ReverseReservationController ReservationController = new controllers.javascript.ReverseReservationController(RoutesPrefix.byNamePrefix());
     public static final controllers.javascript.ReverseHomeController HomeController = new controllers.javascript.ReverseHomeController(RoutesPrefix.byNamePrefix());
     public static final controllers.javascript.ReverseAccountController AccountController = new controllers.javascript.ReverseAccountController(RoutesPrefix.byNamePrefix());
   }

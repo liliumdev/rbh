@@ -35,6 +35,10 @@ GET     /api/v1/restaurants                                controllers.Restauran
 GET     /api/v1/restaurants/:id                            controllers.RestaurantController.get(id:Long)
 POST     /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
 GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
+GET     /api/v1/restaurants/:id/reservations-today          controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
+
+POST  /api/v1/reservations/suggestions      controllers.ReservationController.getReservationSuggestions()
+POST  /api/v1/reservations/available      controllers.ReservationController.isReservationAvailable()
 
 # Deployment helper routes
 GET     /seedDb                               controllers.DatabaseFakerController.seedDatabase()

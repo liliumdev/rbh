@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Thu Feb 23 00:25:18 CET 2017
+// @DATE:Fri Feb 24 02:25:49 CET 2017
 
 import play.api.routing.JavaScriptReverseRoute
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
@@ -23,12 +23,12 @@ package controllers.javascript {
     }
 
   
-    // @LINE:37
-    def didRate: JavaScriptReverseRoute = JavaScriptReverseRoute(
-      "controllers.RestaurantController.didRate",
+    // @LINE:34
+    def all: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.RestaurantController.all",
       """
-        function(id0) {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/restaurants/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id0) + "/did-rate"})
+        function(limit0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/restaurants" + _qS([(limit0 == null ? null : (""" + implicitly[QueryStringBindable[Integer]].javascriptUnbind + """)("limit", limit0))])})
         }
       """
     )
@@ -43,12 +43,12 @@ package controllers.javascript {
       """
     )
   
-    // @LINE:34
-    def all: JavaScriptReverseRoute = JavaScriptReverseRoute(
-      "controllers.RestaurantController.all",
+    // @LINE:38
+    def getNumberOfReservationsToday: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.RestaurantController.getNumberOfReservationsToday",
       """
-        function(limit0) {
-          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/restaurants" + _qS([(limit0 == null ? null : (""" + implicitly[QueryStringBindable[Integer]].javascriptUnbind + """)("limit", limit0))])})
+        function(id0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/restaurants/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id0) + "/reservations-today"})
         }
       """
     )
@@ -63,9 +63,19 @@ package controllers.javascript {
       """
     )
   
+    // @LINE:37
+    def didRate: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.RestaurantController.didRate",
+      """
+        function(id0) {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/restaurants/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id0) + "/did-rate"})
+        }
+      """
+    )
+  
   }
 
-  // @LINE:43
+  // @LINE:47
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -73,7 +83,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:43
+    // @LINE:47
     def versioned: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.versioned",
       """
@@ -225,7 +235,7 @@ package controllers.javascript {
   
   }
 
-  // @LINE:40
+  // @LINE:44
   class ReverseDatabaseFakerController(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -233,12 +243,42 @@ package controllers.javascript {
     }
 
   
-    // @LINE:40
+    // @LINE:44
     def seedDatabase: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.DatabaseFakerController.seedDatabase",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "seedDb"})
+        }
+      """
+    )
+  
+  }
+
+  // @LINE:40
+  class ReverseReservationController(_prefix: => String) {
+
+    def _defaultPrefix: String = {
+      if (_prefix.endsWith("/")) "" else "/"
+    }
+
+  
+    // @LINE:41
+    def isReservationAvailable: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ReservationController.isReservationAvailable",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/reservations/available"})
+        }
+      """
+    )
+  
+    // @LINE:40
+    def getReservationSuggestions: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ReservationController.getReservationSuggestions",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/reservations/suggestions"})
         }
       """
     )

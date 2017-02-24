@@ -18,7 +18,10 @@ export default BaseService.extend({
     	var restaurant = Restaurant.create({});
     	this.ajax({ url: `restaurants/${id}`, type: "GET"}).then(function(data) {
     		restaurant.setProperties(data);
-    	});
+    	});        
+        this.ajax({ url: `restaurants/${id}/reservations-today`, type: "GET"}).then(function(data) {
+            restaurant.set('reservationsToday', data);
+        });
     	return restaurant;
     },
 

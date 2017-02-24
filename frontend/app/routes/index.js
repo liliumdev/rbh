@@ -7,7 +7,6 @@ export default BaseRoute.extend({
     locationService: Ember.inject.service(),
 
 	model: function() {
-		var store = this.store;
 		return Ember.RSVP.hash({
 			restaurants: this.get('restaurantService').randomRestaurants(6),
 			locations: this.get('locationService').ciitesWithCount()

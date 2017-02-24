@@ -9,6 +9,7 @@ import play.mvc.BodyParser;
 import play.mvc.Result;
 import services.RestaurantService;
 import services.ReviewService;
+import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 
@@ -41,17 +42,26 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
             if(form.hasErrors())
                 return badRequest(form.errorsAsJson());
 
-            // Does this account actually exist?
             RateForm data = form.get();
             Double newRating = service.rate(id, data.getRating(), data.getDescription(), ctx().request().username());
             if(newRating == null)
                 return badRequest(Json.toJson("There's been an error while rating this restaurant."));
 
             return ok(Json.newObject().put("rating", newRating));
-        } catch (Exception e) {
+        } catch (ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@rate"));
         }
     }
+
+    @Transactional
+    public Result getNumberOfReservationsToday(Long id) {
+        try {
+            return ok(toJson(service.getNumberOfReservationsToday(id)));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in RestaurantController@reservationsToday"));
+        }
+    }
+
 
     @Transactional
     @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
