@@ -44,6 +44,7 @@
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.2.0",
     "ember-g-map": "0.0.23",
+    "ember-leaflet": "3.0.9",
     "ember-load-initializers": "^0.6.0",
     "ember-moment": "7.3.0",
     "ember-resolver": "^2.0.3",

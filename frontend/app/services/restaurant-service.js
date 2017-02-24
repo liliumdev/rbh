@@ -14,6 +14,16 @@ export default BaseService.extend({
 	  	return restaurants;
     },
 
+    all: function(limit) {
+        var restaurants = [];
+        this.ajax({ url: `restaurants`, type: "GET"}).then(function(data) {
+            data.forEach(function(restaurant) {
+                restaurants.addObject(Restaurant.create(restaurant));
+            });
+        });     
+        return restaurants;
+    },
+
     getById: function(id) {
     	var restaurant = Restaurant.create({});
     	this.ajax({ url: `restaurants/${id}`, type: "GET"}).then(function(data) {

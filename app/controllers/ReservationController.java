@@ -38,6 +38,41 @@ public class ReservationController extends BaseController<Reservation, Reservati
         this.restaurantService = restaurantService;
     }
 
+    @Transactional
+    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    public Result myReservations() {
+        try {
+            return ok(Json.toJson(service.getReservationsByEmail(request().username())));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in ReservationController@myReservations"));
+        }
+    }
+
+    @Transactional
+    @BodyParser.Of(BodyParser.Json.class)
+    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    public Result create() {
+        try {
+            Form<CompleteReservationForm> form = formFactory.form(CompleteReservationForm.class).bindFromRequest();
+            if(form.hasErrors())
+                return badRequest(form.errorsAsJson());
+
+            CompleteReservationForm data = form.get();
+
+            String time = data.getTime();
+            Long restaurantId = data.getRestaurantId();
+            Long tableId = data.getTableId();
+            Integer persons = data.getPersons();
+
+            if(service.isReservationAvailable(time, restaurantId, tableId))
+                return ok(Json.toJson(service.create(restaurantId, time, tableId, persons, request().username())));
+
+            return badRequest("Oops, seems that someone got this table before you did!");
+
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in ReservationController@myReservations"));
+        }
+    }
 
     @Transactional
     @BodyParser.Of(BodyParser.Json.class)
@@ -52,10 +87,10 @@ public class ReservationController extends BaseController<Reservation, Reservati
             Boolean available = service.isReservationAvailable(data.getTime(), data.getRestaurantId(), data.getTableId());
             if(available)
                 return ok(Json.toJson("Reservation is available"));
-            else
-                return badRequest("Oops, seems that someone got this table before you did!");
+
+            return badRequest("Oops, seems that someone got this table before you did!");
         } catch (ServiceException e) {
-            return internalServerError(Json.toJson("Internal server error in RestaurantController@reservationsToday"));
+            return internalServerError(Json.toJson("Internal server error in ReservationController@reservationsToday"));
         }
     }
 

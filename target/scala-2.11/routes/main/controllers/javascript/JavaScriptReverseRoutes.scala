@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Fri Feb 24 02:25:49 CET 2017
+// @DATE:Fri Feb 24 07:08:01 CET 2017
 
 import play.api.routing.JavaScriptReverseRoute
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
@@ -75,7 +75,7 @@ package controllers.javascript {
   
   }
 
-  // @LINE:47
+  // @LINE:54
   class ReverseAssets(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -83,7 +83,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:47
+    // @LINE:54
     def versioned: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.Assets.versioned",
       """
@@ -235,7 +235,7 @@ package controllers.javascript {
   
   }
 
-  // @LINE:44
+  // @LINE:51
   class ReverseDatabaseFakerController(_prefix: => String) {
 
     def _defaultPrefix: String = {
@@ -243,12 +243,62 @@ package controllers.javascript {
     }
 
   
-    // @LINE:44
+    // @LINE:51
     def seedDatabase: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.DatabaseFakerController.seedDatabase",
       """
         function() {
           return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "seedDb"})
+        }
+      """
+    )
+  
+  }
+
+  // @LINE:45
+  class ReverseCategoryController(_prefix: => String) {
+
+    def _defaultPrefix: String = {
+      if (_prefix.endsWith("/")) "" else "/"
+    }
+
+  
+    // @LINE:45
+    def all: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.CategoryController.all",
+      """
+        function() {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/categories"})
+        }
+      """
+    )
+  
+    // @LINE:46
+    def create: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.CategoryController.create",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/categories"})
+        }
+      """
+    )
+  
+    // @LINE:47
+    def update: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.CategoryController.update",
+      """
+        function(id0) {
+          return _wA({method:"PUT", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/categories/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id0)})
+        }
+      """
+    )
+  
+    // @LINE:48
+    def delete: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.CategoryController.delete",
+      """
+        function(id0) {
+          return _wA({method:"DELETE", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/categories/" + (""" + implicitly[PathBindable[Long]].javascriptUnbind + """)("id", id0)})
         }
       """
     )
@@ -263,7 +313,7 @@ package controllers.javascript {
     }
 
   
-    // @LINE:41
+    // @LINE:42
     def isReservationAvailable: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ReservationController.isReservationAvailable",
       """
@@ -274,11 +324,31 @@ package controllers.javascript {
     )
   
     // @LINE:40
+    def create: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ReservationController.create",
+      """
+        function() {
+          return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/reservations"})
+        }
+      """
+    )
+  
+    // @LINE:41
     def getReservationSuggestions: JavaScriptReverseRoute = JavaScriptReverseRoute(
       "controllers.ReservationController.getReservationSuggestions",
       """
         function() {
           return _wA({method:"POST", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/reservations/suggestions"})
+        }
+      """
+    )
+  
+    // @LINE:43
+    def myReservations: JavaScriptReverseRoute = JavaScriptReverseRoute(
+      "controllers.ReservationController.myReservations",
+      """
+        function() {
+          return _wA({method:"GET", url:"""" + _prefix + { _defaultPrefix } + """" + "api/v1/reservations/my"})
         }
       """
     )

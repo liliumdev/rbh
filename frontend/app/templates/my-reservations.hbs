@@ -1,0 +1,37 @@
+<div class="container" id="normal-container">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
+                My reservations
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+	                      		<th>Number of guests</th>
+	                      		<th>Date</th>
+	                      		<th>Time</th>
+							</tr>
+							 {{#each model.reservations as |reservation|}}   
+								<tr>
+		                      		<td>{{reservation.name}}</td>
+		                      		<td>{{reservation.persons}}</td>
+		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
+		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+   
+</div>

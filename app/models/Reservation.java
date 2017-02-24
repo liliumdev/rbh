@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -65,7 +67,7 @@ public class Reservation extends BaseModel<Reservation> {
         this.request = request;
     }
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "table_id", referencedColumnName = "id")
     public DiningTable getDiningTable() {
@@ -76,6 +78,7 @@ public class Reservation extends BaseModel<Reservation> {
         this.diningTable = diningTable;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     public Account getAccount() {
@@ -149,6 +152,47 @@ public class Reservation extends BaseModel<Reservation> {
 
         public void setSuggestedTime(Timestamp suggestedTime) {
             this.suggestedTime = suggestedTime;
+        }
+    }
+
+    public static class MyReservationDto {
+        private Integer id;
+        private Timestamp forTime;
+        private String name;
+        private Integer persons;
+
+        public MyReservationDto() { }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Timestamp getForTime() {
+            return forTime;
+        }
+
+        public void setForTime(Timestamp forTime) {
+            this.forTime = forTime;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getPersons() {
+            return persons;
+        }
+
+        public void setPersons(Integer persons) {
+            this.persons = persons;
         }
     }
 }

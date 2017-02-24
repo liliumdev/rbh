@@ -4,15 +4,22 @@ import models.Account;
 import models.DiningTable;
 import models.Reservation;
 import models.Restaurant;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import repositories.ReservationRepository;
+import repositories.exceptions.RepositoryException;
 import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -39,6 +46,61 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
     public void setRestaurantService(RestaurantService restaurantService)
     {
         this.restaurantService = restaurantService;
+    }
+
+    public Reservation create(Long restaurantId, String time, Long tableId, Integer persons, String email) throws ServiceException {
+        try {
+            Restaurant restaurant = restaurantService.get(restaurantId);
+            if(restaurant == null) return null;
+
+            DiningTable diningTable = diningTableService.get(tableId);
+            if(diningTable == null) return null;
+
+            Account account = accountService.getByEmail(email);
+            if(account == null) return null;
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            LocalDateTime reservationTime = LocalDateTime.parse(time, formatter).minusHours(1); // very hacky because of timezones
+            Instant instant = reservationTime.toInstant(ZoneOffset.UTC);
+            Date finalReservationTime = Date.from(instant);
+
+            Reservation r = new Reservation();
+            r.setDiningTable(diningTable);
+            r.setAccount(account);
+            r.setCreatedAt(new Date());
+            r.setForTime(finalReservationTime);
+            r.setPersons(persons);
+
+            return create(r);
+        } catch (Exception e) {
+            throw new ServiceException("ReservationService couldn't find reservations.", e);
+        }
+    }
+
+    public List<Reservation.MyReservationDto> getReservationsByEmail(String email) throws ServiceException{
+        try {
+            Account account = accountService.getByEmail(email);
+            if(account == null)
+                return null;
+
+            String sql = "";
+            sql += "SELECT reservation.id AS \"id\", reservation.for_time AS \"forTime\", reservation.persons AS \"persons\", restaurant.name AS \"name\" ";
+            sql += "FROM reservation, account, diningtable, restaurant ";
+            sql += "WHERE reservation.account_id=account.id AND  ";
+            sql += "	  account.email = (?1) AND ";
+            sql += "      reservation.table_id=diningtable.id AND ";
+            sql += "      diningtable.restaurant_id=restaurant.id ";
+
+            NativeQuery query = repository.getSession().createNativeQuery(sql);
+
+            query.setParameter(1, email);
+            query.setResultTransformer(Transformers.aliasToBean(Reservation.MyReservationDto.class));
+
+
+            return (List<Reservation.MyReservationDto>)query.getResultList();
+        } catch (Exception e) {
+            throw new ServiceException("ReservationService couldn't find reservations.", e);
+        }
     }
 
     public Boolean isReservationAvailable(String time, Long restaurantId, Long tableId) throws ServiceException {
@@ -122,4 +184,6 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             throw new ServiceException("ReservationService couldn't find reservation suggestions.", e);
         }
     }
+
+
 }

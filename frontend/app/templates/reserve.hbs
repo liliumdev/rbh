@@ -1,8 +1,120 @@
-Properties are <br><br>
+<div class="container" id="normal-container">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
+                Complete your reservation
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card padded with-info">
+                      <div class="content">
+                      	<div class="row">
+                      		<div class="col-md-12">
+                      			<p class="regular-header">Reservation details</p>
+                      		</div>
+                      		<div class="col-md-3">
+                      			<img class="img-responsive" src="/assets/images/restaurants/logos/{{restaurant.logoImageUrl}}" alt="{{restaurant.name}}">
+                      		</div>
+                      		<div class="col-md-9">
+                      			<div class="row">
+                      				<div class="col-md-12">
+                      					<p class="tiny-text">Restaurant</p>
+                      					<p class="regular-text orange">{{ restaurant.name }} <br><br></p>                      					
+                      				</div>
+                      			</div>
+                      			<div class="row">
+                      				<div class="col-md-4">
+                      					<p class="tiny-text">Guests</p>
+                      					<p class="regular-text">{{ reservation.persons }}</p>
+                      				</div>
+                      				<div class="col-md-4">
+                      					<p class="tiny-text">Date</p>
+                      					<p class="regular-text">{{moment-format reservation.date 'MMM DD, YYYY'}}</p>
+                      				</div>
+                      				<div class="col-md-4">
+                      					<p class="tiny-text">Time</p>
+                      					<p class="regular-text">{{moment-format finalTime 'h:mm A' }}</p>
+                      				</div>
+                      			</div>
+                      		</div>
+                      	</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+   
+</div>
 
-{{ finalTime }}
-<br><br>
+{{#if session.isAuthenticated}}
+<div class="container">
+	<div class="row">
+              <div class="col-md-6 col-sm-8 col-xs-12 col-centered">
+                <br>
+                {{#if hasError}}
+                <p style="text-align: center;">It seems there has been an error: {{ errorMsg }}</p>
+                {{/if}}
+              	<br>
+              	<button class="btn btn-primary" style="width: 100%;" {{action "completeReservation"}}>Complete reservation</button>
+              </div>
+      </div>
+</div>
+{{else}}
+	{{#if loginView}}
+		<div class="container" id="normal-container" style="margin-top: 30px;">
+		   <div class="row">
+		   <br><br>
+		   	{{#each flashMessages.queue as |flash|}}
+			  {{flash-message flash=flash}}
+			{{/each}}
 
-{{ finalTable }}
+		      <div class="col-md-6 col-sm-8 col-xs-12 col-centered">
+		          <div class="row">
+		            <div class="col-md-8 col-sm-8 col-xs-6 page-title v-align-center">
+		                Login to complete
+		            </div><!--
+		         --><div class="col-md-4 col-sm-4 col-xs-6 page-subtitle v-align-center">
+		                <a href="#" {{action "toggleLoginRegister"}}>Create account</a>
+		            </div>
+		          </div>
+		          <div class="row">
+              			{{login-form authHandler=(action "loginWithoutRedirect") identification=identification password=password showForgot=false}}
+		          </div>
+		       </div>
+		       
+		   </div>		   
+		</div>
+	{{else}}
+	<div class="container" id="normal-container">
+	   <div class="row">
+		   <br><br>
+	   {{#each flashMessages.queue as |flash|}}
+		  {{flash-message flash=flash}}
+		{{/each}}
 
-{{outlet}}
+	      <div class="col-md-6 col-sm-8 col-xs-12 col-centered">
+	          <div class="row">
+	            <div class="col-md-8 col-sm-8 col-xs-6 page-title v-align-center">
+	                Create account to complete
+	            </div><!--
+	         --><div class="col-md-4 col-sm-4 col-xs-6 page-subtitle v-align-center">
+	                    <a href="#" {{action "toggleLoginRegister"}}>Login</a>
+	            </div>
+	          </div>
+	          <div class="row">
+	              {{register-form}}
+	          </div>
+	       </div>
+	       
+	   </div>
+	   
+	</div>
+		                
+	{{/if}}
+
+{{/if}}
+

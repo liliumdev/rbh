@@ -15,14 +15,17 @@ Router.map(function() {
   this.route('terms-of-use');
   this.route('login');
   this.route('logout');
-  this.route('admin');
+  this.route('admin', function() {
+    this.route('users');
+    this.route('categories', function() {});
+    this.route('locations', function() {});
+  });
   this.route('register');
   this.route('forgot-password');
   this.route('reset-password', {path: '/reset-password/:token'});
   this.route('categories', {path: '/categories/:category'});
   this.route('reserve');
-  this.route('reserve.register');
-  this.route('reserve.login');
+  this.route('my-reservations');
 });
 
 export default Router;

@@ -15,6 +15,9 @@ public class CompleteReservationForm {
     @Constraints.Required
     private Long tableId;
 
+    @Constraints.Required
+    private Integer persons;
+
     public String getTime() {
         return time;
     }
@@ -37,5 +40,13 @@ public class CompleteReservationForm {
 
     public void setTableId(Long tableId) {
         this.tableId = tableId;
+    }
+
+    public Integer getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Integer persons) {
+        this.persons = persons;
     }
 }

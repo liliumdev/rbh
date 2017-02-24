@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Fri Feb 24 02:25:49 CET 2017
+// @DATE:Fri Feb 24 07:08:01 CET 2017
 
 import play.api.mvc.{ QueryStringBindable, PathBindable, Call, JavascriptLiteral }
 import play.core.routing.{ HandlerDef, ReverseRouteContext, queryString, dynamicString }
@@ -52,14 +52,14 @@ package controllers {
   
   }
 
-  // @LINE:47
+  // @LINE:54
   class ReverseAssets(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:47
+    // @LINE:54
     def versioned(file:Asset): Call = {
       implicit val _rrc = new ReverseRouteContext(Map(("path", "/public")))
       Call("GET", _prefix + { _defaultPrefix } + "assets/" + implicitly[PathBindable[Asset]].unbind("file", file))
@@ -157,17 +157,50 @@ package controllers {
   
   }
 
-  // @LINE:44
+  // @LINE:51
   class ReverseDatabaseFakerController(_prefix: => String) {
     def _defaultPrefix: String = {
       if (_prefix.endsWith("/")) "" else "/"
     }
 
   
-    // @LINE:44
+    // @LINE:51
     def seedDatabase(): Call = {
       import ReverseRouteContext.empty
       Call("GET", _prefix + { _defaultPrefix } + "seedDb")
+    }
+  
+  }
+
+  // @LINE:45
+  class ReverseCategoryController(_prefix: => String) {
+    def _defaultPrefix: String = {
+      if (_prefix.endsWith("/")) "" else "/"
+    }
+
+  
+    // @LINE:45
+    def all(): Call = {
+      import ReverseRouteContext.empty
+      Call("GET", _prefix + { _defaultPrefix } + "api/v1/categories")
+    }
+  
+    // @LINE:46
+    def create(): Call = {
+      import ReverseRouteContext.empty
+      Call("POST", _prefix + { _defaultPrefix } + "api/v1/categories")
+    }
+  
+    // @LINE:47
+    def update(id:Long): Call = {
+      import ReverseRouteContext.empty
+      Call("PUT", _prefix + { _defaultPrefix } + "api/v1/categories/" + implicitly[PathBindable[Long]].unbind("id", id))
+    }
+  
+    // @LINE:48
+    def delete(id:Long): Call = {
+      import ReverseRouteContext.empty
+      Call("DELETE", _prefix + { _defaultPrefix } + "api/v1/categories/" + implicitly[PathBindable[Long]].unbind("id", id))
     }
   
   }
@@ -179,16 +212,28 @@ package controllers {
     }
 
   
-    // @LINE:41
+    // @LINE:42
     def isReservationAvailable(): Call = {
       import ReverseRouteContext.empty
       Call("POST", _prefix + { _defaultPrefix } + "api/v1/reservations/available")
     }
   
     // @LINE:40
+    def create(): Call = {
+      import ReverseRouteContext.empty
+      Call("POST", _prefix + { _defaultPrefix } + "api/v1/reservations")
+    }
+  
+    // @LINE:41
     def getReservationSuggestions(): Call = {
       import ReverseRouteContext.empty
       Call("POST", _prefix + { _defaultPrefix } + "api/v1/reservations/suggestions")
+    }
+  
+    // @LINE:43
+    def myReservations(): Call = {
+      import ReverseRouteContext.empty
+      Call("GET", _prefix + { _defaultPrefix } + "api/v1/reservations/my")
     }
   
   }

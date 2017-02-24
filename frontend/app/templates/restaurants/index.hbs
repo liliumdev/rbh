@@ -1,0 +1,15 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>All restaurants</h2>
+        </div>
+
+        {{#each model.restaurants as |restaurant|}}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                {{#restaurant-listing item=restaurant}}
+                {{/restaurant-listing}}
+            </div>
+        {{/each}}
+
+    </div>
+</div>

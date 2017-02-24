@@ -1,7 +1,7 @@
 
 // @GENERATOR:play-routes-compiler
 // @SOURCE:C:/rests/restaurants/conf/routes
-// @DATE:Fri Feb 24 02:25:49 CET 2017
+// @DATE:Fri Feb 24 07:08:01 CET 2017
 
 
 package router {
