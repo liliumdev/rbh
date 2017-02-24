@@ -63,7 +63,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {   
-    ENV.apiHost = "http://serene-island-63897.herokuapp.com";
+    ENV.apiHost = "http://polar-island-89201.herokuapp.com";
     ENV.apiVersion = "1";
   }
 

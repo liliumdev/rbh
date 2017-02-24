@@ -8,30 +8,23 @@ export default Ember.Controller.extend({
     showAdd: false,
     location: { countryId: 0 },
 
-    lat: 45.528178,
-    lng: -122.670059,
+    lat: 43.854460,
+    lng: 18.380985,
     zoom: 14,
 
-    restaurants: Ember.A([{
-        name: 'Sinju Restaurant',
-        rating: 4,
-        lat: 45.528531,
-        lng: -122.681682
+    locationPoints: Ember.A([{
+        lat: 43.835332,
+        lng: 18.359699
     }, {
-        name: 'Burgerville',
-        rating: 3.8,
-        lat: 45.530970,
-        lng: -122.661968
+        lat: 43.850746,
+        lng: 18.455400
     }, {
-        name: 'Le Pigeon',
-        rating: 4.5,
-        lat: 45.522752,
-        lng: -122.657979,
-        isOpen: true
+        lat: 43.864238,
+        lng: 18.378239
     }, ]),
 
-    dangerZone: Ember.computed('restaurants.@each.lat', 'restaurants.@each.lng', function() {
-        return this.get('restaurants').map(r => ({ lat: r.lat, lng: r.lng }));
+    locationZone: Ember.computed('locationPoints.@each.lat', 'locationPoints.@each.lng', function() {
+        return this.get('locationPoints').map(r => ({ lat: r.lat, lng: r.lng }));
     }),
 
     actions: {
@@ -47,6 +40,10 @@ export default Ember.Controller.extend({
             }.bind(this), function() {
                 flashMessages.danger("Couldn't create a location.");
             }.bind(this));
+        },
+
+        addMarker: function() {
+        	this.get('locationPoints').pushObject({lat: this.get('lat'), lng: this.get('lng')});
         },
 
         delete: function(location) {

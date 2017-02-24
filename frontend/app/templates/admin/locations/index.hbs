@@ -21,24 +21,22 @@
                       <button class="btn btn-primary" {{action "add" }}>Add</button>
                   </form>
 
+                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;">Add additional marker</button>
+
                   <br><br>
 
                   {{#leaflet-map lat=lat lng=lng zoom=zoom}}
 
 				    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
-
-				  {{#each restaurants as |r|}}
+		  			
+		  			{{#each locationPoints as |r|}}
 				    {{#marker-layer lat=r.lat lng=r.lng draggable=true onDragend=(action "updateLocation" r)}}
-				      {{#popup-layer popupOpen=(readonly r.isOpen)}}
-				        <h3>{{r.name}}</h3>
-				        Rating: {{r.rating}}/5
-				      {{/popup-layer}}
 				    {{/marker-layer}}
 				  {{/each}}
 
-				  {{#polygon-layer locations=dangerZone color="red"}}
+				  {{#polygon-layer locations=locationZone color="green"}}
 				    {{#tooltip-layer sticky=true}}
-				      DANGER ZONE
+				      Location zone
 				    {{/tooltip-layer}}
 				  {{/polygon-layer}}
 
