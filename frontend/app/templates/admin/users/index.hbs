@@ -1,0 +1,114 @@
+  
+    {{admin-nav-bar addShown=true addHandler=(action "switchAdd") addName="user" plusShown=showAdd}}
+
+    {{#if showAdd}}
+     <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card padded" >
+                      <div class="content">
+
+						<form class="form">
+						  <div class="form-group">
+						    {{validated-input type="text" model=this placeholder="First Name" valuePath="account.firstName"}}
+						  </div>
+						  
+						  <div class="form-group">
+						    {{validated-input type="text" model=this placeholder="Last Name" valuePath="account.lastName"}}
+						  </div>
+						                        
+						  <div class="form-group">
+						    {{validated-input type="email" model=this placeholder="Email" valuePath="account.email"}}
+						  </div>
+						    
+						  <div class="form-group form-group-inline">
+								<select onchange={{action "selectCountry" value="target.value"}}>
+									{{#each countries as |countryChoice|}}
+										<option value={{countryChoice.id}} selected={{eq country countryChoice.id}}>{{countryChoice.name}}</option>
+								    {{/each}}
+								</select>
+
+								<select onchange={{action "selectCity" value="target.value"}}>
+									{{#each cities as |cityChoice|}}
+										<option value={{cityChoice.id}} selected={{eq city cityChoice.id}}>{{cityChoice.name}}</option>
+								    {{/each}}
+								</select>
+						  </div>
+						                        
+						  <div class="form-group">
+						    {{validated-input type="password" model=this placeholder="Password" valuePath="account.password"}}
+						  </div>
+
+						  <div class="form-group">
+						    <select class="form-control" onchange={{action "selectRole" value="target.value"}}>
+									<option value="0" selected={{eq role 0}}>Normal</option>
+									<option value="1" selected={{eq role 1}}>Admin</option>
+								</select>
+						  </div>
+						  					  
+						  
+						  <button type="button" class="btn btn-primary" disabled={{v-get this 'isInvalid'}} {{action "add"}}>Create Account</button>
+						</form>
+                        
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+
+  {{/if}}
+
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+	                      		<th>Email</th>
+	                      		<th>City</th>
+	                      		<th>Role</th>
+	                      		<th style="width: 10%;">Options</th>
+							</tr>
+							 {{#each model.accounts as |account index|}}   
+								<tr>
+		                      		<td>{{account.fullName}}</td>
+		                      		<td>{{account.email}}</td>
+		                      		<td>{{account.city.name}}</td>
+		                      		<td>
+		                      		{{#if (eq account.role 0) }}
+		                      			Normal
+		                      		{{else}}
+		                      			Admin
+		                      		{{/if}}
+		                      		</td>
+		                      		<td> 
+									{{#if (eq account.role 0) }}
+                      					<a href="#" {{ action "giveRole" index 1}}> <i class="fa fa-level-up" aria-hidden="true"></i> </a>
+		                      		{{else}}
+	                      				<a href="#" {{ action "giveRole" index 0}}> <i class="fa fa-level-down" aria-hidden="true"></i> </a>
+		                      		{{/if}}
+
+		                      		&nbsp; &nbsp; 
+
+		                      		{{#link-to "admin.users.edit" account.id}} <i class="fa fa-pencil" aria-hidden="true"></i> {{/link-to}}
+
+		                      		&nbsp; &nbsp; 
+
+		                      		<a href="#" {{ action "delete" account }}> <i class="fa fa-times" aria-hidden="true"></i> </a> 
+		                      		</td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>

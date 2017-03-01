@@ -64,7 +64,6 @@ public class City extends BaseModel<City> {
     }
 
     @JsonIgnore
-    @JsonManagedReference
     @OneToMany(mappedBy = "city")
     public List<Restaurant> getRestaurants() {
         return restaurants;

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -34,6 +36,7 @@ public class Review extends BaseModel<Review> {
         this.description = description;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     public Restaurant getRestaurant() {
@@ -44,6 +47,7 @@ public class Review extends BaseModel<Review> {
         this.restaurant = restaurant;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     public Account getAccount() {

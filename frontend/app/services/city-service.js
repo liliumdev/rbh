@@ -18,7 +18,9 @@ export default BaseService.extend({
 
     delete: function(cityId) {
         return this.ajax({ url: `cities/${cityId}`, type: "DELETE" });
-    }
+    },
 
-
+    edit: function(cityId, data) {
+        return this.ajax({ url: `cities/${cityId}`, type: "PUT", data: JSON.stringify(data) });
+    },
 });

@@ -90,6 +90,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             sql += "	  account.email = (?1) AND ";
             sql += "      reservation.table_id=diningtable.id AND ";
             sql += "      diningtable.restaurant_id=restaurant.id ";
+            sql += "ORDER BY \"forTime\" ASC ";
 
             NativeQuery query = repository.getSession().createNativeQuery(sql);
 

@@ -1,6 +1,7 @@
 package services;
 
 import controllers.forms.RegisterForm;
+import controllers.forms.admin.AccountCreationForm;
 import models.Account;
 import models.City;
 import org.hibernate.criterion.Restrictions;
@@ -39,14 +40,14 @@ public class AccountService extends BaseService<Account, AccountRepository>
         }
     }
 
-    public Account create(Long cityId, Account model) throws ServiceException {
+    public Account create(Long cityId, Account model, int userType) throws ServiceException {
         try {
             City city = cityService.get(cityId);
             if (city == null) {
                 throw new ServiceException("Service couldn't find city [" + cityId + "].");
             }
             model.setCity(city);
-            model.setRole(USER_TYPE.NORMAL.getValue());
+            model.setRole(userType);
             repository.save(model);
             return model;
         } catch (RepositoryException e) {
@@ -54,13 +55,44 @@ public class AccountService extends BaseService<Account, AccountRepository>
         }
     }
 
-    public Account create(RegisterForm form) throws ServiceException {
+    public Account giveRole(Long id, Integer role) throws ServiceException {
+        try {
+            Account account = get(id);
+            if (account == null) {
+                throw new ServiceException("Service couldn't find account [" + id + "].");
+            }
+
+            account.setRole(role);
+            return update(id, account, false);
+        } catch (Exception e) {
+            throw new ServiceException("Service couldn't demote an account.", e);
+        }
+    }
+
+    // Default create method which creates a normal account
+    public Account create(AccountCreationForm form) throws ServiceException {
+        return create(form, USER_TYPE.NORMAL.getValue());
+    }
+
+    // Create method which creates an account of a given type
+    public Account create(AccountCreationForm form, int userType) throws ServiceException {
         Account account = new Account();
         account.setFirstName(form.getFirstName());
         account.setLastName(form.getLastName());
         account.setEmail(form.getEmail());
         account.setPassword(BCrypt.hashpw(form.getPassword(), BCrypt.gensalt()));
-        return create(form.getCityId(), account);
+        return create(form.getCityId(), account, userType);
+    }
+
+    public Account update(Long id, Account data) throws ServiceException {
+        return update(id, data, true);
+    }
+
+    public Account update(Long id, Account data, Boolean hashPw) throws ServiceException {
+        if(data.getPassword() != null && hashPw) {
+            data.setPassword(BCrypt.hashpw(data.getPassword(), BCrypt.gensalt()));
+        }
+        return super.update(id, data);
     }
 
     public Account getByEmail(String email)

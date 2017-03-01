@@ -38,7 +38,14 @@
 							</tr>
 							 {{#each model.categories as |category|}}   
 								<tr>
-		                      		<td>{{category.name}}</td>
+		                      		<td>
+                              {{ember-inline-edit
+                                value=category.name
+                                onSave=(action "edit" category)
+                                editIcon="hidden"
+                                saveLabel='✓'
+                                }}
+                              </td>
 		                      		<td> <a href="#" {{ action "delete" category }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 								</tr> 
 							{{/each}}

@@ -98,6 +98,27 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
         }
     }
 
+    // Helper functions and classes
+    public static int getQueryInt(String key, int defaultVal) {
+        String s = request().getQueryString(key);
+        if (s != null) {
+            try {
+                return Integer.parseInt(s);
+            } catch (Exception e) {
+            }
+        }
+        return defaultVal;
+    }
+
+    public static String getQueryString(String key, String defaultValue) {
+        String s = request().getQueryString(key);
+        if (s == null) {
+            return defaultValue;
+        }
+        return s;
+    }
+
+
     private Class<M> getModelClassParameterType() {
         return (Class<M>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }

@@ -20,6 +20,7 @@ public class Account extends BaseModel<Account> {
     private City city;
     private List<ForgotPassword> forgotTokens;
     private List<Reservation> reservations;
+    private List<Review> reviews;
 
     @Basic
     @Column(name = "email", unique = true)
@@ -82,7 +83,7 @@ public class Account extends BaseModel<Account> {
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<ForgotPassword> getForgotTokens() {
         return forgotTokens;
     }
@@ -91,13 +92,24 @@ public class Account extends BaseModel<Account> {
         this.forgotTokens = forgotTokens;
     }
 
-    @OneToMany(mappedBy = "account")
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Reservation> getReservations() {
         return reservations;
     }
 
     public void setReservations(List<Reservation> reservations) {
         this.reservations = reservations;
+    }
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override
@@ -110,6 +122,7 @@ public class Account extends BaseModel<Account> {
         a.setEmail(model.getEmail());
         a.setForgotTokens(model.getForgotTokens());
         a.setReservations(model.getReservations());
+        a.setReviews(model.getReviews());
         a.setRole(model.getRole());
         a.setPassword(model.getPassword());
         return a;
@@ -124,6 +137,7 @@ public class Account extends BaseModel<Account> {
         if(data.getEmail() != null) setEmail(data.getEmail());
         if(data.getForgotTokens() != null) setForgotTokens(data.getForgotTokens());
         if(data.getReservations() != null) setReservations(data.getReservations());
+        if(data.getReviews() != null) setReviews(data.getReviews());
         if(data.getRole() != null) setRole(data.getRole());
     }
 }

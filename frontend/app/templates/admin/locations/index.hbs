@@ -65,7 +65,15 @@
 						</tr>
 						 {{#each model.locations as |location|}}   
 							<tr>
-	                      		<td>{{location.name}}</td>
+	                       		<td>
+                            {{ember-inline-edit
+                              value=location.name
+                              onSave=(action "edit" location)
+                              editIcon="hidden"
+                              saveLabel='✓'
+                              }}
+    
+                            </td>
 	                      		<td> <a href="#" {{ action "delete" location }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 							</tr> 
 						{{/each}}

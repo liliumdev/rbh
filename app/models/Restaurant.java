@@ -158,7 +158,6 @@ public class Restaurant extends BaseModel<Restaurant>  {
 
     public void setLatLong(Point latLong) { this.latLong = latLong; }
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "city_id", referencedColumnName = "id", nullable = false)
     public City getCity() {

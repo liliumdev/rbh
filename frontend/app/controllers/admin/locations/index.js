@@ -37,22 +37,27 @@ export default Ember.Controller.extend({
             this.get('cityService').create(countryId, name).then(function(newLocation) {
                 this.get('model.locations').pushObject(newLocation);
                 this.set('location.name', '');
-            }.bind(this), function() {
-                flashMessages.danger("Couldn't create a location.");
+            }.bind(this), function(data) {
+                flashMessages.danger(data.responseText);
             }.bind(this));
-        },
-
-        addMarker: function() {
-        	this.get('locationPoints').pushObject({lat: this.get('lat'), lng: this.get('lng')});
         },
 
         delete: function(location) {
             const flashMessages = Ember.get(this, 'flashMessages');
             this.get('cityService').delete(location.id).then(function() {
                 this.get('model.locations').removeObject(location);
-            }.bind(this), function() {
-                flashMessages.danger("Couldn't delete the location.");
+            }.bind(this), function(data) {
+                flashMessages.danger(data.responseText);
             }.bind(this));
+        },
+        
+        edit: function(city) {
+            const flashMessages = Ember.get(this, 'flashMessages');
+            this.get('cityService').edit(city.id, {name: city.name}).then(function() {
+                // Basically the changes should just be visible
+            }.bind(this), function(data) {
+                flashMessages.danger(data.responseText);
+            }.bind());
         },
 
         switchAdd: function() {
@@ -62,6 +67,11 @@ export default Ember.Controller.extend({
         selectCountry: function(countryId) {
             this.set('location.countryId', countryId);
         },
+
+        addMarker: function() {
+            this.get('locationPoints').pushObject({lat: this.get('lat'), lng: this.get('lng')});
+        },
+
 
         updateLocation(r, e) {
             let location = e.target.getLatLng();

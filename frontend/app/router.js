@@ -16,16 +16,20 @@ Router.map(function() {
   this.route('login');
   this.route('logout');
   this.route('admin', function() {
-    this.route('users');
+    this.route('users', function() {
+      this.route('edit', {path: ':id'});
+    });
     this.route('categories', function() {});
     this.route('locations', function() {});
   });
   this.route('register');
   this.route('forgot-password');
   this.route('reset-password', {path: '/reset-password/:token'});
-  this.route('categories', {path: '/categories/:category'});
+  this.route('categories', {path: '/categories/:name'});
   this.route('reserve');
   this.route('my-reservations');
+
+  this.route('users', function() {});
 });
 
 export default Router;

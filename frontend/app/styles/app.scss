@@ -666,6 +666,24 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     top: 58px;
 }
 
+/* LANDING LOOKING FOR RESERVATION */
+.filter-box.landing .date-input input {  
+    width: auto;
+    color: #303030;
+}
+
+.filter-box.landing .selectize-control.filter-selectize.ember-selectize .selectize-input {
+    height: 56px;
+}
+
+.filter-box.landing .selectize-control .item {
+    line-height: 41px;
+    padding: 0 30px;
+    width: auto;
+}
+
+/* END OF LANDING LOOKING FOR RESERVATION ?/
+
 /* not landing borders */
 .filter-box.not-landing .row-no-padding > .option 
 {
@@ -690,6 +708,8 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     width: 100%;
     height: 58px;
 }
+
+
 /* end not landing borders */
 
 .filter-box .selectize-control .item {
@@ -706,7 +726,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 
 /* end of ember custom for filter box */
 
-.filter-box .fa.fa-chevron-down
+.filter-box .fa.fa-chevron-down, .filter-box .fa.fa-chevron-up
 {
     font-size: 11px;
     opacity: 0.3;
@@ -736,6 +756,80 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 {
     box-shadow: none;
 }
+
+/* filter box for restaurants page */
+.filter-box.restaurants {    
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.filter-box.restaurants input {
+    text-align: left;
+    font-weight: 300;
+}
+
+.filter-box.restaurants .filter.dropdown-menu {
+    width: 330px;
+    text-align: left;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a:active, .filter-box.restaurants .filter.dropdown-menu a:focus {
+    color: #fd6f60;
+    text-decoration: none;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a.category {
+    color: rgba(253, 111, 96, 0.6);
+    margin: 3px 0;
+    display: block;
+    width: 100%;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a.category.active {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(46, 57, 63, 0.6);
+    padding: 10px 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel {
+    margin-bottom: 10px;
+}
+
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa {
+    padding: 0 2px;
+}
+
+/* inactive color is grayish */
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.active {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.inactive {
+    color: rgba(253, 111, 96, 0.3);
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .far:focus,
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:active {
+    text-decoration: none;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .divider {
+    background-color: #e7eaec;
+    width: 100%;
+    height: 1px;
+}
+
 
 .input-group-lg>.form-control
 {
@@ -1466,4 +1560,103 @@ form .form-tip
 
 .leaflet-container {
     height: 300px;
+}
+
+.ember-inline-edit input {
+    width: 75%;
+}
+
+.ember-inline-edit button {
+    width: 20%;
+}
+
+/* TYPEAHEAD */
+.typeahead-wrap {
+  display: block;
+  position: relative;
+}
+
+.tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  list-style: none;
+  box-shadow: 0 7px 9px rgba(0, 0, 0, .2);
+  left: 0;
+}
+
+.tt-suggestions {
+  display: block;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.tt-suggestion {
+  max-height: 45px;
+  margin: 0;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 45px;
+  position: relative;
+}
+
+.tt-suggestion:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #cfe0ed;
+}
+
+.tt-suggestion:first-child:before {
+  border: 0;
+}
+
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
+  background: #cfe0ed;
+}
+
+.tt-suggestion b {
+  display: inline-block;
+  width: auto;
+  font-weight: 600;
+}
+
+.tt-suggestion p {
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+}
+
+.tt-suggestions.no-results {
+  height: auto;
+}
+
+.tt-suggestions .message {
+  height: 2.5rem;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 2.5rem;
+}
+
+.tt-suggestions .message p {
+  margin: 0;
+}
+
+/* the only css I know of that will be used above. Everything else is open :) */
+.tt-suggestion.tt-cursor {
+  background-color: #333;
+  cursor: pointer;
+}
+
+.tt-suggestion.tt-cursor, .tt-suggestion:hover {
+    background: #cfe0ed;
+    cursor:pointer;
 }

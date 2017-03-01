@@ -5,12 +5,16 @@
 
 GET     /                              controllers.HomeController.index()
 
+
 GET     /api/v1/accounts                       controllers.AccountController.all()
 GET     /api/v1/accounts/:id                   controllers.AccountController.get(id:Long)
+GET     /api/v1/accounts/:id/promote           controllers.AccountController.promote(id:Long)
+GET     /api/v1/accounts/:id/demote            controllers.AccountController.demote(id:Long)
 GET     /api/v1/accounts/exists/:email         controllers.AccountController.emailExists(email:String)
 POST    /api/v1/accounts                       controllers.AccountController.register()
 POST    /api/v1/accounts/login                 controllers.AccountController.login()
 POST    /api/v1/accounts/forgot                controllers.AccountController.forgot()
+POST    /api/v1/accounts/:role                 controllers.AccountController.create(role:Integer)
 POST    /api/v1/accounts/reset/:token          controllers.AccountController.reset(token:String)
 POST    /api/v1/accounts/valid-token/:token    controllers.AccountController.isValidToken(token:String)
 PUT     /api/v1/accounts/:id                   controllers.AccountController.update(id:Long)
@@ -32,10 +36,12 @@ GET     /api/v1/countries/:countryId/cities                controllers.CityContr
 POST    /api/v1/countries/:countryId/cities                controllers.CityController.create(countryId:Long)
 
 GET     /api/v1/restaurants                                controllers.RestaurantController.all(limit: Integer ?= 0)
+POST    /api/v1/restaurants/filter                        controllers.RestaurantController.filter()
 GET     /api/v1/restaurants/:id                            controllers.RestaurantController.get(id:Long)
 POST     /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
 GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
 GET     /api/v1/restaurants/:id/reservations-today          controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
+
 
 POST  /api/v1/reservations                  controllers.ReservationController.create()
 POST  /api/v1/reservations/suggestions      controllers.ReservationController.getReservationSuggestions()

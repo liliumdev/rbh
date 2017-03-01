@@ -7,5 +7,5 @@ export default Ember.Route.extend({
 		return Ember.RSVP.hash({
 			categories: this.get('categoryService').all()
 		});
-	},
+	}
 });

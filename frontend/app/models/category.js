@@ -1,5 +1,9 @@
-import DS from 'ember-data';
+import Ember from 'ember';
+import BaseModel from 'restaurants-app/models/base-model';
 
-export default DS.Model.extend({
+var _modelProperties = ['id', 'name'];
+
+export default BaseModel.extend({
+	modelProperties: _modelProperties,
 
 });

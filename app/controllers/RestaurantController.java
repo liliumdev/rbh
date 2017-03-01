@@ -1,7 +1,9 @@
 package controllers;
 
 import controllers.forms.RateForm;
+import controllers.forms.RestaurantFilterForm;
 import models.Restaurant;
+import models.filters.RestaurantFilterBuilder;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -25,11 +27,43 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     }
 
     @Transactional
-    public Result all(Integer limit) {
-        if(limit == null || limit == 0)
-            return super.all();
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result filter() {
+        try {
+            // Validate review form fields
+            Form<RestaurantFilterForm> form = formFactory.form(RestaurantFilterForm.class).bindFromRequest();
+            if(form.hasErrors())
+                return badRequest(form.errorsAsJson());
 
-        return ok(toJson(service.random(limit)));
+            RestaurantFilterForm data = form.get();
+
+            RestaurantFilterBuilder rfb = new RestaurantFilterBuilder()
+                    .setName(data.getName())
+                    .setQuery(data.getQuery())
+                    .setPricing(data.getPricing())
+                    .setRating(data.getRating())
+                    .setCategories(data.getCategories())
+                    .setSortKey("name")
+                    .setSortAsc(true);
+
+            return ok(Json.toJson(service.filter(rfb)));
+
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in RestaurantController@filter"));
+        }
+
+    }
+
+    @Transactional
+    public Result all(Integer limit) {
+        try {
+            if(limit == null || limit == 0)
+                return super.all();
+
+            return ok(toJson(service.random(limit)));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in RestaurantController@all"));
+        }
     }
 
     @Transactional

@@ -4,13 +4,16 @@ import models.DiningTable;
 import models.Reservation;
 import models.Restaurant;
 import models.Review;
+import models.filters.RestaurantFilterBuilder;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import repositories.RestaurantRepository;
 import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -34,11 +37,26 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
         this.accountService = accountService;
     }
 
-    public List<Restaurant> random(Integer limit) {
-        Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
-        criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RANDOM()"));
-        criteria.setMaxResults(limit);
-        return criteria.list();
+    public List<Restaurant> random(Integer limit) throws ServiceException {
+        try {
+            Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
+            criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RANDOM()"));
+            criteria.setMaxResults(limit);
+            return criteria.list();
+        } catch (HibernateException e) {
+            throw new ServiceException("RestaurantService couldn't find random restaurants.", e);
+        }
+    }
+
+    public List<Restaurant> filter(RestaurantFilterBuilder rfb) throws ServiceException {
+        try {
+            Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
+            criteria = rfb.addConditions(criteria);
+
+            return criteria.list();
+        } catch (HibernateException e) {
+            throw new ServiceException("RestaurantService couldn't filter restaurants.", e);
+        }
     }
 
     public Long getNumberOfReservationsToday(Long restaurantId) throws ServiceException {

@@ -14,6 +14,16 @@ export default BaseService.extend({
 	  	return restaurants;
     },
 
+    filter: function(options) {
+        var restaurants = [];
+        this.ajax({ url: `restaurants/filter`, type: "POST", data: JSON.stringify(options)}).then(function(data) {
+            data.forEach(function(restaurant) {
+                restaurants.addObject(Restaurant.create(restaurant));
+            });
+        });     
+        return restaurants;
+    },
+
     all: function(limit) {
         var restaurants = [];
         this.ajax({ url: `restaurants`, type: "GET"}).then(function(data) {

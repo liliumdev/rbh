@@ -6,6 +6,7 @@ import controllers.forms.ForgotForm;
 import controllers.forms.LoginForm;
 import controllers.forms.RegisterForm;
 import controllers.forms.ResetForm;
+import controllers.forms.admin.AccountCreationForm;
 import models.Account;
 import models.ForgotPassword;
 import org.mindrot.jbcrypt.BCrypt;
@@ -185,6 +186,82 @@ public class AccountController extends BaseController<Account, AccountService> {
                     .sign(Algorithm.HMAC256(Play.application().configuration().getString("play.crypto.secret")));
         } catch (Exception exception) {
             throw new Exception("Couldn't create the JWT.");
+        }
+    }
+
+    // Admin pages
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result all() {
+        return super.all();
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result get(Long id) {
+        return super.get(id);
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result create(Integer role) {
+        try {
+            // Validate the registration form
+            Form<AccountCreationForm> form = formFactory.form(AccountCreationForm.class).bindFromRequest();
+
+            // Is this email already present in the account table?
+            if(service.getByEmail(form.get().getEmail()) != null) {
+                form.errors().put("email", ValidationHelper.singleError("email", "This email already exists."));
+            }
+
+            if(form.hasErrors())
+                return badRequest(form.errorsAsJson());
+
+            // Currently only roles allowed are NORMAL and ADMIN, that is interval [0, 1]
+            if(!(role >= 0 && role <= 1))
+                return badRequest(Json.toJson("Unknown role!"));
+
+            // The account has been created
+            return created(Json.toJson(service.create(form.get(), role)));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in AccountController@create"));
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result delete(Long id)
+    {
+        return super.delete(id);
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result update(Long id) {
+        return super.update(id);
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result demote(Long id)
+    {
+        try {
+            return ok(Json.toJson(service.giveRole(id, AccountService.USER_TYPE.NORMAL.getValue())));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in AccountController@demote"));
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result promote(Long id)
+    {
+        try {
+            return ok(Json.toJson(service.giveRole(id, AccountService.USER_TYPE.ADMIN.getValue())));
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in AccountController@promote"));
         }
     }
 

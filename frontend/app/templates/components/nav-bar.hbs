@@ -12,6 +12,7 @@
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
                 {{#nav-link-to 'index'}}Index{{/nav-link-to}}
+                {{#nav-link-to 'restaurants'}}Restaurants{{/nav-link-to}}
 
                 {{#if session.isAuthenticated}}
                     {{#nav-link-to 'my-reservations' }} My Reservations {{/nav-link-to}}

@@ -11,26 +11,26 @@ export default Ember.Controller.extend({
     },
 
     actions: {
-        loginNormal: function() {
+        login: function(credentials, doRedirect) {
             const flashMessages = Ember.get(this, 'flashMessages');
-            var credentials = this.getProperties('identification', 'password');
             var self = this;
             this.authenticate(credentials).then(function(value) {
-                self.transitionToRoute('index');
+                if(doRedirect) {
+                    self.transitionToRoute('index');
+                }
                 flashMessages.success("Successfully logged in!");
-            }, function(reason) {
+            }.bind(doRedirect), function(reason) {
                 flashMessages.danger("Wrong credentials.");
             });
         },
 
+        loginNormal: function() {
+            var credentials = this.getProperties('identification', 'password');
+            this.send('login', credentials, true);
+        },
+
         loginWithoutRedirect: function(credentials) {
-            const flashMessages = Ember.get(this, 'flashMessages');
-            var self = this;
-            this.authenticate(credentials).then(function(value) {
-                flashMessages.success("Successfully logged in!");
-            }, function(reason) {
-                flashMessages.danger("Wrong credentials.");
-            });
+            this.send('login', credentials, false);
         }
     }
 });

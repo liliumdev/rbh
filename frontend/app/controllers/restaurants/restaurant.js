@@ -40,7 +40,7 @@ export default Ember.Controller.extend({
                 }.bind(this), function(data) {
                     this.set('hasError', true);
                     this.set('errorMsg', data.responseText);
-                    this.set('inProcessOfReservation', false);
+                    this.set('inProcessOfReservation', false);                    
                     Ember.run.later((function() {
                         this.send('findTable');
                     }.bind(this)), 1500);
@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
 
             }.bind(this), function(data) {
                 this.set('suggestions', []);
-                this.set('errorMsg', data);
+                this.set('errorMsg', JSON.parse(data.responseText));
                 this.set('gotSuggestions', false);
                 this.set('hasError', true);
             }.bind(this));
