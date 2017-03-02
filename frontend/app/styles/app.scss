@@ -193,10 +193,29 @@ ul.admin-nav-bar li a {
     opacity: 0.6;
 }
 
+ul.admin-nav-bar.smaller li a {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
 ul.admin-nav-bar li.active a, ul.admin-nav-bar li a:hover {
     opacity: 1;
     color: #fc6e5f;
     text-decoration: none;
+}
+
+form.admin-restaurant-form input {
+    width: 100%;
+    padding: 10px;
+}
+
+form.admin-restaurant-form textarea {
+    border-radius: 2px;
+    box-shadow: none;
+    border: solid 1px #e1e1e1;
+    font-size: 16px;
+    font-weight: 600;
+    color: #131d24;
 }
 
 .jumbotron.index
@@ -1659,4 +1678,26 @@ form .form-tip
 .tt-suggestion.tt-cursor, .tt-suggestion:hover {
     background: #cfe0ed;
     cursor:pointer;
+}
+
+.display-none {
+    display: none;
+}
+
+.dropzone.ember-view.dz-clickable {
+    border-radius: 3px;
+    border: solid 1px #e6e8eb;
+    background-color: #fff;
+}
+
+.dropzone.ember-view.dz-clickable:not(.dz-started) {
+    background-image: url('/assets/images/empty-image-upload.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.dropzone.ember-view.dz-clickable .dz-default.dz-message {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #cacaca;
 }

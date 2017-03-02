@@ -20,7 +20,7 @@ public abstract class BaseFilterBuilder<B extends BaseFilterBuilder> {
     }
 
     protected Criteria addConditions(Criteria rootCriteria) {
-        if (getPageSize() != 0) {
+        if (getPageSize() != null && getPageSize() != 0) {
             rootCriteria = this.addLimitAndOffset(rootCriteria);
         }
 
@@ -32,6 +32,9 @@ public abstract class BaseFilterBuilder<B extends BaseFilterBuilder> {
     }
 
     protected Criteria addLimitAndOffset(Criteria rootCriteria) {
+        if(getPageNumber() == null) {
+            setPageNumber(0);
+        }
         rootCriteria.setFirstResult(getPageNumber() * getPageSize());
         rootCriteria.setMaxResults(getPageSize());
 

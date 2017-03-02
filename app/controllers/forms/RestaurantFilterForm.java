@@ -16,6 +16,10 @@ public class RestaurantFilterForm {
 
     private Integer rating;
 
+    private Integer pageNumber;
+
+    private Integer pageSize;
+
     public String getName() {
         return name;
     }
@@ -54,5 +58,21 @@ public class RestaurantFilterForm {
 
     public void setQuery(String query) {
         this.query = query;
+    }
+
+    public Integer getPageNumber() {
+        return pageNumber;
+    }
+
+    public void setPageNumber(Integer pageNumber) {
+        this.pageNumber = pageNumber;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

@@ -1,30 +1,51 @@
 import Ember from 'ember';
-import Reservation from 'restaurants-app/models/reservation';
 
 export default Ember.Controller.extend({
-    reservation: Reservation.create({restaurantId: null, persons: "2 people", date: new Date(), wishedTime: "9:00 AM", query: "" }),
+    restaurantService: Ember.inject.service(),
     showSuggestions: false,
+    suggestions: [],
+    hiding: false,
+
+    findSuggestions: function() {
+    	if(this.get('hiding') || this.get('reservation.query') === '') {
+    		return;
+    	}
+
+    	var querySuggestions = this.get('restaurantService').filter({query: this.get('reservation.query'), pageSize: 5});
+    	this.set('suggestions', querySuggestions);
+    	this.set('showSuggestions', true);
+    },
+
+    queryChanged: function() {
+    	this.set('reservation.restaurantId', null);
+        Ember.run.debounce(this, this.findSuggestions, 500);
+    }.observes("reservation.query"),
 
     actions: {
     	findTable: function() {
-    		console.log("pls find!");
-    		console.log(this.get('reservation'));
-           /* var restaurantId = this.get('model.restaurant.id');
-            this.get('reservationService').getReservationSuggestions(restaurantId, this.get('reservation')).then(function(data) {
-                this.set('suggestions', data);
-                this.set('gotSuggestions', true);
-                this.set('hasError', false);
+    		var reservation = this.get('reservation');
+    		console.log("RESERVATION!");
+    		console.log(reservation);
+    		this.transitionToRoute(`/restaurants/${reservation.restaurantId}`).then(function(route) {
+				route.controller.set('reservation', reservation);
+				route.controller.set('model.restaurant.id', reservation.restaurantId);
+				route.controller.send('findTable');
+    		});
+        },
 
-                var _tablesLeft = 0;
-                $.each(data, function(i, suggestion) { _tablesLeft += suggestion.freeTables; });
-                this.set('tablesLeft', _tablesLeft);
+        setRestaurant: function(restaurant) {
+        	var self = this;
+        	this.set('reservation.query', restaurant.name);
+        	this.set('reservation.restaurantId', restaurant.id);
+        },
 
-            }.bind(this), function(data) {
-                this.set('suggestions', []);
-                this.set('errorMsg', JSON.parse(data.responseText));
-                this.set('gotSuggestions', false);
-                this.set('hasError', true);
-            }.bind(this)); */
+        hideSuggestions: function() {
+        	var self = this;
+        	self.set('hiding', true); // we need this to not show autosuggest when we already clicked on a restaurant
+        	Ember.run.debounce(this, function() {         		
+        		self.set('showSuggestions', false); 
+        		self.set('hiding', false);
+        	}, 750);
         },
     }
 });

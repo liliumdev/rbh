@@ -1,3 +1,5 @@
+{{title "Index"}}
+
 <div class="jumbotron vertical-align index">
     <div class="container-fluid">
         <div class="row-fluid">
@@ -10,77 +12,23 @@
                 <div class="container">
                     <br>
 
-                    {{find-table-and-restaurant reservation=reservation findTableHandler=(action "findTable") }}
-                <!--    <form role="search" class="filter-box landing">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
-                            
-                            <input type="text" name="query" class="form-control" placeholder="Location, Restaurant or Cousine">
-                            
-                            <span class="input-group-btn">                                
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                   2 people <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">2 People</a></li>
-                                    <li><a href="#">3 People</a></li>
-                                    <li><a href="#">4 People</a></li>
-                                    <li><a href="#">5 People</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn">                                
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Apr 29, 2016  <i class="fa fa-chevron-down" aria-hidden="true"></i> </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">to-do</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">7:00 PM  <i class="fa fa-chevron-down" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">to-do</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn red">
-                                <button class="btn btn-primary" type="submit">Find a table</button>
-                            </span>
-                        </div>
-                    </form>
+                    {{find-table-and-restaurant reservation=reservation findTableHandler=(action "findTable") focusOutHandler=(action "hideSuggestions")}}
 
-
-                    <div class="typeahead-wrap">
+                    <div class="typeahead-wrap {{if (not showSuggestions) 'display-none' ''}}">
                         <span class="tt-dropdown-menu">
                           <div class="tt-dataset-states">
-                            <span class="tt-suggestions">
-                              <div class="tt-suggestion ">
-                                  <p><b>Restaurant</b> (Sarajevo)</p>
+                            <span class="tt-suggestions">   
+                            {{#each suggestions as |suggestion|}}
+                             <div class="tt-suggestion" {{action "setRestaurant" suggestion on="click"}}>
+                                  <p><b>{{suggestion.name}}</b> ({{suggestion.city.name}})</p>
                               </div>
-                              <div class="tt-suggestion ">
-                                  <p><b>Restorancic Apko</b> (Mjesto)</p>
-                              </div>
-                              <div class="tt-suggestion ">
-                                  <p><b>Fefemefefe</b> (Gorazde)</p>
-                              </div>
-                              <div class="tt-suggestion ">
-                                  <p><b>Restaurant</b> (Sarajevo)</p>
-                              </div>
-                              <div class="tt-suggestion ">
-                                  <p><b>Restorancic Apko</b> (Mjesto)</p>
-                              </div>
-                              <div class="tt-suggestion ">
-                                  <p><b>Fefemefefe</b> (Gorazde)</p>
-                              </div>
+                            {{/each}}
                             </span>
                           </div>
                         </span>
                     </div>
-                -->
                 
-                    <br>
+                     <br>
                     <br>
 
                 </div>

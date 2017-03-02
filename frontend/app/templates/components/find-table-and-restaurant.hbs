@@ -4,7 +4,7 @@
             <i class="fa fa-search" aria-hidden="true"></i>
         </span>
         
-        {{input type="text" value=reservation.query class="form-control" placeholder="Type in a restaurant or city name ..."}}
+        {{input type="text" value=reservation.query class="form-control" placeholder="Type in a restaurant or city name ..." focus-out=(action focusOutHandler) autocomplete="off"}}
         
         <span class="input-group-btn">                                
             {{  
@@ -31,7 +31,7 @@
         </span>
         
         <span class="input-group-btn red">
-            <button class="btn btn-primary" type="submit">Find a table</button>
+            <button class="btn btn-primary" type="submit" disabled={{if (eq reservation.restaurantId null) true false }}>Find a table</button>
         </span>
     </div>
 </form>

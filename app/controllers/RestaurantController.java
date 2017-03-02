@@ -44,7 +44,9 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
                     .setRating(data.getRating())
                     .setCategories(data.getCategories())
                     .setSortKey("name")
-                    .setSortAsc(true);
+                    .setSortAsc(true)
+                    .setPageNumber(data.getPageNumber())
+                    .setPageSize(data.getPageSize());
 
             return ok(Json.toJson(service.filter(rfb)));
 

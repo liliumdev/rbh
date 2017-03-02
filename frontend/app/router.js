@@ -9,6 +9,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('restaurants', function() {
     this.route('restaurant', {path: ':id'});
+    //this.route('restaurant-reserve');
   });
   this.route('about');
   this.route('privacy-policy');
@@ -21,6 +22,13 @@ Router.map(function() {
     });
     this.route('categories', function() {});
     this.route('locations', function() {});
+    this.route('restaurants', function() {
+      this.route('new', function() {
+        this.route('menu');
+        this.route('gallery');
+        this.route('tables');
+      });
+    });
   });
   this.route('register');
   this.route('forgot-password');
