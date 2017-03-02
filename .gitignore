@@ -1,6 +1,7 @@
 *.log
 .idea/
 frontend/tmp/
+frontend/dist
 project/boot/
 project/target/
 project/plugins/target/
