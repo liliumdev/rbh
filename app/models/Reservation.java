@@ -114,6 +114,18 @@ public class Reservation extends BaseModel<Reservation> {
         setRequest(data.getRequest());
     }
 
+    public static Reservation createReservation(DiningTable diningTable, Account account, Date date, Date finalReservationTime,
+                                         Integer persons) {
+        Reservation r = new Reservation();
+        r.setDiningTable(diningTable);
+        r.setAccount(account);
+        r.setCreatedAt(date);
+        r.setForTime(finalReservationTime);
+        r.setPersons(persons);
+
+        return r;
+    }
+
     public static class ReservationSuggestionDto {
         private Integer persons;
         private Integer freeTables;

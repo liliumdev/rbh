@@ -25,6 +25,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
     private List<DiningTable> diningTables;
     private List<Menu> menus;
     private List<Photo> photos;
+    private List<Review> reviews;
     private Set<Category> categories = new HashSet<Category>();
     private Point latLong;
     private City city;
@@ -166,6 +167,17 @@ public class Restaurant extends BaseModel<Restaurant>  {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "restaurant")
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 
     @Override

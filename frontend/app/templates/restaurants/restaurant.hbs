@@ -8,7 +8,7 @@
           
             <div class="col-md-9 col-sm-9 col-xs-12 pull-right-sm">
                 <div class="restaurant-listing horizontal">
-                    <h3><a href="#">{{ model.restaurant.name }}</a></h3>
+                    <h3>{{#link-to "restaurants.restaurant" model.restaurant.id}} {{ model.restaurant.name }} {{/link-to}}</h3>
 
                     <p class="rating">
 	                    {{#each model.restaurant.activeStars as |star|}}
@@ -57,10 +57,47 @@
                     <li>{{scroll-to href='#section-about' label='About'}}</li>
                     <li>{{scroll-to href='#section-menu' label='Menu'}}</li>
                     <li>{{scroll-to href='#section-photos' label='Photos'}}</li>
+                    <li><a href="#" {{action "toggleReviews"}}>{{if showReviews "Hide" "Show"}} reviews</a>
+                    </li>
                 </ul>
             </div>
 
             <div class="col-md-9 col-sm-9 col-xs-12" id="pull-up-column">
+
+                {{outlet}}
+
+                {{#if showReviews}}
+                    {{#each model.restaurant.reviews as |review|}}                                            
+                        <div class="card review">
+                            <div class="padded">
+                                <div class="title">
+                                    <div class="row">
+                                        <div class="col-md-9 col-sm-9 col-xs-6 main v-align-center">
+                                            Review
+                                            
+        {{star-rating item=review rating=review.rating maxRating=review.rating fullClassNames='fa fa-star' emptyClassNames='fa fa-star inactive'}} 
+                                        </div><!--
+                                     --><div class="col-md-3 col-sm-3 col-xs-6 sub v-align-center">
+                                            <span style="height: 10px;">{{ review.accountName}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="content">
+                                   <div class="row">
+                                       <div class="col-md-12">
+                                            <p>
+                                                {{ review.description }}
+                                            </p>  
+                                            
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    {{/each}}
+
+                {{else}}                
                 <div class="card" id="section-reservation">
                     <div class="padded">
                         <div class="title">
@@ -227,6 +264,10 @@
                         </div>
                     </div>
                 </div>
+
+                {{/if}}
+
+
             </div>
 
         </div>

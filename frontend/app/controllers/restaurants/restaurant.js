@@ -13,6 +13,7 @@ export default Ember.Controller.extend({
     errorMsg: "",
     tablesLeft: 0,
     inProcessOfReservation: false,
+    showReviews: false,
 
     clear: function() {
         this.setProperties({
@@ -21,7 +22,8 @@ export default Ember.Controller.extend({
             hasError: false,
             errorMsg: "",
             tablesLeft: 0,
-            inProcessOfReservation: false
+            inProcessOfReservation: false,
+            showReviews: false
         });
     }.observes('model.restaurant'),
 
@@ -51,13 +53,21 @@ export default Ember.Controller.extend({
         findTable: function() {
             var restaurantId = this.get('model.restaurant.id');
             this.get('reservationService').getReservationSuggestions(restaurantId, this.get('reservation')).then(function(data) {
-                this.set('suggestions', data);
-                this.set('gotSuggestions', true);
-                this.set('hasError', false);
+              /*   */
 
                 var _tablesLeft = 0;
                 $.each(data, function(i, suggestion) { _tablesLeft += suggestion.freeTables; });
                 this.set('tablesLeft', _tablesLeft);
+
+                if(_tablesLeft > 0) {
+                    this.set('suggestions', data);
+                    this.set('gotSuggestions', true);
+                    this.set('hasError', false);
+                } else {
+                    this.set('hasError', true);
+                    this.set('errorMsg', "There are no free tables around your wished time. Sorry, please try another time.");
+                    this.set('inProcessOfReservation', false);   
+                }
 
             }.bind(this), function(data) {
                 this.set('suggestions', []);
@@ -82,6 +92,10 @@ export default Ember.Controller.extend({
             }.bind(this), function() {
                 console.log("Error while rating.");
             });
+        },
+
+        toggleReviews: function() {
+            this.toggleProperty('showReviews');
         }
     }
 });

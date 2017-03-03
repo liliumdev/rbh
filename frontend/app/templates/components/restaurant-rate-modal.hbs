@@ -6,7 +6,7 @@
 
         <p class="title">Rate this place</p>
 
-        {{star-rating item=review rating=review.rating on-click=(action (action starClickedAction)) fullClassNames='fa fa-star' emptyClassNames='fa fa-star inactive'}}
+        {{star-rating item=review rating=review.rating on-click=(action (action starClickedAction)) fullClassNames='fa fa-star' emptyClassNames='fa fa-star'}}
 
         {{textarea class="review" value=review.description}}
 

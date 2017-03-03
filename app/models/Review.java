@@ -1,5 +1,6 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -47,6 +48,7 @@ public class Review extends BaseModel<Review> {
         this.restaurant = restaurant;
     }
 
+
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
@@ -66,6 +68,13 @@ public class Review extends BaseModel<Review> {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /* Only for Jackson JSON serialization */
+    @Transient
+    public String getAccountName() {
+        Account a = getAccount();
+        return a.getFirstName() + " " + a.getLastName();
     }
 
 

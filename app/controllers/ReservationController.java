@@ -49,6 +49,17 @@ public class ReservationController extends BaseController<Reservation, Reservati
     }
 
     @Transactional
+    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    public Result deleteMyReservation(Long id) {
+        try {
+            service.deleteReservation(id, request().username());
+            return ok();
+        } catch (ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in ReservationController@deleteMyReservation"));
+        }
+    }
+
+    @Transactional
     @BodyParser.Of(BodyParser.Json.class)
     @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
     public Result create() {
@@ -121,6 +132,7 @@ public class ReservationController extends BaseController<Reservation, Reservati
                 LocalDateTime toTime = fromTime.plusHours(3);
 
                 LocalDateTime minimum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(8, 0, 0));
+
                 LocalDateTime maximum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(21, 30, 0));
 
                 // Correct from and to suggestions if it's before working hours or before today
@@ -133,6 +145,16 @@ public class ReservationController extends BaseController<Reservation, Reservati
                     toTime = maximum;
                     fromTime = toTime.minusHours(3);
                 }
+
+                // If from time is before the current time
+                if(fromTime.isBefore(today)) {
+                    fromTime = today;
+                    // Round to next half-hour interval (if it's, say, 4:34, it will round to 5:00, if it's
+                    // 4:15, it will round to 4:30
+                    Integer currentMinutes = fromTime.getMinute();
+                    fromTime = fromTime.plusMinutes( (currentMinutes >= 30 ? 60 : 30) - currentMinutes);
+                }
+
 
                 String from = fromTime.format(formatter);
                 String to = toTime.format(formatter);

@@ -701,6 +701,10 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     width: auto;
 }
 
+.filter-box.landing .input-group-btn {
+    width: 15%;
+}
+
 /* END OF LANDING LOOKING FOR RESERVATION ?/
 
 /* not landing borders */
@@ -1008,6 +1012,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     .filter-box.landing .input-group-btn 
     {
         margin-bottom: 0px;
+        width: 100%;
     }
     
     .filter-box.landing .input-group-addon
@@ -1020,7 +1025,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
         margin-left: 1px;
         text-align: center;
     }
-    
+
     .filter-box .input-group-btn:not(.red)
     {
         border-top: 1px solid #e3e3e3;
@@ -1030,6 +1035,11 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     {
         margin-left: 1px;
         border-radius: 0px;
+    }
+
+    .filter-box.landing .date-input input {
+        width: 100%;
+        margin-left: 0px;
     }
     
     .jumbotron.index
@@ -1143,6 +1153,11 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 {
     opacity: 1;
     text-decoration: none;
+}
+
+#restaurant-container .sidebar li a:active, #restaurant-container .sidebar li a:focus {
+    text-decoration: none;
+    opacity: 1;
 }
 
 #map
@@ -1314,6 +1329,18 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     margin-top: -10px;
     margin-left: 10px;
     padding: 6px 30px;
+}
+
+.card.review .rating-panel {
+}
+
+.card.review .rating-panel .fa-star {
+    font-size: 13px;
+    color: #999;
+}
+
+.card.review .rating-panel .fa-star:hover, .card.review .rating-panel .fa-star:active, .card.review .rating-panel .fa-star:focus {
+    text-decoration: none;
 }
 
 table.restaurant-menu

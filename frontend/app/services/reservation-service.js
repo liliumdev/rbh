@@ -46,5 +46,9 @@ export default BaseService.extend({
             });
         });
         return reservations;
+    },
+
+    deleteMyReservation: function(reservationId) {
+        return this.ajax({ url: `reservations/my/${reservationId}`, type: "DELETE"});
     }
 });

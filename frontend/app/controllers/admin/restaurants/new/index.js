@@ -5,7 +5,7 @@ export default Ember.Controller.extend({
 
     logoUploaded: Ember.computed(function(file, response) {
 	    return function(file, response) {
-	    	console.log("logo uploaded");
+	    	console.log("logo uploaded");	    	
 	    };
   	}),
 
@@ -20,6 +20,13 @@ export default Ember.Controller.extend({
 	    	// Overwrite last file with this one
 			this.removeAllFiles();
             this.addFile(file);
+	    };
+  	}),
+
+  	addedfile: Ember.computed(function(file) {
+	    return function(file) {
+	    	console.log("added file");
+	    	console.log(file);
 	    };
   	}),
 

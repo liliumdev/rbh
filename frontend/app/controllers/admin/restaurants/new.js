@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+	ready: false,
 	zoom: 14,
 
 	coordinates: Ember.computed.alias('restaurant.latLong.coordinates'),

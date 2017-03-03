@@ -47,6 +47,7 @@ POST  /api/v1/reservations                  controllers.ReservationController.cr
 POST  /api/v1/reservations/suggestions      controllers.ReservationController.getReservationSuggestions()
 POST  /api/v1/reservations/available      controllers.ReservationController.isReservationAvailable()
 GET   /api/v1/reservations/my             controllers.ReservationController.myReservations()
+DELETE   /api/v1/reservations/my/:id                    controllers.ReservationController.deleteMyReservation(id:Long)
 
 GET     /api/v1/categories                                  controllers.CategoryController.all()
 POST    /api/v1/categories                                  controllers.CategoryController.create()
