@@ -6,7 +6,41 @@
 	<div class="col-md-12">
 		<div class="card padded">
 			<div class="content" style="margin-top: 0px;">
-			
+				<div class="row">
+					<div class="col-md-6">
+						<!-- TO DO: support for multiple menus -->
+					</div>
+					<div class="col-md-6">
+						<button class="btn btn-primary" style="float: right;" {{action "apply"}}><i class="fa fa-save"></i> &nbsp;Apply changes</button>
+						<button class="btn btn-primary" style="float: right;" {{action "addTable"}}><i class="fa fa-plus"></i> &nbsp;Add table</button>
+					</div>
+				</div>
+
+				<div class="row menuItemsRow">
+					  {{#each new.diningTables as |table|}}
+					    <div class="col-md-8">
+					      <form class="menu-item">
+							<div class="left">
+								<p>
+								<span></span>.
+								</p>
+							</div>
+
+							<div class="small-right">
+								<p>
+								<br>
+								<a href="javascript:;" {{action "deleteTable" table}}><i class="fa fa-trash" aria-hidden="true"></i></a><br><br>
+								</p>
+							</div>
+
+							<div class="form-group right">
+									{{input class="form-control menu-item-name" placeholder="Number of persons" value=table.persons }}
+									{{input class="form-control menu-item-price" placeholder="Amount" value=table.amount}}
+							</div>
+						</form>
+						</div>
+					  {{/each}}
+			  	</div>
 			</div>
 		</div>
 	</div>

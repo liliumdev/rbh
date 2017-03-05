@@ -1711,20 +1711,84 @@ form .form-tip
     display: none;
 }
 
-.dropzone.ember-view.dz-clickable {
+.dropzone.dz-clickable {
     border-radius: 3px;
     border: solid 1px #e6e8eb;
     background-color: #fff;
 }
 
-.dropzone.ember-view.dz-clickable:not(.dz-started) {
+.dropzone.dz-clickable:not(.dz-started) {
     background-image: url('/assets/images/empty-image-upload.png');
     background-position: center center;
     background-repeat: no-repeat;
 }
 
-.dropzone.ember-view.dz-clickable .dz-default.dz-message {
+.dropzone.dz-clickable .dz-default.dz-message {
     margin-top: 5px;
     font-weight: bold;
     color: #cacaca;
+}
+
+.dropzone .dz-progress {
+    display: none;
+}
+
+.admin-restaurant-location-dropdown .selectize-dropdown, .admin-restaurant-category-dropdown .selectize-dropdown {
+    z-index: 1000;
+}
+
+.admin-restaurant-location-map .leaflet-container {
+    z-index: 999;
+}
+
+form.menu-item p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #9898a5;    
+}
+
+form.menu-item p a {
+    font-size: 20px;
+    font-weight: 600;
+    color: #9898a5;  
+}
+
+form.menu-item .left {
+    width: 5%;
+    float: left;
+}
+
+form.menu-item .right {
+    width: 90%;
+    float: right;
+}
+
+form.menu-item .small-right {
+    width: 5%;
+    float: right;
+    text-align: center;
+}
+
+form.menu-item .menu-item-name {
+    width: 75%;
+    display: inline-block;
+}
+
+form.menu-item .menu-item-price {
+    display: inline-block;
+    width: 20%;
+    float: right;
+}
+
+form.menu-item .menu-item-description {
+    margin-top: 20px;
+}
+
+.menuItemsRow {    
+    counter-reset: menu-item-counter;
+}
+
+.menuItemsRow .menu-item span::before {
+    content: counter(menu-item-counter);
+    counter-increment: menu-item-counter;
 }

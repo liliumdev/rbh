@@ -30,6 +30,10 @@ public class Restaurant extends BaseModel<Restaurant>  {
     private Point latLong;
     private City city;
 
+    // Helper for deserializing JSON array to Set
+    private List<Category> categoriesList;
+    private LatLongPoint latLongPoint;
+
     @Basic
     @Column(name = "name")
     public String getName() {
@@ -112,7 +116,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
     }
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<DiningTable> getDiningTables() {
         return diningTables;
     }
@@ -122,7 +126,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
     }
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Menu> getMenus() {
         return menus;
     }
@@ -132,7 +136,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
     }
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Photo> getPhotos() {
         return photos;
     }
@@ -142,7 +146,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
     }
 
     @JsonManagedReference
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany
     @JoinTable(name="RestaurantCategory",
             joinColumns={@JoinColumn(name="restaurant_id")},
             inverseJoinColumns={@JoinColumn(name="category_id")})
@@ -219,4 +223,44 @@ public class Restaurant extends BaseModel<Restaurant>  {
         if(data.getLatLong() != null) setLatLong(data.getLatLong());
     }
 
+    /* Helper stuff for deserializing from JSON representation */
+    @Transient
+    public List<Category> getCategoriesList() {
+        return categoriesList;
+    }
+
+    public void setCategoriesList(List<Category> categoriesList) {
+        this.categoriesList = categoriesList;
+    }
+
+    @Transient
+    public LatLongPoint getLatLongPoint() {
+        return latLongPoint;
+    }
+
+    public void setLatLongPoint(LatLongPoint latLongPoint) {
+        this.latLongPoint = latLongPoint;
+    }
+
+    public static class LatLongPoint {
+        private String type;
+        private List<Double> coordinates;
+
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public List<Double> getCoordinates() {
+            return coordinates;
+        }
+
+        public void setCoordinates(List<Double> coordinates) {
+            this.coordinates = coordinates;
+        }
+    }
 }

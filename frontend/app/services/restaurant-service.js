@@ -61,5 +61,26 @@ export default BaseService.extend({
             review.set('didRate', data);
         });
         return review;
+    },
+
+    /* Admin stuff */
+    uploadImages: function(restaurant) {
+        // Let's test uploading of file
+        var data = new FormData();
+        data.append("files[]", restaurant.logoImageUrl); // logoImageUrl is actually a File
+        data.append("files[]", restaurant.coverImageUrl); // coverImageUrl is actually a File
+
+        for(var i = 0; i < restaurant.photos.length; i++) {
+            data.append("files[]", restaurant.photos[i]);
+        }
+
+        return this.ajaxWithoutContentType({
+            url: 'restaurants/upload-images',
+            data: data,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST'
+        });
     }
 });

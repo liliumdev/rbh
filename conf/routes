@@ -4,7 +4,7 @@
 
 
 GET     /                              controllers.HomeController.index()
-
+POST    /test                           controllers.RestaurantController.test()
 
 GET     /api/v1/accounts                       controllers.AccountController.all()
 GET     /api/v1/accounts/:id                   controllers.AccountController.get(id:Long)
@@ -41,6 +41,8 @@ GET     /api/v1/restaurants/:id                            controllers.Restauran
 POST     /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
 GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
 GET     /api/v1/restaurants/:id/reservations-today          controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
+
+POST    /api/v1/restaurants/upload-images                     controllers.RestaurantController.uploadImages()
 
 
 POST  /api/v1/reservations                  controllers.ReservationController.create()

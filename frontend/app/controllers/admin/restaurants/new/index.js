@@ -3,18 +3,6 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 	new: Ember.inject.controller('admin.restaurants.new'),
 
-    logoUploaded: Ember.computed(function(file, response) {
-	    return function(file, response) {
-	    	console.log("logo uploaded");	    	
-	    };
-  	}),
-
-  	coverUploaded: Ember.computed(function(file, response) {
-	    return function(file, response) {
-	    	console.log("logo uploaded");
-	    };
-  	}),
-
   	maxfilesexceeded: Ember.computed(function(file) {
 	    return function(file) {
 	    	// Overwrite last file with this one
@@ -23,10 +11,20 @@ export default Ember.Controller.extend({
 	    };
   	}),
 
-  	addedfile: Ember.computed(function(file) {
+  	addedLogo: Ember.computed(function(file) {
+  		var self = this;
 	    return function(file) {
-	    	console.log("added file");
-	    	console.log(file);
+	    	self.set('new.restaurant.logoImageUrl', file);
+	    	self.set('new.chosenLogoName', file.name);
+	    };
+  	}),
+
+
+  	addedCover: Ember.computed(function(file) {
+  		var self = this;
+	    return function(file) {
+	    	self.set('new.restaurant.coverImageUrl', file);
+	    	self.set('new.chosenCoverName', file.name);
 	    };
   	}),
 

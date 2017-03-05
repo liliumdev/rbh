@@ -18,17 +18,17 @@
 							  	{{textarea  value=new.restaurant.description placeholder="Description" class="form-control" rows=5}}
 						    </div>  
 
-						    <div class="form-group">
+						    <div class="form-group admin-restaurant-category-dropdown">
 						    	{{ember-selectize
 								  content=model.categories
 								  optionValuePath="content.id"
 								  optionLabelPath="content.name"
-								  selection=new.restaurant.categories
+								  selection=new.restaurant.categoriesList
 								  multiple=true
 								  placeholder="Select categories" }}
 						    </div>
 
-						    <div class="form-group">
+						    <div class="form-group admin-restaurant-location-dropdown">
 						    	{{ember-selectize
 								  content=model.locations
 								  optionValuePath="content.id"
@@ -37,7 +37,7 @@
 								  placeholder="Select location" }}
 						    </div>
 
-						    <div class="form-group">
+						    <div class="form-group admin-restaurant-location-map">
 						    	<p><b>Exact restaurant location (drag the marker)</b></p>
 								{{#leaflet-map lat=new.mapLat lng=new.mapLong zoom=new.zoom draggable=true}}
 								    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
@@ -52,13 +52,19 @@
 						<div class="col-md-6">
 						    <div class="form-group">
 								<p><b>Restaurant logo (main image)</b></p>
-								{{drop-zone url='http://example.com/example' clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" success=logoUploaded maxfilesexceeded=maxfilesexceeded addedfile=addedfile}}
+								{{#if (not-eq new.chosenLogoName "") }}
+									<p>Chosen file: {{ new.chosenLogoName }} (upload again to overwrite)</p>
+								{{/if}}
+								{{drop-zone clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" addedfile=addedLogo maxfilesexceeded=maxfilesexceeded }}
 							</div>
 
 
 						    <div class="form-group">
 								<p><b>Restaurant cover image</b></p>
-								{{drop-zone url='http://example.com/example' clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" success=coverUploaded maxfilesexceeded=maxfilesexceeded}}
+								{{#if (not-eq new.chosenCoverName "") }}
+									<p>Chosen file: {{ new.chosenCoverName }} (upload again to overwrite)</p>
+								{{/if}}
+								{{drop-zone clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" addedfile=addedCover maxfilesexceeded=maxfilesexceeded }}
 							</div>
 						</div>
 					</div>

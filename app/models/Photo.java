@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.List;
 
 /**
  * Created by Lilium on 17.1.2017.
@@ -64,5 +65,67 @@ public class Photo extends BaseModel<Photo> {
         setRestaurant(data.getRestaurant());
         setImageUrl(data.getImageUrl());
         setSort(data.getSort());
+    }
+
+    public static class ImageUploaded {
+        private String imageUrl;
+        private Double sort;
+
+        public ImageUploaded(String imageUrl, Double sort) {
+            this.imageUrl = imageUrl;
+            this.sort = sort;
+        }
+
+        public String getImageUrl() {
+            return imageUrl;
+        }
+
+        public void setImageUrl(String imageUrl) {
+            this.imageUrl = imageUrl;
+        }
+
+        public Double getSort() {
+            return sort;
+        }
+
+        public void setSort(Double sort) {
+            this.sort = sort;
+        }
+    }
+
+    public static class ImagesUploadResult {
+        private String logoImageUrl;
+        private String coverImageUrl;
+        private List<ImageUploaded> photos;
+
+        public ImagesUploadResult(String logoImageUrl, String coverImageUrl, List<ImageUploaded> photos) {
+            this.logoImageUrl = logoImageUrl;
+            this.coverImageUrl = coverImageUrl;
+            this.photos = photos;
+        }
+
+        public String getLogoImageUrl() {
+            return logoImageUrl;
+        }
+
+        public void setLogoImageUrl(String logoImageUrl) {
+            this.logoImageUrl = logoImageUrl;
+        }
+
+        public String getCoverImageUrl() {
+            return coverImageUrl;
+        }
+
+        public void setCoverImageUrl(String coverImageUrl) {
+            this.coverImageUrl = coverImageUrl;
+        }
+
+        public List<ImageUploaded> getPhotos() {
+            return photos;
+        }
+
+        public void setPhotos(List<ImageUploaded> photos) {
+            this.photos = photos;
+        }
     }
 }
