@@ -19,6 +19,7 @@ export default BaseRoute.extend({
     	controller.set('locations', models.locations);
     	controller.set('suggestions', []);
     	controller.set('reservation', Reservation.create({restaurantId: null, persons: "2 people", date: new Date(), wishedTime: "9:00 AM", query: "" }));
+    	controller.set('searchFromIndex', false);
     	controller.set('hiding', false);
     	controller.set('locations', models.locations);
 	},

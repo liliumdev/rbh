@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -43,7 +44,7 @@ public class DiningTable extends BaseModel<DiningTable> {
     }
 
     @JsonIgnore
-    @OneToMany(mappedBy = "diningTable")
+    @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Reservation> getReservations() {
         return reservations;
     }

@@ -24,13 +24,15 @@ export default Ember.Controller.extend({
     actions: {
     	findTable: function() {
     		var reservation = this.get('reservation');
-    		console.log("RESERVATION!");
-    		console.log(reservation);
-    		this.transitionToRoute(`/restaurants/${reservation.restaurantId}`).then(function(route) {
+            this.set('searchFromIndex', true);
+
+    		this.transitionToRoute(`/restaurants/${reservation.restaurantId}`); /*.then(function(route) {
+                console.log(route);
 				route.controller.set('reservation', reservation);
 				route.controller.set('model.restaurant.id', reservation.restaurantId);
-				route.controller.send('findTable');
-    		});
+                console.log("DONNNNEEE");
+				//route.controller.send('findTable');
+    		}); */;
         },
 
         setRestaurant: function(restaurant) {

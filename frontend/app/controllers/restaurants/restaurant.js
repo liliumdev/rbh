@@ -6,6 +6,7 @@ import $ from 'jquery';
 export default Ember.Controller.extend({
     restaurantService: Ember.inject.service(),
     reservationService: Ember.inject.service(),
+    indexController: Ember.inject.controller('index'),
     reservation: Reservation.create({ persons: "2 people", date: new Date(), wishedTime: "9:00 AM" }),
     gotSuggestions: false,
     hasError: false,
@@ -16,15 +17,6 @@ export default Ember.Controller.extend({
     showReviews: false,
 
     photos: Ember.computed('model.restaurant.photos', function() {
-        /*
-         {
-    src: 'http://placekitten.com/g/600/400',
-    w: 600,
-    h: 400,
-    title: 'whooa',
-    msrc: '(optional) larger image'
-  }
-        */
         if(Ember.isEmpty(this.get('model.restaurant.photos')))
             return Ember.A([]);
         var photosForGallery = Ember.A([]);
@@ -53,6 +45,14 @@ export default Ember.Controller.extend({
             inProcessOfReservation: false,
             showReviews: false
         });
+
+        var indexController = this.get('indexController');
+        if(indexController.get('searchFromIndex')) {
+            this.set('reservation', indexController.get('reservation'));
+            indexController.set('searchFromIndex', false);
+        } else {
+            this.set('reservation', Reservation.create({ persons: "2 people", date: new Date(), wishedTime: "9:00 AM" }));
+        }
     }.observes('model.restaurant'),
 
     actions: {
@@ -81,8 +81,6 @@ export default Ember.Controller.extend({
         findTable: function() {
             var restaurantId = this.get('model.restaurant.id');
             this.get('reservationService').getReservationSuggestions(restaurantId, this.get('reservation')).then(function(data) {
-              /*   */
-
                 var _tablesLeft = 0;
                 $.each(data, function(i, suggestion) { _tablesLeft += suggestion.freeTables; });
                 this.set('tablesLeft', _tablesLeft);

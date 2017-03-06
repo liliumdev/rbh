@@ -231,12 +231,9 @@
                             </div>
                         </div>
                         <div class="content">
-                           <div class="row">
+                           <div class="row photoSwipeGallery">
                            {{#photo-swipe items=photos as |img|}}
-                               <div class="col-md-4">
-                                    <img class="img-responsive" src={{img.src}} alt={{img.title}}>
-                                    <br>
-                                </div>
+                                    <img class="photoSwipeThumb" src={{img.src}} alt={{img.title}}>
                            {{/photo-swipe}}
                             </div>
                         </div>
