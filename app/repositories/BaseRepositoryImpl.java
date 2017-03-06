@@ -13,7 +13,9 @@ import java.util.List;
  */
 public class BaseRepositoryImpl<T> implements BaseRepository<T> {
     public long count() {
-        return (long)getSession().createCriteria(getParameterType().getSimpleName()).setProjection(Projections.rowCount()).uniqueResult();
+        Criteria criteria = getSession().createCriteria(getParameterType());
+        criteria.setProjection(Projections.rowCount());
+        return (Long)criteria.uniqueResult();
     }
 
     public void delete(Long id) throws RepositoryException {

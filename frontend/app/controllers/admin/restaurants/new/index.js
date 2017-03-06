@@ -32,6 +32,10 @@ export default Ember.Controller.extend({
 		updateLocation: function(e) {
 			let location = e.target.getLatLng();
 			this.get('new').set('coordinates', [location.lat, location.lng]);
-	    }
+	    },
+
+        pricingDollarClicked: function(params) {
+            this.set('new.restaurant.pricing', params.rating);
+        },
 	}
 });

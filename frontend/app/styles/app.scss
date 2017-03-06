@@ -825,25 +825,27 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 }
 
 
-.filter-box.restaurants .filter.dropdown-menu .rating-panel {
+.filter-box.restaurants .filter.dropdown-menu .rating-panel, .pricing-group {
     color: #fd6f60;
 }
 
-.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa {
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa, .pricing-group .fa {
     padding: 0 2px;
 }
 
 /* inactive color is grayish */
-.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.active {
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.active,  .pricing-group .fa.active {
     color: #fd6f60;
 }
 
-.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.inactive {
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.inactive, .pricing-group .fa.inactive {
     color: rgba(253, 111, 96, 0.3);
 }
 
-.filter-box.restaurants .filter.dropdown-menu .rating-panel .far:focus,
-.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:active {
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:focus,
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:active,
+.pricing-group .fa:focus,
+.pricing-group .fa:active{
     text-decoration: none;
 }
 
@@ -1343,6 +1345,26 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     text-decoration: none;
 }
 
+.card.dashboard {
+    text-align: center;
+}
+
+.card.dashboard p {
+    font-size: 16px;  
+    font-weight: 600;
+    color: #131d24;
+    text-align: center;
+}
+
+.card.dashboard p b {
+    font-size: 48px; 
+    font-weight: normal; 
+}
+
+.card.dashboard a {
+    margin-bottom: -80px;
+} 
+
 table.restaurant-menu
 {
     width: 100%;
@@ -1791,4 +1813,9 @@ form.menu-item .menu-item-description {
 .menuItemsRow .menu-item span::before {
     content: counter(menu-item-counter);
     counter-increment: menu-item-counter;
+}
+
+.pswp img {
+    max-width: 100% !important;
+    height: auto !important;
 }

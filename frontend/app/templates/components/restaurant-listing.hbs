@@ -1,6 +1,7 @@
 <div class="restaurant-listing">
 	{{#link-to 'restaurants.restaurant' item.id class='img-responsive'}}
-		<img class="img-responsive" src="/assets/images/restaurants/logos/{{item.logoImageUrl}}" alt="{{item.name}}">
+	<!--	<img class="img-responsive" src="/assets/images/restaurants/logos/{{item.logoImageUrl}}" alt="{{item.name}}"> -->	
+		<img class="img-responsive" src="http://s3.eu-central-1.amazonaws.com/rbh-2017/gallery/logos/thumbs/{{item.logoImageUrl}}" alt="{{item.name}}">
 	{{/link-to}}
 
 	<h3>{{#link-to 'restaurants.restaurant' item.id}} {{item.name}} {{/link-to}} </h3>

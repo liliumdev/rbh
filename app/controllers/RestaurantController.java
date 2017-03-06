@@ -123,7 +123,7 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     @Transactional
     @SecureAuth.Authenticated(roles={"ADMIN"})
     @BodyParser.Of(BodyParser.Json.class)
-    public Result test(){
+    public Result add(){
         try {
             Form<Restaurant> restaurantForm = formFactory.form(Restaurant.class).bindFromRequest();
             Restaurant r = restaurantForm.get();
@@ -146,6 +146,9 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
                     mi.setMenu(m);
                 }
             }
+
+            r.setReviewCount(0);
+            r.setReviewRating(0.0);
 
             final GeometryFactory gf = new GeometryFactory();
             List<Double> latLong = r.getLatLongPoint().getCoordinates();
@@ -179,15 +182,15 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
                     return badRequest("Wrong file format!");
                 }
 
-                //String logoImageUrl = this.uploadFile(logoImage.getFile(), "gallery/logos", true, 400, 400);
-                //String coverImageUrl = this.uploadFile(logoImage.getFile(), "gallery/covers", false, 0, 0);
-                String logoImageUrl = "TEST1";
-                String coverImageUrl = "TEST2222343";
+                String logoImageUrl = this.uploadFile(logoImage.getFile(), "gallery/logos", true, 438, 350);
+                String coverImageUrl = this.uploadFile(coverImage.getFile(), "gallery/covers", false, 0, 0);
 
                 // Start building the response
                 List<Photo.ImageUploaded> photos = new ArrayList<>();
                 for(int i = 2; i < allFiles.size(); i++) {
-                    photos.add(new Photo.ImageUploaded("someImageUrl" + i, 0.0));
+                    Http.MultipartFormData.FilePart<File> photo = allFiles.get(i);
+                    String uploadedPhoto = this.uploadFile(photo.getFile(), "gallery", true, 500, 500);
+                    photos.add(new Photo.ImageUploaded(uploadedPhoto, 0.0));
                 }
 
                 Photo.ImagesUploadResult result = new Photo.ImagesUploadResult(logoImageUrl, coverImageUrl, photos);
@@ -199,6 +202,12 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
         } catch (Exception e) {
             return badRequest("File upload error");
         }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles={"ADMIN"})
+    public Result delete(Long id) {
+        return super.delete(id);
     }
 
     public String uploadFile(File file, String directory, Boolean thumbIt, Integer sizeX, Integer sizeY) throws IOException {

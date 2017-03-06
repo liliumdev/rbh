@@ -1,6 +1,7 @@
 {{title model.restaurant.name}}
 
-<div class="jumbotron index restaurant" style="background-image: url('/assets/images/restaurants/covers/{{ model.restaurant.coverImageUrl }}');">
+<!-- <div class="jumbotron index restaurant" style="background-image: url('/assets/images/restaurants/covers/{{ model.restaurant.coverImageUrl }}');"> -->
+<div class="jumbotron index restaurant" style="background-image: url('http://s3.eu-central-1.amazonaws.com/rbh-2017/gallery/covers/{{ model.restaurant.coverImageUrl }}');">
 </div>
 
 <div class="container" id="restaurant-container">
@@ -45,7 +46,9 @@
             </div>
            <div class="col-md-3 col-sm-3 col-xs-12">
                 <a href="#" id="profile-pic">
-                    <img class="img-responsive" src="/assets/images/restaurants/logos/{{ model.restaurant.logoImageUrl }}" alt="{{ model.restaurant.name }}">
+                    <!-- <img class="img-responsive" src="/assets/images/restaurants/logos/{{ model.restaurant.logoImageUrl }}" alt="{{ model.restaurant.name }}"> -->
+                    <img class="img-responsive" src="http://s3.eu-central-1.amazonaws.com/rbh-2017/gallery/logos/{{ model.restaurant.logoImageUrl }}" alt="{{ model.restaurant.name }}">
+
                 </a>
             </div>
        </div>
@@ -223,43 +226,18 @@
                                     Restaurants Photo
                                 </div><!--
                              --><div class="col-md-3 col-sm-3 col-xs-6 sub v-align-center">
-                                    <span style="height: 10px;"><a href="#">See All Photos (12)</a></span>
+                                   <!-- <span style="height: 10px;"><a href="#">See All Photos (12)</a></span> -->
                                 </div>
                             </div>
                         </div>
                         <div class="content">
                            <div class="row">
-                               <div class="col-md-6">
-                                    <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-featured.png">
-                                    </a>
-                               </div>
-                               <div class="col-md-3">
-                                   <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                                    
-                                    <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                                    
-                                    <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                               </div>
-                               <div class="col-md-3">
-                                   <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                                    
-                                    <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                                    
-                                    <a class="restaurant-img" href="#">
-                                        <img class="img-responsive" src="/assets/images/restaurant-square.png">
-                                    </a>
-                               </div>
+                           {{#photo-swipe items=photos as |img|}}
+                               <div class="col-md-4">
+                                    <img class="img-responsive" src={{img.src}} alt={{img.title}}>
+                                    <br>
+                                </div>
+                           {{/photo-swipe}}
                             </div>
                         </div>
                     </div>

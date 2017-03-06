@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
 	restaurantService: Ember.inject.service(),
+    flashMessages: Ember.inject.service(),
 
 	notReady: Ember.computed('restaurant', 'restaurant.city', 'restaurant.diningTables', 
 							 'restaurant.name', 'restaurant.menus', 'restaurant.logoImageUrl', 
@@ -37,16 +38,25 @@ export default Ember.Controller.extend({
 
 	actions: {
 		addRestaurant: function() {
-			console.log("RESTORAN JE: ");
-			console.log(this.get('restaurant'));
-			 this.get('restaurantService').uploadImages(this.get('restaurant')).then(function(response) {
+			const flashMessages = Ember.get(this, 'flashMessages');
+			this.set('uploading', true);
+			this.set('notReady', true);
+
+			// First upload images
+			this.get('restaurantService').uploadImages(this.get('restaurant')).then(function(response) {
+			 	// Images are uploaded
 				this.get('restaurant').setProperties(response);
 
-				// The photos have been uploaded, now we can submit
-				JSON.stringify((this.get('restaurant')));
+				// Restaurant model is now ready
+				this.get('restaurantService').add(this.get('restaurant')).then(function(response) {				
+	                this.transitionToRoute('admin.restaurants.index');
+	                flashMessages.success("Added a restaurant.");
+				}.bind(this), function(response) {
+	                flashMessages.danger("Couldn't add an account.");
+				});
 			}.bind(this), function(response) {
 				// Error
 			}); 
-		}
+		},
 	}
 });

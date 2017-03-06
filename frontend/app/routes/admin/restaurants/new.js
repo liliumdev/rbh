@@ -17,7 +17,8 @@ export default BaseRoute.extend({
 	    	categoriesList: Ember.A([]),
 	    	latLongPoint: {type: "Point", coordinates: [43.854460, 18.380985]},
 	    	logoImageUrl: "",
-	    	coverImageUrl: ""
+	    	coverImageUrl: "",
+	    	pricing: 1
 	    }));
 	    controller.set('menuItems', Ember.A([MenuItem.create({name: "", description: "", price: ""})]));
 	    controller.set('diningTables', Ember.A([DiningTable.create({amount: "", persons: ""})]));
@@ -25,5 +26,6 @@ export default BaseRoute.extend({
 	    controller.set('mapLong', 18.380985);	
 	    controller.set('chosenLogoName', "");
 	    controller.set('chosenCoverName', "");
+	    controller.set('uploading', false)
 	}
 });

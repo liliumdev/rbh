@@ -15,6 +15,34 @@ export default Ember.Controller.extend({
     inProcessOfReservation: false,
     showReviews: false,
 
+    photos: Ember.computed('model.restaurant.photos', function() {
+        /*
+         {
+    src: 'http://placekitten.com/g/600/400',
+    w: 600,
+    h: 400,
+    title: 'whooa',
+    msrc: '(optional) larger image'
+  }
+        */
+        if(Ember.isEmpty(this.get('model.restaurant.photos')))
+            return Ember.A([]);
+        var photosForGallery = Ember.A([]);
+        var origPhotos = this.get('model.restaurant.photos');
+        for(var i = 0; i < origPhotos.length; i++) {
+            var photo = origPhotos[i];
+            photosForGallery.addObject(
+                    {
+                        src: 'http://s3.eu-central-1.amazonaws.com/rbh-2017/gallery/' + photo.imageUrl, 
+                        w: 600, 
+                        h: 400, 
+                        title: ''
+                    }
+                );
+        }
+        return photosForGallery;
+    }),
+
     clear: function() {
         this.setProperties({
             suggestions: [],

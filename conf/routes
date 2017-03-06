@@ -4,7 +4,6 @@
 
 
 GET     /                              controllers.HomeController.index()
-POST    /test                           controllers.RestaurantController.test()
 
 GET     /api/v1/accounts                       controllers.AccountController.all()
 GET     /api/v1/accounts/:id                   controllers.AccountController.get(id:Long)
@@ -42,7 +41,10 @@ POST     /api/v1/restaurants/:id/rate                       controllers.Restaura
 GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
 GET     /api/v1/restaurants/:id/reservations-today          controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
 
+POST    /api/v1/restaurants                                    controllers.RestaurantController.add()
+POST    /api/v1/restaurant                                    controllers.RestaurantController.add()
 POST    /api/v1/restaurants/upload-images                     controllers.RestaurantController.uploadImages()
+DELETE   /api/v1/restaurants/:id                    controllers.RestaurantController.delete(id:Long)
 
 
 POST  /api/v1/reservations                  controllers.ReservationController.create()
@@ -55,6 +57,8 @@ GET     /api/v1/categories                                  controllers.Category
 POST    /api/v1/categories                                  controllers.CategoryController.create()
 PUT     /api/v1/categories/:id                              controllers.CategoryController.update(id:Long)
 DELETE  /api/v1/categories/:id                              controllers.CategoryController.delete(id:Long)
+
+GET     /api/v1/admin                              controllers.AdminController.dashboard()
 
 # Deployment helper routes
 GET     /seedDb                               controllers.DatabaseFakerController.seedDatabase()

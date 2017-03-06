@@ -82,5 +82,13 @@ export default BaseService.extend({
             processData: false,
             type: 'POST'
         });
+    },
+
+    add: function(restaurant) {
+        return this.ajax({ url: 'restaurants', type: "POST", data: JSON.stringify(restaurant)});
+    },
+
+    delete: function(restaurantId) {
+        return this.ajax({ url: `restaurants/${restaurantId}`, type: "DELETE"});
     }
 });

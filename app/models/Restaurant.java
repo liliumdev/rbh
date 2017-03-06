@@ -175,7 +175,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
 
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "restaurant")
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Review> getReviews() {
         return reviews;
     }

@@ -151,7 +151,7 @@ public class AccountController extends BaseController<Account, AccountService> {
                 return badRequest(form.errorsAsJson());
 
             Account relatedAccount = forgotPassword.getAccount();
-            relatedAccount.setPassword(BCrypt.hashpw(form.get().getPassword(), BCrypt.gensalt()));
+            relatedAccount.setPassword(form.get().getPassword());
             service.update(relatedAccount.getId(), relatedAccount);
             forgotService.delete(forgotPassword.getId());
 

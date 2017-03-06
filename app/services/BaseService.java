@@ -56,6 +56,10 @@ public abstract class BaseService<M extends BaseModel<M>, R extends BaseReposito
         }
     }
 
+    public long count()  {
+        return repository.count();
+    }
+
     public void delete(Long id) throws ServiceException {
         try {
             M model = get(id);

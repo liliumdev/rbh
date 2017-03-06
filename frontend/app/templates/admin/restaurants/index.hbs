@@ -2,4 +2,32 @@
 
 {{outlet}}
 
-
+<div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+	                      		<th>Rating</th>
+	                      		<th>Pricing</th>
+	                      		<th style="width: 10%;">Options</th>
+							</tr>
+							 {{#each model.restaurants as |restaurant|}}   
+								<tr>
+								<td> {{restaurant.name}} </td>
+								<td> {{restaurant.reviewRating}} ({{restaurant.reviewCount}})</td>
+								<td> {{restaurant.pricing}}</td>
+								<td> <a href="#" {{ action "delete" restaurant }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
