@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import BaseRoute from 'restaurants-app/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
     setupController: function(controller, model) {
         this._super(controller, model);
 

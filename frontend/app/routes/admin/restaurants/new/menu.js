@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import AdminRoute from 'restaurants-app/routes/admin-route';
 
-export default Ember.Route.extend({
+export default AdminRoute.extend({
 });

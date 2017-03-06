@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import Filter from 'restaurants-app/models/filter';
+import BaseRoute from 'restaurants-app/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
 	restaurantService: Ember.inject.service(),
 	categoryService: Ember.inject.service(),
 

@@ -1,11 +1,11 @@
 import Ember from 'ember';
-import BaseRoute from 'restaurants-app/routes/base-route';
+import AdminRoute from 'restaurants-app/routes/admin-route';
 import Restaurant from 'restaurants-app/models/restaurant';
 import MenuItem from 'restaurants-app/models/menu-item';
 import DiningTable from 'restaurants-app/models/dining-table';
 import Photo from 'restaurants-app/models/photo';
 
-export default BaseRoute.extend({
+export default AdminRoute.extend({
 	setupController: function(controller, models) {		
 	    controller.set('restaurant', Restaurant.create({
 	    	diningTables: [], 

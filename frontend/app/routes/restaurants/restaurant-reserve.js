@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import BaseRoute from 'restaurants-app/routes/base-route';
 
-export default Ember.Route.extend({
+export default BaseRoute.extend({
     restaurantService: Ember.inject.service(),
 
 	controllerName: 'restaurants.restaurant',
