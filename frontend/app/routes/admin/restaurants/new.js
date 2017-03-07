@@ -6,8 +6,10 @@ import DiningTable from 'restaurants-app/models/dining-table';
 import Photo from 'restaurants-app/models/photo';
 
 export default AdminRoute.extend({
+
 	setupController: function(controller, models) {		
 	    controller.set('restaurant', Restaurant.create({
+	    	name: "",
 	    	diningTables: [], 
 	    	menus: [{
 	    		name: "Main menu", 
@@ -20,6 +22,7 @@ export default AdminRoute.extend({
 	    	coverImageUrl: "",
 	    	pricing: 1
 	    }));
+
 	    controller.set('menuItems', Ember.A([MenuItem.create({name: "", description: "", price: ""})]));
 	    controller.set('diningTables', Ember.A([DiningTable.create({amount: "", persons: ""})]));
 	    controller.set('mapLat', 43.854460);

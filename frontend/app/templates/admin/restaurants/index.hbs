@@ -20,7 +20,7 @@
 							 {{#each model.restaurants as |restaurant|}}   
 								<tr>
 								<td> {{restaurant.name}} </td>
-								<td> {{restaurant.reviewRating}} ({{restaurant.reviewCount}})</td>
+								<td> {{restaurant.roundRating }} ({{restaurant.reviewCount}})</td>
 								<td> {{restaurant.pricing}}</td>
 								<td> <a href="#" {{ action "delete" restaurant }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 								</tr> 

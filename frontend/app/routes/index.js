@@ -10,7 +10,7 @@ export default BaseRoute.extend({
 	model: function() {
 		return Ember.RSVP.hash({
 			restaurants: this.get('restaurantService').randomRestaurants(6),
-			locations: this.get('locationService').ciitesWithCount()
+			locations: this.get('locationService').citiesWithCount()
 		});
 	},
 

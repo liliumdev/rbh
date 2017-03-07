@@ -68,7 +68,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria.createAlias("reservation.diningTable", "diningTable");
             criteria.createAlias("diningTable.restaurant", "restaurant");
             criteria.add(Restrictions.eqProperty("reservation.diningTable.id", "diningTable.id"));
-            criteria.add(Restrictions.eqProperty("diningTable.restaurant.id", "restaurant.id"));
+            criteria.add(Restrictions.eq("diningTable.restaurant.id", restaurantId));
             criteria.add(Restrictions.ge("reservation.createdAt", today));
             criteria.setProjection(Projections.rowCount());
 

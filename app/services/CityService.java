@@ -4,6 +4,7 @@ import models.City;
 import models.Country;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.ProjectionList;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -61,8 +62,9 @@ public class CityService extends BaseService<City, CityRepository>
 
             ProjectionList projList = Projections.projectionList();
             projList.add(Property.forName("name").group());
-            projList.add(Projections.countDistinct("restaurants.id"));
+            projList.add(Projections.countDistinct("restaurants.id").as("restaurantCount"));
             criteria.createAlias("restaurants", "restaurants", CriteriaSpecification.LEFT_JOIN);
+            criteria.addOrder(Order.desc("restaurantCount"));
             criteria.setProjection(projList);
 
             return criteria.list();

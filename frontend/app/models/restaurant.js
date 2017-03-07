@@ -25,6 +25,9 @@ export default BaseModel.extend({
 
 
 	/* Helper properties for displaying restaurant data */
+	roundRating: Ember.computed('reviewRating', function() {
+		return Math.round(this.getWithDefault('reviewRating', 0) * 10)/10;
+	}),
 
 	/* Returns the menu items from the active menu */
 	menuItems: Ember.computed('menus', function() {
@@ -53,5 +56,5 @@ export default BaseModel.extend({
 	/* Number of inactive dollars in pricing */
 	inactiveDollars: Ember.computed('pricing', function() {
 		return new Array(4 - this.getWithDefault('pricing', 0));
-	}),
+	})
 });

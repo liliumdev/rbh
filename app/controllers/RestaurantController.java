@@ -128,22 +128,31 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
             Form<Restaurant> restaurantForm = formFactory.form(Restaurant.class).bindFromRequest();
             Restaurant r = restaurantForm.get();
             r.setActiveMenu(0);
-            for(Category c : r.getCategoriesList()) {
-                r.getCategories().add(c);
+
+            if(r.getCategoriesList() != null) {
+                for (Category c : r.getCategoriesList()) {
+                    r.getCategories().add(c);
+                }
             }
 
-            for(DiningTable t : r.getDiningTables()) {
-                t.setRestaurant(r);
+            if(r.getDiningTables() != null) {
+                for (DiningTable t : r.getDiningTables()) {
+                    t.setRestaurant(r);
+                }
             }
 
-            for(Photo p : r.getPhotos()) {
-                p.setRestaurant(r);
+            if(r.getPhotos() != null) {
+                for (Photo p : r.getPhotos()) {
+                    p.setRestaurant(r);
+                }
             }
 
-            for(Menu m : r.getMenus()) {
-                m.setRestaurant(r);
-                for(MenuItem mi : m.getMenuItems()) {
-                    mi.setMenu(m);
+            if(r.getMenus() != null) {
+                for (Menu m : r.getMenus()) {
+                    m.setRestaurant(r);
+                    for (MenuItem mi : m.getMenuItems()) {
+                        mi.setMenu(m);
+                    }
                 }
             }
 

@@ -23,11 +23,6 @@ export default Ember.Controller.extend(Validations, {
     accountService: Ember.inject.service(),
 	complete: false,
 
-	init: function() {
-        this._super();
-        this.set('complete', false);
-    },
-
 	actions: {
         forgot: function() {
         	var self = this;

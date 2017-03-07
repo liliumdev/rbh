@@ -1,6 +1,4 @@
-import Ember from 'ember';
 import BaseService from 'restaurants-app/services/base-service';
-import ReservationSuggestion from 'restaurants-app/models/reservation-suggestion';
 import Reservation from 'restaurants-app/models/reservation';
 import moment from 'moment';
 

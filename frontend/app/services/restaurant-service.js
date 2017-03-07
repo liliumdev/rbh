@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import BaseService from 'restaurants-app/services/base-service';
 import Restaurant from 'restaurants-app/models/restaurant';
 import Review from 'restaurants-app/models/review';
@@ -24,7 +23,7 @@ export default BaseService.extend({
         return restaurants;
     },
 
-    all: function(limit) {
+    all: function() {
         var restaurants = [];
         this.ajax({ url: `restaurants`, type: "GET"}).then(function(data) {
             data.forEach(function(restaurant) {
