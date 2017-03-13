@@ -1,38 +1,42 @@
-# Routes
-# This file defines all application routes (Higher priority routes first)
-# ~~~~
+# Index page loading the Ember app
+GET     /                                           controllers.HomeController.index()
 
+# Account routes
+GET     /api/v1/accounts/exists/:email              controllers.AccountController.emailExists(email:String)
+POST    /api/v1/accounts                            controllers.AccountController.register()
+POST    /api/v1/accounts/login                      controllers.AccountController.login()
+POST    /api/v1/accounts/forgot                     controllers.AccountController.forgot()
+POST    /api/v1/accounts/reset/:token               controllers.AccountController.reset(token:String)
+POST    /api/v1/accounts/valid-token/:token         controllers.AccountController.isValidToken(token:String)
 
-GET     /                              controllers.HomeController.index()
+GET     /api/v1/accounts                            controllers.admin.AccountController.all()
+GET     /api/v1/accounts/:id                        controllers.admin.AccountController.get(id:Long)
+GET     /api/v1/accounts/:id/promote                controllers.admin.AccountController.promote(id:Long)
+GET     /api/v1/accounts/:id/demote                 controllers.admin.AccountController.demote(id:Long)
+PUT     /api/v1/accounts/:id                        controllers.admin.AccountController.update(id:Long)
+DELETE  /api/v1/accounts/:id                        controllers.admin.AccountController.delete(id:Long)
+POST    /api/v1/accounts/:role                      controllers.admin.AccountController.create(role:Integer)
+# End of Account related routes
 
-GET     /api/v1/accounts                       controllers.AccountController.all()
-GET     /api/v1/accounts/:id                   controllers.AccountController.get(id:Long)
-GET     /api/v1/accounts/:id/promote           controllers.AccountController.promote(id:Long)
-GET     /api/v1/accounts/:id/demote            controllers.AccountController.demote(id:Long)
-GET     /api/v1/accounts/exists/:email         controllers.AccountController.emailExists(email:String)
-POST    /api/v1/accounts                       controllers.AccountController.register()
-POST    /api/v1/accounts/login                 controllers.AccountController.login()
-POST    /api/v1/accounts/forgot                controllers.AccountController.forgot()
-POST    /api/v1/accounts/:role                 controllers.AccountController.create(role:Integer)
-POST    /api/v1/accounts/reset/:token          controllers.AccountController.reset(token:String)
-POST    /api/v1/accounts/valid-token/:token    controllers.AccountController.isValidToken(token:String)
-PUT     /api/v1/accounts/:id                   controllers.AccountController.update(id:Long)
-DELETE  /api/v1/accounts/:id                   controllers.AccountController.delete(id:Long)
-
-
+# Country routes
 GET     /api/v1/countries                                  controllers.CountryController.all()
 GET     /api/v1/countries/:id                              controllers.CountryController.get(id:Long)
-POST    /api/v1/countries                                  controllers.CountryController.create()
-PUT     /api/v1/countries/:id                              controllers.CountryController.update(id:Long)
-DELETE  /api/v1/countries/:id                              controllers.CountryController.delete(id:Long)
 
+POST    /api/v1/countries                                  controllers.admin.CountryController.create()
+PUT     /api/v1/countries/:id                              controllers.admin.CountryController.update(id:Long)
+DELETE  /api/v1/countries/:id                              controllers.admin.CountryController.delete(id:Long)
+# End of Country related routes
+
+# City routes
 GET     /api/v1/cities                                     controllers.CityController.all()
 GET     /api/v1/cities/with-count                          controllers.CityController.allWithCount()
 GET     /api/v1/cities/:id                                 controllers.CityController.get(id:Long)
+GET     /api/v1/countries/:countryId/cities                controllers.CityController.allFromCountry(countryId:Long)
+
 PUT     /api/v1/cities/:id                                 controllers.CityController.update(id:Long)
 DELETE  /api/v1/cities/:id                                 controllers.CityController.delete(id:Long)
-GET     /api/v1/countries/:countryId/cities                controllers.CityController.allFromCountry(countryId:Long)
 POST    /api/v1/countries/:countryId/cities                controllers.CityController.create(countryId:Long)
+# End of City related routes
 
 GET     /api/v1/restaurants                                controllers.RestaurantController.all(limit: Integer ?= 0)
 POST    /api/v1/restaurants/filter                        controllers.RestaurantController.filter()
