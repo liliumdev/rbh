@@ -1,21 +1,21 @@
 # Index page loading the Ember app
-GET     /                                           controllers.HomeController.index()
+GET     /                                                  controllers.HomeController.index()
 
 # Account routes
-GET     /api/v1/accounts/exists/:email              controllers.AccountController.emailExists(email:String)
-POST    /api/v1/accounts                            controllers.AccountController.register()
-POST    /api/v1/accounts/login                      controllers.AccountController.login()
-POST    /api/v1/accounts/forgot                     controllers.AccountController.forgot()
-POST    /api/v1/accounts/reset/:token               controllers.AccountController.reset(token:String)
-POST    /api/v1/accounts/valid-token/:token         controllers.AccountController.isValidToken(token:String)
+GET     /api/v1/accounts/exists/:email                     controllers.AccountController.emailExists(email:String)
+POST    /api/v1/accounts                                   controllers.AccountController.register()
+POST    /api/v1/accounts/login                             controllers.AccountController.login()
+POST    /api/v1/accounts/forgot                            controllers.AccountController.forgot()
+POST    /api/v1/accounts/reset/:token                      controllers.AccountController.reset(token:String)
+POST    /api/v1/accounts/valid-token/:token                controllers.AccountController.isValidToken(token:String)
 
-GET     /api/v1/accounts                            controllers.admin.AccountController.all()
-GET     /api/v1/accounts/:id                        controllers.admin.AccountController.get(id:Long)
-GET     /api/v1/accounts/:id/promote                controllers.admin.AccountController.promote(id:Long)
-GET     /api/v1/accounts/:id/demote                 controllers.admin.AccountController.demote(id:Long)
-PUT     /api/v1/accounts/:id                        controllers.admin.AccountController.update(id:Long)
-DELETE  /api/v1/accounts/:id                        controllers.admin.AccountController.delete(id:Long)
-POST    /api/v1/accounts/:role                      controllers.admin.AccountController.create(role:Integer)
+GET     /api/v1/accounts                                   controllers.admin.AccountController.all()
+GET     /api/v1/accounts/:id                               controllers.admin.AccountController.get(id:Long)
+GET     /api/v1/accounts/:id/promote                       controllers.admin.AccountController.promote(id:Long)
+GET     /api/v1/accounts/:id/demote                        controllers.admin.AccountController.demote(id:Long)
+PUT     /api/v1/accounts/:id                               controllers.admin.AccountController.update(id:Long)
+DELETE  /api/v1/accounts/:id                               controllers.admin.AccountController.delete(id:Long)
+POST    /api/v1/accounts/:role                             controllers.admin.AccountController.create(role:Integer)
 # End of Account related routes
 
 # Country routes
@@ -33,41 +33,49 @@ GET     /api/v1/cities/with-count                          controllers.CityContr
 GET     /api/v1/cities/:id                                 controllers.CityController.get(id:Long)
 GET     /api/v1/countries/:countryId/cities                controllers.CityController.allFromCountry(countryId:Long)
 
-PUT     /api/v1/cities/:id                                 controllers.CityController.update(id:Long)
-DELETE  /api/v1/cities/:id                                 controllers.CityController.delete(id:Long)
-POST    /api/v1/countries/:countryId/cities                controllers.CityController.create(countryId:Long)
+PUT     /api/v1/cities/:id                                 controllers.admin.CityController.update(id:Long)
+DELETE  /api/v1/cities/:id                                 controllers.admin.CityController.delete(id:Long)
+POST    /api/v1/countries/:countryId/cities                controllers.admin.CityController.create(countryId:Long)
 # End of City related routes
 
+# Restaurant routes
 GET     /api/v1/restaurants                                controllers.RestaurantController.all(limit: Integer ?= 0)
-POST    /api/v1/restaurants/filter                        controllers.RestaurantController.filter()
+POST    /api/v1/restaurants/filter                         controllers.RestaurantController.filter()
 GET     /api/v1/restaurants/:id                            controllers.RestaurantController.get(id:Long)
-POST     /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
-GET     /api/v1/restaurants/:id/did-rate                       controllers.RestaurantController.didRate(id:Long)
-GET     /api/v1/restaurants/:id/reservations-today          controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
+POST    /api/v1/restaurants/:id/rate                       controllers.RestaurantController.rate(id:Long)
+GET     /api/v1/restaurants/:id/did-rate                   controllers.RestaurantController.didRate(id:Long)
+GET     /api/v1/restaurants/:id/reservations-today         controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
 
-POST    /api/v1/restaurants                                    controllers.RestaurantController.add()
-POST    /api/v1/restaurant                                    controllers.RestaurantController.add()
-POST    /api/v1/restaurants/upload-images                     controllers.RestaurantController.uploadImages()
-DELETE   /api/v1/restaurants/:id                    controllers.RestaurantController.delete(id:Long)
+POST    /api/v1/restaurants                                controllers.admin.RestaurantController.add()
+POST    /api/v1/restaurants/upload-images                  controllers.admin.RestaurantController.uploadImages()
+DELETE  /api/v1/restaurants/:id                            controllers.admin.RestaurantController.delete(id:Long)
+# End of restaurant related routes
+
+#  Reservation routes
+POST    /api/v1/reservations                               controllers.ReservationController.create()
+POST    /api/v1/reservations/suggestions                   controllers.ReservationController.getReservationSuggestions()
+POST    /api/v1/reservations/available                     controllers.ReservationController.isReservationAvailable()
+GET     /api/v1/reservations/my                            controllers.ReservationController.myReservations()
+DELETE  /api/v1/reservations/my/:id                        controllers.ReservationController.deleteMyReservation(id:Long)
+# End of reservation related routes
+
+# Category routes
+GET     /api/v1/categories                                 controllers.CategoryController.all()
+
+POST    /api/v1/categories                                 controllers.admin.CategoryController.create()
+PUT     /api/v1/categories/:id                             controllers.admin.CategoryController.update(id:Long)
+DELETE  /api/v1/categories/:id                             controllers.admin.CategoryController.delete(id:Long)
+# End of category related routes
 
 
-POST  /api/v1/reservations                  controllers.ReservationController.create()
-POST  /api/v1/reservations/suggestions      controllers.ReservationController.getReservationSuggestions()
-POST  /api/v1/reservations/available      controllers.ReservationController.isReservationAvailable()
-GET   /api/v1/reservations/my             controllers.ReservationController.myReservations()
-DELETE   /api/v1/reservations/my/:id                    controllers.ReservationController.deleteMyReservation(id:Long)
-
-GET     /api/v1/categories                                  controllers.CategoryController.all()
-POST    /api/v1/categories                                  controllers.CategoryController.create()
-PUT     /api/v1/categories/:id                              controllers.CategoryController.update(id:Long)
-DELETE  /api/v1/categories/:id                              controllers.CategoryController.delete(id:Long)
-
-GET     /api/v1/admin                              controllers.AdminController.dashboard()
+# Dashboard stats
+GET     /api/v1/admin                                      controllers.AdminDashboardController.index()
 
 # Deployment helper routes
-GET     /seedDb                               controllers.DatabaseFakerController.seedDatabase()
+GET     /seedDb                                            controllers.DatabaseFakerController.seedDatabase()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /assets/*file                                      controllers.Assets.versioned(path="/public", file: Asset)
 
-GET   /*path   controllers.HomeController.catchAll(path: String)
+# Catch-all route for Ember app
+GET    /*path                                              controllers.HomeController.catchAll(path: String)

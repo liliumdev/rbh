@@ -12,32 +12,29 @@ import services.RestaurantService;
 import javax.inject.Inject;
 
 
-public class AdminController extends Controller {
+public class AdminDashboardController extends Controller {
     private RestaurantService restaurantService;
     private CityService cityService;
     private AccountService accountService;
 
     @Inject
-    public void setRestaurantService(RestaurantService restaurantService)
-    {
+    public void setRestaurantService(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
     @Inject
-    public void setCityService(CityService cityService)
-    {
+    public void setCityService(CityService cityService) {
         this.cityService = cityService;
     }
 
     @Inject
-    public void setAccountService(AccountService accountService)
-    {
+    public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"ADMIN"})
-    public Result dashboard() {
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result index() {
         long restaurants = restaurantService.count();
         long locations = cityService.count();
         long users = accountService.count();

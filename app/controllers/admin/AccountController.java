@@ -26,8 +26,9 @@ public class AccountController extends BaseAdminController<Account, AccountServi
                 form.errors().put("email", ValidationHelper.singleError("email", "This email already exists."));
             }
 
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             // Currently only roles allowed are NORMAL and ADMIN, that is interval [0, 1]
             if(!(role >= 0 && role <= 1))
