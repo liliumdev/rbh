@@ -5,12 +5,8 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import controllers.BaseAdminController;
-import controllers.BaseController;
 import controllers.SecureAuth;
-import controllers.forms.RateForm;
-import controllers.forms.RestaurantFilterForm;
 import models.*;
-import models.filters.RestaurantFilterBuilder;
 import modules.PlayS3;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
@@ -21,10 +17,8 @@ import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.RestaurantService;
-import services.ReviewService;
 import services.exceptions.ServiceException;
 
-import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -43,28 +37,28 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             Restaurant r = restaurantForm.get();
             r.setActiveMenu(0);
 
-            if (r.getCategoriesList() != null) {
-                for (Category c : r.getCategoriesList()) {
+            if(r.getCategoriesList() != null) {
+                for(Category c : r.getCategoriesList()) {
                     r.getCategories().add(c);
                 }
             }
 
-            if (r.getDiningTables() != null) {
-                for (DiningTable t : r.getDiningTables()) {
+            if(r.getDiningTables() != null) {
+                for(DiningTable t : r.getDiningTables()) {
                     t.setRestaurant(r);
                 }
             }
 
-            if (r.getPhotos() != null) {
-                for (Photo p : r.getPhotos()) {
+            if(r.getPhotos() != null) {
+                for(Photo p : r.getPhotos()) {
                     p.setRestaurant(r);
                 }
             }
 
-            if (r.getMenus() != null) {
-                for (Menu m : r.getMenus()) {
+            if(r.getMenus() != null) {
+                for(Menu m : r.getMenus()) {
                     m.setRestaurant(r);
-                    for (MenuItem mi : m.getMenuItems()) {
+                    for(MenuItem mi : m.getMenuItems()) {
                         mi.setMenu(m);
                     }
                 }
@@ -78,7 +72,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             r.setLatLong(gf.createPoint(new Coordinate(latLong.get(0), latLong.get(1), 0.0)));
 
             return created(toJson(service.create(r)));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return badRequest("Restaurant creation error");
         }
     }
@@ -91,15 +85,15 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             List<Http.MultipartFormData.FilePart> allFiles = body.getFiles();
 
             // No logo or image file uploaded
-            if (allFiles.size() < 2) {
+            if(allFiles.size() < 2) {
                 return badRequest("File upload error");
             }
 
             Http.MultipartFormData.FilePart<File> logoImage = allFiles.get(0);
             Http.MultipartFormData.FilePart<File> coverImage = allFiles.get(1);
 
-            if (logoImage != null && coverImage != null) {
-                if ((!logoImage.getContentType().equals("image/jpeg") && !logoImage.getContentType().equals("image/png")) ||
+            if(logoImage != null && coverImage != null) {
+                if((!logoImage.getContentType().equals("image/jpeg") && !logoImage.getContentType().equals("image/png")) ||
                         (!coverImage.getContentType().equals("image/jpeg") && !coverImage.getContentType().equals("image/png"))) {
                     return badRequest("Wrong file format!");
                 }
@@ -109,7 +103,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
 
                 // Start building the response
                 List<Photo.ImageUploaded> photos = new ArrayList<>();
-                for (int i = 2; i < allFiles.size(); i++) {
+                for(int i = 2; i < allFiles.size(); i++) {
                     Http.MultipartFormData.FilePart<File> photo = allFiles.get(i);
                     String uploadedPhoto = this.uploadFile(photo.getFile(), "gallery", true, 500, 500);
                     photos.add(new Photo.ImageUploaded(uploadedPhoto, 0.0));
@@ -121,7 +115,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             } else {
                 return badRequest("File upload error");
             }
-        } catch (Exception e) {
+        } catch(Exception e) {
             return badRequest("File upload error");
         }
     }
@@ -132,6 +126,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
         return super.delete(id);
     }
 
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
     public String uploadFile(File file, String directory, Boolean thumbIt, Integer sizeX, Integer sizeY) throws IOException {
         try {
             // Generate filename
@@ -148,7 +143,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             PlayS3.getAmazonS3().putObject(por);
 
             // Should we also create a thumb of this image
-            if (thumbIt) {
+            if(thumbIt) {
                 File galleryThumb = File.createTempFile("img", ".jpg");
                 Thumbnails.of(image)
                         .crop(Positions.CENTER)
@@ -166,7 +161,7 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             jpgImage.deleteOnExit();
 
             return filename;
-        } catch (IOException e) {
+        } catch(IOException e) {
             throw new IOException("Error while uploading a file to Amazon S3.");
         }
     }

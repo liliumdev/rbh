@@ -1,6 +1,5 @@
 package services;
 
-import models.DiningTable;
 import models.Reservation;
 import models.Restaurant;
 import models.Review;
@@ -13,27 +12,20 @@ import repositories.RestaurantRepository;
 import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-/**
- * Created by Lilium on 14.1.2017.
- */
 
 public class RestaurantService extends BaseService<Restaurant, RestaurantRepository> {
     private ReviewService reviewService;
     private AccountService accountService;
 
     @Inject
-    public void setReviewService(ReviewService reviewService)
-    {
+    public void setReviewService(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
     @Inject
-    public void setAccountService(AccountService accountService)
-    {
+    public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
     }
 
@@ -43,7 +35,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria.add(Restrictions.sqlRestriction("1=1 ORDER BY RANDOM()"));
             criteria.setMaxResults(limit);
             return criteria.list();
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
             throw new ServiceException("RestaurantService couldn't find random restaurants.", e);
         }
     }
@@ -54,15 +46,16 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria = rfb.addConditions(criteria);
 
             return criteria.list();
-        } catch (HibernateException e) {
+        } catch(HibernateException e) {
             throw new ServiceException("RestaurantService couldn't filter restaurants.", e);
         }
     }
 
     public Long getNumberOfReservationsToday(Long restaurantId) throws ServiceException {
         try {
-            Restaurant restaurant = this.get(restaurantId);
-            Date today = new Date(); today.setHours(0); today.setMinutes(0);
+            Date today = new Date();
+            today.setHours(0);
+            today.setMinutes(0);
 
             Criteria criteria = repository.getSession().createCriteria(Reservation.class, "reservation");
             criteria.createAlias("reservation.diningTable", "diningTable");
@@ -72,8 +65,8 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria.add(Restrictions.ge("reservation.createdAt", today));
             criteria.setProjection(Projections.rowCount());
 
-            return (Long)criteria.uniqueResult();
-        } catch (ServiceException e) {
+            return (Long) criteria.uniqueResult();
+        } catch(HibernateException e) {
             throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
         }
     }
@@ -81,12 +74,14 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
     public Double rate(Long restaurantId, Integer rating, String description, String email) throws ServiceException {
         try {
             // Did this user already review the retaurant?
-            if(reviewService.didReview(restaurantId, email))
+            if(reviewService.didReview(restaurantId, email)) {
                 return null;
+            }
 
             Restaurant restaurant = this.get(restaurantId);
-            if(restaurant == null)
+            if(restaurant == null) {
                 return null;
+            }
 
             // Create this review
             Review review = new Review();
@@ -100,7 +95,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             // Recalculate the restaurant rating
             restaurant.setReviewCount(restaurant.getReviewCount() + 1); // First increase the count
 
-            Double newRating = (Double)reviewService.repository.getSession().createCriteria(Review.class)
+            Double newRating = (Double) reviewService.repository.getSession().createCriteria(Review.class)
                     .setProjection(Projections.avg("rating"))
                     .add(Restrictions.eq("restaurant.id", restaurantId))
                     .uniqueResult();
@@ -109,7 +104,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             this.update(restaurantId, restaurant);
 
             return newRating;
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
         }
     }

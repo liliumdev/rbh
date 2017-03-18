@@ -1,14 +1,9 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Review extends BaseModel<Review> {
     private Integer rating;

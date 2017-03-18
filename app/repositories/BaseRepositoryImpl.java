@@ -8,9 +8,6 @@ import repositories.exceptions.RepositoryException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
 public class BaseRepositoryImpl<T> implements BaseRepository<T> {
     public long count() {
         Criteria criteria = getSession().createCriteria(getParameterType());

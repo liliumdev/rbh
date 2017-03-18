@@ -1,22 +1,13 @@
 package controllers;
 
-import com.amazonaws.services.s3.model.CannedAccessControlList;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
 import controllers.forms.RateForm;
 import controllers.forms.RestaurantFilterForm;
 import models.*;
 import models.filters.RestaurantFilterBuilder;
-import modules.PlayS3;
-import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
 import play.mvc.BodyParser;
-import play.mvc.Http;
 import play.mvc.Result;
 import services.RestaurantService;
 import services.ReviewService;
@@ -24,19 +15,13 @@ import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import static play.libs.Json.toJson;
 
 public class RestaurantController extends BaseController<Restaurant, RestaurantService> {
     protected ReviewService reviewService;
 
     @Inject
-    public void setReviewService(ReviewService reviewService)
-    {
+    public void setReviewService(ReviewService reviewService) {
         this.reviewService = reviewService;
     }
 
@@ -46,8 +31,9 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
         try {
             // Validate review form fields
             Form<RestaurantFilterForm> form = formFactory.form(RestaurantFilterForm.class).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             RestaurantFilterForm data = form.get();
 
@@ -64,7 +50,7 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
 
             return ok(Json.toJson(service.filter(rfb)));
 
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@filter"));
         }
 
@@ -73,32 +59,35 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     @Transactional
     public Result all(Integer limit) {
         try {
-            if(limit == null || limit == 0)
+            if(limit == null || limit == 0) {
                 return super.all();
+            }
 
             return ok(toJson(service.random(limit)));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@all"));
         }
     }
 
     @Transactional
     @BodyParser.Of(BodyParser.Json.class)
-    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result rate(Long id) {
         try {
             // Validate review form fields
             Form<RateForm> form = formFactory.form(RateForm.class).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             RateForm data = form.get();
             Double newRating = service.rate(id, data.getRating(), data.getDescription(), ctx().request().username());
-            if(newRating == null)
+            if(newRating == null) {
                 return badRequest(Json.toJson("There's been an error while rating this restaurant."));
+            }
 
             return ok(Json.newObject().put("rating", newRating));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@rate"));
         }
     }
@@ -107,14 +96,14 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     public Result getNumberOfReservationsToday(Long id) {
         try {
             return ok(toJson(service.getNumberOfReservationsToday(id)));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@reservationsToday"));
         }
     }
 
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result didRate(Long id) {
         return ok(Json.toJson(reviewService.didReview(id, ctx().request().username())));
     }

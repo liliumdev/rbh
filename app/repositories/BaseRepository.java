@@ -3,9 +3,6 @@ package repositories;
 import repositories.exceptions.RepositoryException;
 import java.util.List;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
 public interface BaseRepository<T> {
     /**
      * Returns the number of entities.

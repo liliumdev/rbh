@@ -10,7 +10,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 import services.BaseService;
 import services.exceptions.ServiceException;
-
 import javax.inject.Inject;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -24,16 +23,19 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
     protected Configuration configuration;
 
     @Inject
-    public void setService(S service)
-    {
+    public void setService(S service) {
         this.service = service;
     }
 
     @Inject
-    public void setFormFactory(FormFactory formFactory) { this.formFactory = formFactory; }
+    public void setFormFactory(FormFactory formFactory) {
+        this.formFactory = formFactory;
+    }
 
     @Inject
-    public void setConfiguration(Configuration configuration) { this.configuration = configuration; }
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
 
     @Transactional
     public Result all() {
@@ -42,8 +44,7 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
     }
 
     @Transactional
-    public Result get(Long id)
-    {
+    public Result get(Long id) {
         try {
             return ok(toJson(service.get(id)));
         } catch(ServiceException e) {
@@ -54,46 +55,45 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
     }
 
     @Transactional
-    public Result create()
-    {
+    public Result create() {
         try {
             Form<M> form = formFactory.form(getModelClassParameterType()).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             return created(toJson(service.create(form.get())));
         } catch(ServiceException e) {
             return badRequest("Service error in BaseController@create");
-        } catch (Exception e) {
+        } catch(Exception e) {
             return internalServerError("Internal server error in BaseController@create");
         }
     }
 
     @Transactional
-    public Result update(Long id)
-    {
+    public Result update(Long id) {
         try {
             Form<M> form = formFactory.form(getModelClassParameterType()).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             return ok(toJson(service.update(id, form.get())));
         } catch(ServiceException e) {
             return badRequest("Service error in BaseController@update");
-        } catch (Exception e) {
+        } catch(Exception e) {
             return internalServerError("Internal server error in BaseController@update");
         }
     }
 
     @Transactional
-    public Result delete(Long id)
-    {
+    public Result delete(Long id) {
         try {
             service.delete(id);
             return ok(toJson("success"));
         } catch(ServiceException e) {
             return badRequest("Service error in BaseController@delete");
-        } catch (Exception e) {
+        } catch(Exception e) {
             return internalServerError("Internal server error in BaseController@delete");
         }
     }
@@ -101,10 +101,10 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
     // Helper functions and classes
     public static int getQueryInt(String key, int defaultVal) {
         String s = request().getQueryString(key);
-        if (s != null) {
+        if(s != null) {
             try {
                 return Integer.parseInt(s);
-            } catch (Exception e) {
+            } catch(Exception e) {
             }
         }
         return defaultVal;
@@ -112,7 +112,7 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
 
     public static String getQueryString(String key, String defaultValue) {
         String s = request().getQueryString(key);
-        if (s == null) {
+        if(s == null) {
             return defaultValue;
         }
         return s;
@@ -120,7 +120,7 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
 
 
     private Class<M> getModelClassParameterType() {
-        return (Class<M>)((ParameterizedType)getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        return (Class<M>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
     public static class ValidationHelper {

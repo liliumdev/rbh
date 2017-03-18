@@ -8,9 +8,7 @@ import play.mvc.Result;
 import services.AccountService;
 import services.CityService;
 import services.RestaurantService;
-
 import javax.inject.Inject;
-
 
 public class AdminDashboardController extends Controller {
     private RestaurantService restaurantService;
@@ -32,6 +30,7 @@ public class AdminDashboardController extends Controller {
         this.accountService = accountService;
     }
 
+    // Dashboard statistics
     @Transactional
     @SecureAuth.Authenticated(roles = {"ADMIN"})
     public Result index() {

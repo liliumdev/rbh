@@ -1,6 +1,5 @@
 package services;
 
-import controllers.forms.RegisterForm;
 import controllers.forms.admin.AccountCreationForm;
 import models.Account;
 import models.City;
@@ -12,17 +11,11 @@ import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
-
-public class AccountService extends BaseService<Account, AccountRepository>
-{
+public class AccountService extends BaseService<Account, AccountRepository> {
     private CityService cityService;
 
     @Inject
-    public void setCityService(CityService cityService)
-    {
+    public void setCityService(CityService cityService) {
         this.cityService = cityService;
     }
 
@@ -43,14 +36,14 @@ public class AccountService extends BaseService<Account, AccountRepository>
     public Account create(Long cityId, Account model, int userType) throws ServiceException {
         try {
             City city = cityService.get(cityId);
-            if (city == null) {
+            if(city == null) {
                 throw new ServiceException("Service couldn't find city [" + cityId + "].");
             }
             model.setCity(city);
             model.setRole(userType);
             repository.save(model);
             return model;
-        } catch (RepositoryException e) {
+        } catch(RepositoryException e) {
             throw new ServiceException("Service couldn't create model.", e);
         }
     }
@@ -58,13 +51,13 @@ public class AccountService extends BaseService<Account, AccountRepository>
     public Account giveRole(Long id, Integer role) throws ServiceException {
         try {
             Account account = get(id);
-            if (account == null) {
+            if(account == null) {
                 throw new ServiceException("Service couldn't find account [" + id + "].");
             }
 
             account.setRole(role);
             return update(id, account, false);
-        } catch (Exception e) {
+        } catch(Exception e) {
             throw new ServiceException("Service couldn't demote an account.", e);
         }
     }
@@ -95,39 +88,33 @@ public class AccountService extends BaseService<Account, AccountRepository>
         return super.update(id, data);
     }
 
-    public Account getByEmail(String email)
-    {
-        return (Account)(repository.getSession().createCriteria(Account.class)
-                                                .add(Restrictions.eq("email", email))
-                                                .uniqueResult());
+    public Account getByEmail(String email) {
+        return (Account) (repository.getSession().createCriteria(Account.class)
+                .add(Restrictions.eq("email", email))
+                .uniqueResult());
     }
 
-    public Account getByEmailAndPassword(String email, String password)
-    {
-        Account account = (Account)(repository.getSession().createCriteria(Account.class)
-                          .add(Restrictions.eq("email", email))
-                          .uniqueResult());
+    public Account getByEmailAndPassword(String email, String password) {
+        Account account = (Account) (repository.getSession().createCriteria(Account.class)
+                .add(Restrictions.eq("email", email))
+                .uniqueResult());
 
-        if(account != null && BCrypt.checkpw(password, account.getPassword()))
+        if(account != null && BCrypt.checkpw(password, account.getPassword())) {
             return account;
+        }
 
         return null;
     }
 
-    public USER_TYPE getUserRole(Long id) throws ServiceException
-    {
-        try
-        {
+    public USER_TYPE getUserRole(Long id) throws ServiceException {
+        try {
             return USER_TYPE.values()[get(id).getRole()];
-        }
-        catch(ServiceException e)
-        {
+        } catch(ServiceException e) {
             throw new ServiceException("Service couldn't get user role");
         }
     }
 
-    public USER_TYPE getUserRole(Account account)
-    {
+    public USER_TYPE getUserRole(Account account) {
         return USER_TYPE.values()[account.getRole()];
     }
 }

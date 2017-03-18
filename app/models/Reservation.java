@@ -1,22 +1,16 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
-
 import java.util.Date;
 import java.sql.Timestamp;
-
 import javax.persistence.TemporalType;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
 @Entity
 public class Reservation extends BaseModel<Reservation> {
     private Date forTime;

@@ -1,10 +1,6 @@
 package controllers.forms.admin;
 
 import play.data.validation.Constraints;
-import play.data.validation.ValidationError;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AccountCreationForm {
     @Constraints.Required

@@ -8,9 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Photo extends BaseModel<Photo> {
     private String imageUrl;

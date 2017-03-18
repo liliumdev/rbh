@@ -2,7 +2,6 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import play.data.validation.Constraints;
 
@@ -14,9 +13,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.ManyToOne;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class City extends BaseModel<City> {
     @Constraints.Required

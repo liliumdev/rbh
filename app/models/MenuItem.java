@@ -8,9 +8,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class MenuItem extends BaseModel<MenuItem>  {
     private String name;

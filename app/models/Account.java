@@ -5,10 +5,6 @@ import play.data.validation.Constraints;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
-
 @Entity
 public class Account extends BaseModel<Account> {
     @Constraints.Email

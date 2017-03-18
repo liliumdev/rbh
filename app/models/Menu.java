@@ -6,9 +6,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Menu extends BaseModel<Menu>  {
     private String name;

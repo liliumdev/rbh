@@ -3,13 +3,9 @@ package controllers.forms;
 import controllers.forms.admin.AccountCreationForm;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Lilium on 28.1.2017.
- */
 public class RegisterForm extends AccountCreationForm {
     @Constraints.Required
     @Constraints.MinLength(8)

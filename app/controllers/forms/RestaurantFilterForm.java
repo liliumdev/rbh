@@ -2,9 +2,6 @@ package controllers.forms;
 
 import java.util.List;
 
-/**
- * Created by Lilium on 28.1.2017.
- */
 public class RestaurantFilterForm {
     private String name;
 

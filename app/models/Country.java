@@ -8,9 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Country extends BaseModel<Country> {
     @Constraints.Required

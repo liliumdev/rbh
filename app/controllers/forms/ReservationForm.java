@@ -2,9 +2,6 @@ package controllers.forms;
 
 import play.data.validation.Constraints;
 
-/**
- * Created by Lilium on 28.1.2017.
- */
 public class ReservationForm {
 
     @Constraints.Required

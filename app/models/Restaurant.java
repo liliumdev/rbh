@@ -1,9 +1,7 @@
 package models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.Point;
-
 import javax.persistence.*;
 import java.util.List;
 import java.util.HashSet;

@@ -1,9 +1,5 @@
 package controllers;
 
-/**
- * Created by Lilium on 23.2.2017.
- */
-
 import javax.inject.Inject;
 
 import controllers.forms.CompleteReservationForm;
@@ -18,14 +14,10 @@ import services.ReservationService;
 import services.RestaurantService;
 import services.exceptions.ServiceException;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 
 import static play.libs.Json.toJson;
 
@@ -33,40 +25,40 @@ public class ReservationController extends BaseController<Reservation, Reservati
     protected RestaurantService restaurantService;
 
     @Inject
-    public void setRestaurantService(RestaurantService restaurantService)
-    {
+    public void setRestaurantService(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result myReservations() {
         try {
             return ok(Json.toJson(service.getReservationsByEmail(request().username())));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@myReservations"));
         }
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result deleteMyReservation(Long id) {
         try {
             service.deleteReservation(id, request().username());
             return ok();
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@deleteMyReservation"));
         }
     }
 
     @Transactional
     @BodyParser.Of(BodyParser.Json.class)
-    @SecureAuth.Authenticated(roles={"NORMAL", "ADMIN"})
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result create() {
         try {
             Form<CompleteReservationForm> form = formFactory.form(CompleteReservationForm.class).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             CompleteReservationForm data = form.get();
 
@@ -75,12 +67,13 @@ public class ReservationController extends BaseController<Reservation, Reservati
             Long tableId = data.getTableId();
             Integer persons = data.getPersons();
 
-            if(service.isReservationAvailable(time, restaurantId, tableId))
+            if(service.isReservationAvailable(time, restaurantId, tableId)) {
                 return ok(Json.toJson(service.create(restaurantId, time, tableId, persons, request().username())));
+            }
 
             return badRequest("Oops, seems that someone got this table before you did!");
 
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@myReservations"));
         }
     }
@@ -90,17 +83,19 @@ public class ReservationController extends BaseController<Reservation, Reservati
     public Result isReservationAvailable() {
         try {
             Form<CompleteReservationForm> form = formFactory.form(CompleteReservationForm.class).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             CompleteReservationForm data = form.get();
 
             Boolean available = service.isReservationAvailable(data.getTime(), data.getRestaurantId(), data.getTableId());
-            if(available)
+            if(available) {
                 return ok(Json.toJson("Reservation is available"));
+            }
 
             return badRequest("Oops, seems that someone got this table before you did!");
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@reservationsToday"));
         }
     }
@@ -110,8 +105,9 @@ public class ReservationController extends BaseController<Reservation, Reservati
     public Result getReservationSuggestions() {
         try {
             Form<ReservationForm> form = formFactory.form(ReservationForm.class).bindFromRequest();
-            if(form.hasErrors())
+            if(form.hasErrors()) {
                 return badRequest(form.errorsAsJson());
+            }
 
             ReservationForm data = form.get();
 
@@ -122,11 +118,13 @@ public class ReservationController extends BaseController<Reservation, Reservati
                 LocalDateTime wishedTime = LocalDateTime.parse(data.getWishedTime(), formatter);
 
                 // Normalize to half hour increment
-                if(wishedTime.getMinute() != 0 && wishedTime.getMinute() != 30)
+                if(wishedTime.getMinute() != 0 && wishedTime.getMinute() != 30) {
                     wishedTime.minusMinutes(wishedTime.getMinute());
+                }
 
-                if(wishedTime.isBefore(today))
+                if(wishedTime.isBefore(today)) {
                     return badRequest(Json.toJson("You cannot reserve in the past!"));
+                }
 
                 LocalDateTime fromTime = wishedTime.minusHours(1).minusMinutes(30);
                 LocalDateTime toTime = fromTime.plusHours(3);
@@ -152,7 +150,7 @@ public class ReservationController extends BaseController<Reservation, Reservati
                     // Round to next half-hour interval (if it's, say, 4:34, it will round to 5:00, if it's
                     // 4:15, it will round to 4:30
                     Integer currentMinutes = fromTime.getMinute();
-                    fromTime = fromTime.plusMinutes( (currentMinutes >= 30 ? 60 : 30) - currentMinutes);
+                    fromTime = fromTime.plusMinutes((currentMinutes >= 30 ? 60 : 30) - currentMinutes);
                 }
 
 
@@ -161,11 +159,11 @@ public class ReservationController extends BaseController<Reservation, Reservati
 
                 return ok(toJson(service.getReservationSuggestions(from, to, data.getRestaurantId(), data.getPersons())));
 
-            } catch (DateTimeParseException e) {
+            } catch(DateTimeParseException e) {
                 return badRequest(Json.toJson("Cannot parse input time."));
             }
 
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@getReservationSuggestions"));
         }
     }

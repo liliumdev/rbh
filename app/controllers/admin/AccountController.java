@@ -14,7 +14,7 @@ import services.exceptions.ServiceException;
 
 public class AccountController extends BaseAdminController<Account, AccountService> {
     @Transactional
-    @SecureAuth.Authenticated(roles={"ADMIN"})
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
     @BodyParser.Of(BodyParser.Json.class)
     public Result create(Integer role) {
         try {
@@ -31,34 +31,33 @@ public class AccountController extends BaseAdminController<Account, AccountServi
             }
 
             // Currently only roles allowed are NORMAL and ADMIN, that is interval [0, 1]
-            if(!(role >= 0 && role <= 1))
+            if(!(role >= 0 && role <= 1)) {
                 return badRequest(Json.toJson("Unknown role!"));
+            }
 
             // The account has been created
             return created(Json.toJson(service.create(form.get(), role)));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in AccountController@create"));
         }
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"ADMIN"})
-    public Result demote(Long id)
-    {
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result demote(Long id) {
         try {
             return ok(Json.toJson(service.giveRole(id, AccountService.USER_TYPE.NORMAL.getValue())));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in AccountController@demote"));
         }
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"ADMIN"})
-    public Result promote(Long id)
-    {
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result promote(Long id) {
         try {
             return ok(Json.toJson(service.giveRole(id, AccountService.USER_TYPE.ADMIN.getValue())));
-        } catch (ServiceException e) {
+        } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in AccountController@promote"));
         }
     }

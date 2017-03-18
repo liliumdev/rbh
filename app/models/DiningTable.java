@@ -12,9 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class DiningTable extends BaseModel<DiningTable> {
     private Integer amount;
