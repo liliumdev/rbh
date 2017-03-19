@@ -11,15 +11,13 @@ export default Ember.Controller.extend({
 		},
 
 		delete: function(restaurant) {
-
 			const flashMessages = Ember.get(this, 'flashMessages');
 			this.get('restaurantService').delete(restaurant.id).then(function() {
 				this.get('model.restaurants').removeObject(restaurant); 
                 flashMessages.success("Deleted the restaurant.");
 			}.bind(this), function(data) {
                 flashMessages.danger(data.responseText);
-			}.bind(this));
-			
+			}.bind(this));			
 		},
 	}
 });

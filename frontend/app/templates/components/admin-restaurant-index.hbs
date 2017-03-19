@@ -1,0 +1,77 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="card padded">
+			<div class="content" style="margin-top: 0px;">
+				<form class="admin-restaurant-form">
+					<div class="row">
+						<div class="col-md-6">
+							<div class="form-group">
+						    	<p><b>Basic details</b></p>
+							  	{{input type="text" value=new.restaurant.name placeholder="Restaurant name" class="form-control"}}
+						    </div>     
+
+							<div class="form-group">
+							  	{{textarea value=new.restaurant.description placeholder="Description" class="form-control" rows=5}}
+						    </div>  
+
+						    <div class="form-group admin-restaurant-category-dropdown">
+						    	{{ember-selectize
+								  content=model.categories
+								  optionValuePath="content.id"
+								  optionLabelPath="content.name"
+								  selection=new.restaurant.categoriesList
+								  multiple=true
+								  placeholder="Select categories" }}
+						    </div>
+
+						    <div class="form-group admin-restaurant-location-dropdown">
+						    	{{ember-selectize
+								  content=model.locations
+								  optionValuePath="content.id"
+								  optionLabelPath="content.name"
+								  selection=new.restaurant.city
+								  placeholder="Select location" }}
+						    </div>
+
+						    <div class="form-group admin-restaurant-location-map">
+						    	<p><b>Exact restaurant location (drag the marker)</b></p>
+								{{#leaflet-map lat=new.mapLat lng=new.mapLong zoom=new.zoom draggable=true}}
+								    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+								    {{#marker-layer lat=new.lat lng=new.long draggable=true onDragend=(action "updateLocation")}}
+								    {{/marker-layer}}
+
+
+								{{/leaflet-map}}
+						    </div>
+						</div>
+						<div class="col-md-6">
+						    <div class="form-group">
+								<p><b>Restaurant logo (main image)</b></p>
+								{{#if (not-eq new.chosenLogoName "") }}
+									<p>Chosen file: {{ new.chosenLogoName }} (upload again to overwrite)</p>
+								{{/if}}
+								{{drop-zone clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" addedfile=addedLogo maxfilesexceeded=maxfilesexceeded }}
+							</div>
+
+
+						    <div class="form-group">
+								<p><b>Restaurant cover image</b></p>
+								{{#if (not-eq new.chosenCoverName "") }}
+									<p>Chosen file: {{ new.chosenCoverName }} (upload again to overwrite)</p>
+								{{/if}}
+								{{drop-zone clickable=true addRemoveLinks=true autoProcessQueue=false maxFiles=1 acceptedFiles="image/*" addedfile=addedCover maxfilesexceeded=maxfilesexceeded }}
+							</div>
+
+							<div class="form-group pricing-group">
+								<p><b>Pricing</b></p>
+								{{star-rating item=new.restaurant rating=new.restaurant.pricing on-click=(action "pricingDollarClicked") fullClassNames='fa fa-usd' emptyClassNames='fa fa-usd inactive' maxRating=4}}
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+

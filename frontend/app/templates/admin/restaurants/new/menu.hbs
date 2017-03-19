@@ -4,49 +4,5 @@
 
 {{admin-restaurant-nav-bar}}
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="card padded">
-			<div class="content" style="margin-top: 0px;">
-				<div class="row">
-					<div class="col-md-6">
-						<!-- TO DO: support for multiple menus -->
-					</div>
-					<div class="col-md-6">
-						<button class="btn btn-primary" style="float: right;" {{action "apply"}}><i class="fa fa-save"></i> &nbsp;Apply menu</button>
-						<button class="btn btn-primary" style="float: right;" {{action "addMenuItem"}}><i class="fa fa-plus"></i> &nbsp;Add menu item</button>
-					</div>
-				</div>
-
-					{{#sortable-group tagName="div" class="row menuItemsRow" onChange="reorderItems" as |group|}}
-					  {{#each new.menuItems as |item|}}
-					    {{#sortable-item tagName="div" class="col-md-8" model=item group=group handle=".handle"}}
-					      <form class="menu-item">
-							<div class="left">
-								<p>
-								<span></span>.
-								</p>
-							</div>
-
-							<div class="small-right">
-								<p>
-								<br>
-								<a href="javascript:;" {{action "deleteMenuItem" item}}><i class="fa fa-trash" aria-hidden="true"></i></a><br><br>
-								<a href="javascript:;" class="handle"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
-								</p>
-							</div>
-
-							<div class="form-group right">
-									{{input class="form-control menu-item-name" placeholder="Name" value=item.name }}
-									{{input class="form-control menu-item-price" placeholder="$ Price" value=item.price}}
-									{{input class="form-control menu-item-description" placeholder="Description" value=item.description}}
-							</div>
-						</form>
-					    {{/sortable-item}}
-					  {{/each}}
-					{{/sortable-group}}
-			</div>
-		</div>
-	</div>
-</div>
+{{admin-restaurant-menu new=new}}
 

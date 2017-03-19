@@ -28,6 +28,7 @@ Router.map(function() {
         this.route('gallery');
         this.route('tables');
       });
+      this.route('edit', {path: ':id'}, function() {});
     });
   });
   this.route('register');

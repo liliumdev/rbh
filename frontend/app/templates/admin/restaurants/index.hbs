@@ -22,7 +22,14 @@
 								<td> {{restaurant.name}} </td>
 								<td> {{restaurant.roundRating }} ({{restaurant.reviewCount}})</td>
 								<td> {{restaurant.pricing}}</td>
-								<td> <a href="#" {{ action "delete" restaurant }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+								<td> 
+
+                  {{#link-to "admin.restaurants.edit" restaurant.id}} <i class="fa fa-pencil" aria-hidden="true"></i> {{/link-to}}
+
+                  &nbsp; &nbsp; 
+
+                  <a href="#" {{ action "delete" restaurant }}> <i class="fa fa-times" aria-hidden="true"></i> </a> 
+                </td>
 								</tr> 
 							{{/each}}
                       	</table>
