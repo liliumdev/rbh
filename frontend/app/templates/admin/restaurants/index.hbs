@@ -23,6 +23,9 @@
 								<td> {{restaurant.roundRating }} ({{restaurant.reviewCount}})</td>
 								<td> {{restaurant.pricing}}</td>
 								<td> 
+                  {{#link-to "admin.restaurants.reservations" restaurant.id}} <i class="fa fa-th-list" aria-hidden="true"></i> {{/link-to}}
+
+                  &nbsp; &nbsp; 
 
                   {{#link-to "admin.restaurants.edit" restaurant.id}} <i class="fa fa-pencil" aria-hidden="true"></i> {{/link-to}}
 

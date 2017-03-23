@@ -3,6 +3,7 @@ GET           /                                                 controllers.Home
 
 # Account routes
 GET           /api/v1/accounts/exists/:email                    controllers.AccountController.emailExists(email:String)
+GET           /api/v1/accounts/me                               controllers.AccountController.currentAccount()
 POST          /api/v1/accounts                                  controllers.AccountController.register()
 POST          /api/v1/accounts/login                            controllers.AccountController.login()
 POST          /api/v1/accounts/forgot                           controllers.AccountController.forgot()
@@ -40,6 +41,7 @@ POST          /api/v1/countries/:countryId/cities               controllers.admi
 
 # Restaurant routes
 GET           /api/v1/restaurants                               controllers.RestaurantController.all(limit: Integer ?= 0)
+GET           /api/v1/restaurants/nearest                       controllers.RestaurantController.nearest(limit: Integer ?= 0)
 POST          /api/v1/restaurants/filter                        controllers.RestaurantController.filter()
 GET           /api/v1/restaurants/:id                           controllers.RestaurantController.get(id:Long)
 POST          /api/v1/restaurants/:id/rate                      controllers.RestaurantController.rate(id:Long)
@@ -49,6 +51,7 @@ GET           /api/v1/restaurants/:id/reservations-today        controllers.Rest
 POST          /api/v1/restaurants                               controllers.admin.RestaurantController.add()
 POST          /api/v1/restaurants/upload-images                 controllers.admin.RestaurantController.uploadImages()
 DELETE        /api/v1/restaurants/:id                           controllers.admin.RestaurantController.delete(id:Long)
+GET           /api/v1/restaurants/:id/reservations/:time        controllers.admin.RestaurantController.reservations(id:Long, time:String)
 # End of restaurant related routes
 
 #  Reservation routes

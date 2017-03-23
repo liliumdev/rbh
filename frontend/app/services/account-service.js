@@ -36,7 +36,18 @@ export default BaseService.extend({
         return account;
     },
 
+    me: function() {
+        var account = Account.create({});
+        this.ajax({ url: `accounts/me`, type: "GET"}).then(function(data) {
+            account.setProperties(data);
+        });        
+
+        return account;
+    },
+
     edit: function(accountId, data) {
+        // This was only a helper field (country id)
+        delete data.city.country;
         return this.ajax({ url: `accounts/${accountId}`, type: "PUT", data: JSON.stringify(data) });
     },
 

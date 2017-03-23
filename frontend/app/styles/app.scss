@@ -1630,6 +1630,10 @@ form .form-tip
     height: 300px;
 }
 
+.biggerLeaflet.leaflet-container {
+    height: 500px;
+}
+
 .ember-inline-edit input {
     width: 75%;
 }
@@ -1820,12 +1824,42 @@ form.menu-item .menu-item-description {
     height: auto !important;
 }
 
-/*
-.photoSwipeGallery a {
-    width: 30% !important;
-}
-*/
 .photoSwipeThumb {
     width: 30% !important;
     margin: 1%;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #fff;
+    color: #fd6f60;
+}
+
+.dropdown-menu {
+    border: none;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus,
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #fff;    
+    color: #fd6f60;
+}
+
+.navbar-white .navbar-nav .dropdown-menu > .active > a {
+    color: #fd6f60;
+}
+
+.navbar.navbar-transparent .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: transparent;
+}
+
+.navbar.navbar-transparent .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin-top: -20px;
+}
+
+.navbar.navbar-transparent .dropdown-menu > .active > a, .navbar.navbar-transparent .dropdown-menu > .active > a:hover, .navbar.navbar-transparent .dropdown-menu > .active > a:focus,
+.navbar.navbar-transparent .dropdown-menu > li > a:hover, .navbar.navbar-transparent .dropdown-menu > li > a:focus {
+    background-color: transparent;  
+    color: #fd6f60;    
 }

@@ -6,8 +6,13 @@ import models.Review;
 import models.filters.RestaurantFilterBuilder;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.spatial.GeolatteGeometryType;
+import org.hibernate.spatial.dialect.postgis.PGGeometryTypeDescriptor;
+import org.hibernate.transform.Transformers;
 import repositories.RestaurantRepository;
 import services.exceptions.ServiceException;
 
@@ -40,6 +45,27 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
         }
     }
 
+    public List<Restaurant.RestaurantMapPointDto> nearest(Integer limit) throws ServiceException {
+        try {
+            String sql = new StringBuilder()
+                    .append("SELECT id, name, ST_X(lat_long) AS lat, ST_Y(lat_long) AS lng ")
+                    .append("FROM restaurant ")
+                    .append("WHERE ST_DWithin(restaurant.lat_long, ST_Geomfromtext('POINT(43.85 18.38)'), 3000) ")
+                    .append("ORDER BY ST_Distance(restaurant.lat_long, ST_Geomfromtext('POINT(43.85 18.38)')) ")
+                    .append("LIMIT " + limit.toString())
+                    .toString();
+
+            NativeQuery query = repository.getSession().createNativeQuery(sql);
+
+            query.setResultTransformer(Transformers.aliasToBean(Restaurant.RestaurantMapPointDto.class));
+
+
+            return (List<Restaurant.RestaurantMapPointDto>)query.getResultList();
+        } catch(Exception e) {
+            throw new ServiceException("RestaurantService couldn't find nearest restaurants.", e);
+        }
+    }
+
     public List<Restaurant> filter(RestaurantFilterBuilder rfb) throws ServiceException {
         try {
             Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
@@ -66,6 +92,28 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria.setProjection(Projections.rowCount());
 
             return (Long) criteria.uniqueResult();
+        } catch(HibernateException e) {
+            throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
+        }
+    }
+
+    public List<Reservation> getAllReservations(Long restaurantId, String time) throws ServiceException {
+        try {
+            if(!time.equals("past") && !time.equals("future")) {
+                time = "past";
+            }
+
+            Date now = new Date();
+
+            Criteria criteria = repository.getSession().createCriteria(Reservation.class, "reservation");
+            criteria.createAlias("reservation.diningTable", "diningTable");
+            criteria.createAlias("diningTable.restaurant", "restaurant");
+            criteria.add(Restrictions.eqProperty("reservation.diningTable.id", "diningTable.id"));
+            criteria.add(Restrictions.eq("diningTable.restaurant.id", restaurantId));
+            criteria.add(time.equals("past") ? Restrictions.le("reservation.forTime", now) : Restrictions.ge("reservation.forTime", now));
+            criteria.addOrder(Order.asc("reservation.createdAt"));
+
+            return criteria.list();
         } catch(HibernateException e) {
             throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
         }

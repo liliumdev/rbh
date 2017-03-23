@@ -87,6 +87,17 @@ public class BaseController<M extends BaseModel<M>, S extends BaseService> exten
     }
 
     @Transactional
+    public Result update(Long id, M model) {
+        try {
+            return ok(toJson(service.update(id, model)));
+        } catch(ServiceException e) {
+            return badRequest("Service error in BaseController@update");
+        } catch(Exception e) {
+            return internalServerError("Internal server error in BaseController@update");
+        }
+    }
+
+    @Transactional
     public Result delete(Long id) {
         try {
             service.delete(id);

@@ -72,7 +72,6 @@ public class Reservation extends BaseModel<Reservation> {
         this.diningTable = diningTable;
     }
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id")
     public Account getAccount() {
@@ -164,6 +163,7 @@ public class Reservation extends BaseModel<Reservation> {
     public static class MyReservationDto {
         private Integer id;
         private Timestamp forTime;
+        private Timestamp createdAt;
         private String name;
         private Integer persons;
 
@@ -183,6 +183,14 @@ public class Reservation extends BaseModel<Reservation> {
 
         public void setForTime(Timestamp forTime) {
             this.forTime = forTime;
+        }
+
+        public Timestamp getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(Timestamp createdAt) {
+            this.createdAt = forTime;
         }
 
         public String getName() {

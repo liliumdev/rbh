@@ -3,6 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.vividsolutions.jts.geom.Point;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,13 +28,16 @@ public class Restaurant extends BaseModel<Restaurant>  {
     private Set<Category> categories = new HashSet<Category>();
     private Point latLong;
     private City city;
+    private Date workingTimeFrom;
+    private Date workingTimeTo;
+    private Date minimumCancelTime;
 
     // Helper for deserializing JSON array to Set
     private List<Category> categoriesList;
     private LatLongPoint latLongPoint;
 
     @Basic
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     public String getName() {
         return name;
     }
@@ -182,6 +186,39 @@ public class Restaurant extends BaseModel<Restaurant>  {
         this.reviews = reviews;
     }
 
+    @Basic
+    @Column(name = "working_time_from", columnDefinition = "timestamp without time zone")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getWorkingTimeFrom() {
+        return workingTimeFrom;
+    }
+
+    public void setWorkingTimeFrom(Date workingTimeFrom) {
+        this.workingTimeFrom = workingTimeFrom;
+    }
+
+    @Basic
+    @Column(name = "working_time_to", columnDefinition = "timestamp without time zone")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getWorkingTimeTo() {
+        return workingTimeTo;
+    }
+
+    public void setWorkingTimeTo(Date workingTimeTo) {
+        this.workingTimeTo = workingTimeTo;
+    }
+
+    @Basic
+    @Column(name = "min_cancel_time", columnDefinition = "timestamp without time zone")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getMinimumCancelTime() {
+        return minimumCancelTime;
+    }
+
+    public void setMinimumCancelTime(Date minimumCancelTime) {
+        this.minimumCancelTime = minimumCancelTime;
+    }
+
     @Override
     public Restaurant duplicate(Restaurant model)
     {
@@ -199,6 +236,9 @@ public class Restaurant extends BaseModel<Restaurant>  {
         r.setPricing(model.getPricing());
         r.setReviewCount(model.getReviewCount());
         r.setReviewRating(model.getReviewRating());
+        r.setWorkingTimeFrom(model.getWorkingTimeFrom());
+        r.setWorkingTimeTo(model.getWorkingTimeTo());
+        r.setMinimumCancelTime(model.getMinimumCancelTime());
 
         return r;
     }
@@ -219,6 +259,9 @@ public class Restaurant extends BaseModel<Restaurant>  {
         if(data.getReviewCount() != null) setReviewCount(data.getReviewCount());
         if(data.getReviewRating() != null) setReviewRating(data.getReviewRating());
         if(data.getLatLong() != null) setLatLong(data.getLatLong());
+        if(data.getWorkingTimeFrom() != null) setWorkingTimeFrom(data.getWorkingTimeFrom());
+        if(data.getWorkingTimeTo() != null) setWorkingTimeTo(data.getWorkingTimeTo());
+        if(data.getMinimumCancelTime() != null) setMinimumCancelTime(data.getMinimumCancelTime());
     }
 
     /* Helper stuff for deserializing from JSON representation */
@@ -240,6 +283,7 @@ public class Restaurant extends BaseModel<Restaurant>  {
         this.latLongPoint = latLongPoint;
     }
 
+
     public static class LatLongPoint {
         private String type;
         private List<Double> coordinates;
@@ -259,6 +303,47 @@ public class Restaurant extends BaseModel<Restaurant>  {
 
         public void setCoordinates(List<Double> coordinates) {
             this.coordinates = coordinates;
+        }
+    }
+
+    public static class RestaurantMapPointDto {
+        private String name;
+        private Double lat;
+        private Double lng;
+        private Integer id;
+
+        public RestaurantMapPointDto() { }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getLat() {
+            return lat;
+        }
+
+        public void setLat(Double lat) {
+            this.lat = lat;
+        }
+
+        public Double getLng() {
+            return lng;
+        }
+
+        public void setLng(Double lng) {
+            this.lng = lng;
+        }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
         }
     }
 }

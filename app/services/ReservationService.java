@@ -11,6 +11,7 @@ import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -92,7 +93,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             }
 
             String sql = new StringBuilder()
-                    .append("SELECT reservation.id AS \"id\", reservation.for_time AS \"forTime\", reservation.persons AS \"persons\", restaurant.name AS \"name\" ")
+                    .append("SELECT reservation.id AS \"id\", reservation.for_time AS \"forTime\", reservation.persons AS \"persons\", reservation.created_at AS \"createdAt\", restaurant.name AS \"name\" ")
                     .append("FROM reservation, account, diningtable, restaurant ")
                     .append("WHERE reservation.account_id=account.id AND  ")
                     .append("	  account.email = (?1) AND ")
@@ -120,14 +121,44 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
      * @param email Email of the account
      * @throws ServiceException If the account didn't make this reservation
      */
-    public void deleteReservation(Long id, String email) throws ServiceException {
+    public Boolean deleteReservation(Long id, String email) throws ServiceException {
         try {
             Account account = accountService.getByEmail(email);
             if(account == null) {
-                throw new ServiceException("ReservationService: this account can't delete this reservation.");
+                return false;
             }
 
-            delete(id);
+            Reservation reservation = get(id);
+            if(reservation == null) {
+                return false;
+            }
+
+            Restaurant restaurant = reservation.getDiningTable().getRestaurant();
+
+            // The current time
+            LocalDateTime now = LocalDateTime.now();
+
+            // When is this reservation?
+            LocalDateTime reservedTime = reservation.getForTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+            reservedTime = reservedTime.plusHours(1); // hacky...not sure why...this is the right time from DB
+
+            // Reservation was in the past
+            if(now.isAfter(reservedTime)) {
+                delete(id);
+                return true;
+            }
+
+            // Now subtract the hours and minutes from restaurant cancelation policy
+            reservedTime = reservedTime.minusHours(restaurant.getMinimumCancelTime().getHours());
+            reservedTime = reservedTime.minusMinutes(restaurant.getMinimumCancelTime().getMinutes());
+
+            // Are we trying to chicken out of a reservation?
+            if(now.isBefore(reservedTime)) {
+                delete(id);
+                return true;
+            }
+
+            return false;
         } catch(Exception e) {
             throw new ServiceException("ReservationService: this account can't delete this reservation.", e);
         }

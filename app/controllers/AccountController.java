@@ -181,6 +181,12 @@ public class AccountController extends BaseController<Account, AccountService> {
         }
     }
 
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
+    public Result currentAccount() {
+        return ok(Json.toJson(service.getByEmail(request().username())));
+    }
+
     public String grantToken(Account account) throws Exception {
         try {
             return JWT.create()

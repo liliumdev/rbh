@@ -1,7 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.vividsolutions.jts.geom.MultiPolygon;
 import play.data.validation.Constraints;
 
@@ -48,7 +51,8 @@ public class City extends BaseModel<City> {
         this.accounts = accounts;
     }
 
-    @JsonBackReference
+    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true) // otherwise first ref as POJO, others as id
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     public Country getCountry() {

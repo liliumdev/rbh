@@ -5,6 +5,7 @@ import javax.inject.Inject;
 import controllers.forms.CompleteReservationForm;
 import controllers.forms.ReservationForm;
 import models.Reservation;
+import models.Restaurant;
 import play.data.Form;
 import play.db.jpa.Transactional;
 import play.libs.Json;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 
 import static play.libs.Json.toJson;
 
@@ -43,8 +45,11 @@ public class ReservationController extends BaseController<Reservation, Reservati
     @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
     public Result deleteMyReservation(Long id) {
         try {
-            service.deleteReservation(id, request().username());
-            return ok();
+            if(service.deleteReservation(id, request().username())) {
+                return ok();
+            } else {
+                return badRequest("Couldn't cancel this reservation. The restaurant policy is that you can't cancel the reservation too soon to the reserved time!");
+            }
         } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in ReservationController@deleteMyReservation"));
         }
@@ -129,9 +134,13 @@ public class ReservationController extends BaseController<Reservation, Reservati
                 LocalDateTime fromTime = wishedTime.minusHours(1).minusMinutes(30);
                 LocalDateTime toTime = fromTime.plusHours(3);
 
-                LocalDateTime minimum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(8, 0, 0));
+                // Restaurant should have it's own working hours
+                Restaurant restaurant = restaurantService.get(data.getRestaurantId());
+                Date workStart = restaurant.getWorkingTimeFrom();
+                Date workEnd = restaurant.getWorkingTimeTo();
 
-                LocalDateTime maximum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(21, 30, 0));
+                LocalDateTime minimum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(workStart.getHours(), workStart.getMinutes(), 0));
+                LocalDateTime maximum = LocalDateTime.of(wishedTime.toLocalDate(), LocalTime.of(workEnd.getHours(), workEnd.getMinutes(), 0));
 
                 // Correct from and to suggestions if it's before working hours or before today
                 if(fromTime.isBefore(minimum)) {

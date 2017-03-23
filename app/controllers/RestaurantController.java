@@ -39,7 +39,7 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
 
             RestaurantFilterBuilder rfb = new RestaurantFilterBuilder()
                     .setName(data.getName())
-                    .setQuery(data.getQuery())
+                    .setQuery(data.getQuery().trim())
                     .setPricing(data.getPricing())
                     .setRating(data.getRating())
                     .setCategories(data.getCategories())
@@ -64,6 +64,19 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
             }
 
             return ok(toJson(service.random(limit)));
+        } catch(ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in RestaurantController@all"));
+        }
+    }
+
+    @Transactional
+    public Result nearest(Integer limit) {
+        try {
+            /*if(limit == null || limit == 0) {
+                return super.all();
+            }
+*/
+            return ok(toJson(service.nearest(limit)));
         } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@all"));
         }
@@ -107,5 +120,6 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     public Result didRate(Long id) {
         return ok(Json.toJson(reviewService.didReview(id, ctx().request().username())));
     }
+
 
 }

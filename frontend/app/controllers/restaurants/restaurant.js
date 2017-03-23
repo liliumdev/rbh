@@ -15,6 +15,18 @@ export default Ember.Controller.extend({
     tablesLeft: 0,
     inProcessOfReservation: false,
     showReviews: false,
+    findTableOptions: Ember.computed('model.restaurant.workingTimeFrom', function() {
+        var options = {
+            scrollbar: true, 
+            minTime: moment(this.get('model.restaurant.workingTimeFrom'), "YYYY-MM-DD HH:mm").toDate(), 
+            maxTime: moment(this.get('model.restaurant.workingTimeTo'), "YYYY-MM-DD HH:mm").toDate(), 
+            dynamic: false
+        };
+
+        console.log(options);
+
+        return options;
+    }),
 
     photos: Ember.computed('model.restaurant.photos', function() {
         if(Ember.isEmpty(this.get('model.restaurant.photos')))

@@ -12,7 +12,7 @@
                 <div class="container">
                     <br>
 
-                    {{find-table-and-restaurant reservation=reservation findTableHandler=(action "findTable") focusOutHandler=(action "hideSuggestions")}}
+                    {{find-table-and-restaurant reservation=reservation findTableHandler=(action "findTable") focusOutHandler=(action "hideSuggestions") minTime=minTime maxTime=maxTime}}
 
                     <div class="typeahead-wrap {{if (not showSuggestions) 'display-none' ''}}">
                         <span class="tt-dropdown-menu">
@@ -54,6 +54,30 @@
         <p style="text-align: center;">
             {{#link-to 'restaurants'}} All restaurants {{/link-to}}
         </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Nearest restaurants</h2>
+
+
+        {{#leaflet-map lat=mapLat lng=mapLong zoom=mapZoom  onDragend=(action "updateCenter") class="biggerLeaflet"}}
+            {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+          {{#each nearest as |r|}}
+            {{#marker-layer lat=r.lat lng=r.lng draggable=false as |marker|}}
+              {{#marker.popup}}
+                <b>{{#link-to 'restaurants.restaurant' r.id}} Restaurant {{r.name}} {{/link-to}}</b><br>
+                <p>A great restaurant near you!</p>
+              {{/marker.popup}}
+            {{/marker-layer}}
+          {{/each}}
+
+        {{/leaflet-map}}
+        </div>
+
     </div>
 </div>
 

@@ -1,6 +1,18 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 export default Ember.Component.extend({
+	optionsFrom: {scrollbar: true, dynamic: false},
+	optionsTo: {scrollbar: true, dynamic: false},
+	optionsCancel: {
+		scrollbar: true, 
+		minHour: 0, 
+		maxHour: 23, 
+		interval: 30, // 30 minutes
+		timeFormat: 'HH:mm',
+		dynamic: false
+	},
+
 	maxfilesexceeded: Ember.computed(function(file) {
 	    return function(file) {
 	    	// Overwrite last file with this one
@@ -26,6 +38,16 @@ export default Ember.Component.extend({
 	    };
   	}),
 
+  	timeError: Ember.computed('new.restaurant.workingTimeFrom', 'new.restaurant.workingTimeTo', function() {
+  		var from = this.get('new.restaurant.workingTimeFrom');
+  		var to = this.get('new.restaurant.workingTimeTo');
+  		if(moment(to).isSameOrBefore(from)) {
+  			return true;
+  		}
+
+  		return false;
+  	}),
+
 	actions: {
 		updateLocation: function(e) {
 			let location = e.target.getLatLng();
@@ -35,5 +57,17 @@ export default Ember.Component.extend({
         pricingDollarClicked: function(params) {
             this.set('new.restaurant.pricing', params.rating);
         },
+
+        changeWorkingTimeFrom: function(time) {
+        	this.set('new.restaurant.workingTimeFrom', time);
+        },
+
+        changeWorkingTimeTo: function(time) {
+        	this.set('new.restaurant.workingTimeTo', time);
+        },
+
+        changeMinCancelTime: function(time) {
+        	this.set('new.restaurant.minimumCancelTime', time);
+        }
 	}
 });

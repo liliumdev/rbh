@@ -23,11 +23,11 @@
                       <button class="btn btn-primary" {{action "add" }}>Add</button>
                   </form>
 
-                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;">Add additional marker</button>
+                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;">Add marker</button>
 
                   <br><br>
 
-                  {{#leaflet-map lat=lat lng=lng zoom=zoom}}
+                  {{#leaflet-map lat=lat lng=lng zoom=zoom onDragend=(action "updateCenter")}}
 
 				    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
 		  			

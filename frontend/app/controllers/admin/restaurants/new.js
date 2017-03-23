@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import moment from 'moment';
 
 export default Ember.Controller.extend({
 	restaurantService: Ember.inject.service(),
@@ -6,9 +7,13 @@ export default Ember.Controller.extend({
 
 	notReady: Ember.computed('restaurant', 'restaurant.city', 'restaurant.diningTables', 
 							 'restaurant.name', 'restaurant.menus', 'restaurant.logoImageUrl', 
-							 'restaurant.coverImageUrl', 'uploading', function() {
+							 'restaurant.coverImageUrl', 'uploading', 'restaurant.workingTimeFrom', 
+							 'restaurant.workingTimeTo', function() {
 
 		var restaurant = this.get('restaurant');
+
+		var from = this.get('restaurant.workingTimeFrom');
+  		var to = this.get('restaurant.workingTimeTo');
 
 		// Logo and cover must not be empty, name must not be empty, menu needs to have
 		// at least one item, a location must be chosen, there must be at least one table
@@ -19,7 +24,10 @@ export default Ember.Controller.extend({
 					     Ember.isEmpty(this.get('restaurant.name'))				||
 				   	     Ember.isEmpty(mainMenu.menuItems)						||
 				   	     !restaurant.hasOwnProperty('city')						||
-				   	     Ember.isEmpty(this.get('restaurant.diningTables'));
+				   	     Ember.isEmpty(this.get('restaurant.diningTables'))	    ||
+				   	     moment(to).isSameOrBefore(from);
+
+
 
 		return validation;
 	}),
@@ -45,8 +53,17 @@ export default Ember.Controller.extend({
 
 			// First upload images
 			this.get('restaurantService').uploadImages(this.get('restaurant')).then(function(response) {
+				var restaurant = self.get('restaurant');
+				
 			 	// Images are uploaded
 				self.get('restaurant').setProperties(response);
+
+				// Transform time variables
+		        self.get('restaurant').setProperties({
+		        	workingTimeFrom: moment(restaurant.workingTimeFrom).format("YYYY-MM-DD HH:mm"),
+		        	workingTimeTo: moment(restaurant.workingTimeTo).format("YYYY-MM-DD HH:mm"),
+		        	minimumCancelTime: moment(restaurant.minimumCancelTime).format("YYYY-MM-DD HH:mm")
+		        });
 
 				// Restaurant model is now ready
 				self.get('restaurantService').add(self.get('restaurant')).then(function() {		

@@ -8,6 +8,7 @@ export default Ember.Controller.extend({
 	actions: {
 		search: function() {
 			var chosenCategories = this.get('model.categories').filterBy('active', true).mapBy("name");
+            this.set('model.filter.query', this.get('model.filter.query').trim());
 			this.set('model.filter.categories', chosenCategories);
 			var filteredRestaurants = this.get('restaurantService').filter(this.get('model.filter'));
 			this.set('model.restaurants', filteredRestaurants);

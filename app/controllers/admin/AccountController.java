@@ -12,7 +12,67 @@ import play.mvc.Result;
 import services.AccountService;
 import services.exceptions.ServiceException;
 
+import static play.libs.Json.toJson;
+
 public class AccountController extends BaseAdminController<Account, AccountService> {
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
+    public Result get(Long id) {
+        try {
+            // Is the user trying to get his own information?
+            Account wantedAccount = service.get(id);
+            if(wantedAccount.getEmail().equals(request().username())) {
+                return ok(Json.toJson(wantedAccount));
+            }
+
+            // If not, see is this user an admin and does he have permission to view any user
+            return getAsAdmin(id);
+        } catch(ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in AccountController@get"));
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result getAsAdmin(Long id) {
+        return super.get(id);
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"NORMAL", "ADMIN"})
+    public Result update(Long id) {
+        try {
+            // Is the user trying to update his own information?
+            Account wantedAccount = service.get(id);
+            if(wantedAccount.getEmail().equals(request().username())) {
+                Form<Account> form = formFactory.form(Account.class).bindFromRequest();
+                if(form.hasErrors()) {
+                    return badRequest(form.errorsAsJson());
+                }
+
+                // User can't change the role himself, unless he's an admin
+                Account updatedAccount = form.get();
+
+                if(service.getUserRole(wantedAccount) != AccountService.USER_TYPE.ADMIN) {
+                    updatedAccount.setRole(wantedAccount.getRole());
+                }
+
+                return super.update(id, updatedAccount);
+            }
+
+            // Is this user an admin and does he have permission to update another user
+            return updateAsAdmin(id);
+        } catch(ServiceException e) {
+            return internalServerError(Json.toJson("Internal server error in AccountController@update"));
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result updateAsAdmin(Long id) {
+        return super.update(id);
+    }
+
     @Transactional
     @SecureAuth.Authenticated(roles = {"ADMIN"})
     @BodyParser.Of(BodyParser.Json.class)

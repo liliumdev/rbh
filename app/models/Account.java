@@ -28,6 +28,7 @@ public class Account extends BaseModel<Account> {
         this.email = email;
     }
 
+    @JsonIgnore
     @Basic
     @Column(name = "password")
     public String getPassword() {

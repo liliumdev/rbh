@@ -13,10 +13,10 @@ export default Ember.Controller.extend({
 
 			const flashMessages = Ember.get(this, 'flashMessages');
 			this.get('accountService').edit(this.get('model.account.id'), this.get('model.account')).then(function(newAccount) {
-                this.transitionToRoute('admin.users.index');
-                flashMessages.success("Modified an account.");
+                this.transitionToRoute('my-profile');
+                flashMessages.success("Successfully edited your information.");
 			}.bind(this), function(data) {
-                flashMessages.danger("Couldn't modify an account:" + data.responseText);
+                flashMessages.danger("Unable to edit your information (" + data.responseText + ")");
 			}.bind());
 		}
 	}

@@ -12,16 +12,7 @@ export default Ember.Controller.extend({
     lng: 18.380985,
     zoom: 14,
 
-    locationPoints: Ember.A([{
-        lat: 43.835332,
-        lng: 18.359699
-    }, {
-        lat: 43.850746,
-        lng: 18.455400
-    }, {
-        lat: 43.864238,
-        lng: 18.378239
-    }, ]),
+    locationPoints: Ember.A([]),
 
     locationZone: Ember.computed('locationPoints.@each.lat', 'locationPoints.@each.lng', function() {
         return this.get('locationPoints').map(r => ({ lat: r.lat, lng: r.lng }));
@@ -73,12 +64,18 @@ export default Ember.Controller.extend({
         },
 
 
-        updateLocation(r, e) {
+        updateLocation: function(r, e) {
             let location = e.target.getLatLng();
             Ember.setProperties(r, {
                 lat: location.lat,
                 lng: location.lng
             });
+        },
+
+        updateCenter: function(e) {
+            let center = e.target.getCenter();
+            this.set('lat', center.lat);
+            this.set('lng', center.lng);
         }
     }
 });

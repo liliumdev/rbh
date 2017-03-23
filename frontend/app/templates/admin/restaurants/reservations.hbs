@@ -1,23 +1,18 @@
-{{title "My reservations"}}
+{{title model.restaurant.name " - Reservations"}}
 
-<div class="container" id="normal-container">
+{{admin-nav-bar addShown=false plusShown=false}}
+
    <div class="row">
       <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
-                My reservations
+				{{#if future}}
+                Future reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seePast"}}>See past reservations</a>)
+                {{else}}
+                Past reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seeFuture"}}>See future reservations</a>)
+                {{/if}}
             </div>
           </div>
-
-          <div class="row">
-            <div class="col-md-12">
-              <br>
-                {{#each flashMessages.queue as |flash|}}
-                {{flash-message flash=flash}}
-              {{/each}}
-            </div>
-          </div>
-
           <div class="row">
               <div class="col-md-12">
                   <div class="card">
@@ -25,27 +20,25 @@
                       	<table>
                       		<tr>
 	                      		<th>Name</th>
-                            <th>Reservation made</th>
+                            	<th>Reservation made</th>
 	                      		<th>Number of guests</th>
 	                      		<th>Date</th>
 	                      		<th>Time</th>
-                            <th style="width: 10%;">Options</th>
 							</tr>
               {{#if (eq model.reservations.length 0)}}
                 <tr>
                   <td colspan="6">
-                    You haven't made any reservations so far.
+                    There are no reservations for this restaurant.
                   </td>
                 </tr>
               {{/if}}
 							 {{#each model.reservations as |reservation|}}   
 								<tr>
-		                      		<td>{{reservation.name}}</td>
+		                      		<td>{{reservation.account.firstName}} {{reservation.account.lastName}}</td>
                               <td>{{moment-format reservation.createdAt 'MMM DD, YYYY'}}</td>
 		                      		<td>{{reservation.persons}}</td>
 		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
 		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
-                              <td> <a href="#" {{ action "delete" reservation }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 								</tr> 
 							{{/each}}
                       	</table>
@@ -57,4 +50,3 @@
        
    </div>
    
-</div>

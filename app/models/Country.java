@@ -24,7 +24,6 @@ public class Country extends BaseModel<Country> {
         this.name = name;
     }
 
-
     @JsonManagedReference
     @OneToMany(mappedBy = "country")
     public List<City> getCities() {

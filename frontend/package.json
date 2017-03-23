@@ -59,6 +59,7 @@
     "ember-simple-auth-token": "https://github.com/liliumdev/ember-simple-auth-token",
     "ember-sortable": "1.9.3",
     "ember-source": "^2.11.0",
+    "ember-timepicker": "0.2.0",
     "ember-truth-helpers": "1.3.0",
     "ember-welcome-page": "^2.0.2",
     "emberx-select": "3.0.0",

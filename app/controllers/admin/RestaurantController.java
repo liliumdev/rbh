@@ -21,7 +21,12 @@ import services.exceptions.ServiceException;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static play.libs.Json.toJson;
@@ -35,6 +40,52 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
         try {
             Form<Restaurant> restaurantForm = formFactory.form(Restaurant.class).bindFromRequest();
             Restaurant r = restaurantForm.get();
+
+            // Validate mandatory fields
+            if(r.getName() == null) {
+                restaurantForm.errors().put("name", ValidationHelper.singleError("name", "This field is mandatory."));
+            } else if (r.getName().length() < 3){
+                restaurantForm.errors().put("name", ValidationHelper.singleError("name", "This field must have more than 3 letters."));
+            }
+
+            if(r.getLatLongPoint() == null) {
+                restaurantForm.errors().put("location", ValidationHelper.singleError("location", "This field is mandatory."));
+            }
+
+            if(r.getWorkingTimeFrom() == null) {
+                restaurantForm.errors().put("workingTimeFrom", ValidationHelper.singleError("workingTimeFrom", "This field is mandatory."));
+            }
+
+            if(r.getWorkingTimeTo() == null) {
+                restaurantForm.errors().put("workingTimeTo", ValidationHelper.singleError("workingTimeTo", "This field is mandatory."));
+            }
+
+            if(r.getMinimumCancelTime() == null) {
+                restaurantForm.errors().put("minimumCancelTime", ValidationHelper.singleError("minimumCancelTime", "This field is mandatory."));
+            }
+            // All mandatory validators have passed
+
+            // Parse times and convert to java.util.date
+            // In following order: working time FROM, working time TO, minimum cancel time
+            ArrayList<String> timeStrings = new ArrayList<>();
+            ArrayList<Date> times = new ArrayList<>();
+
+            timeStrings.add(restaurantForm.data().get("workingTimeFrom"));
+            timeStrings.add(restaurantForm.data().get("workingTimeTo"));
+            timeStrings.add(restaurantForm.data().get("minimumCancelTime"));
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+            for(int i = 0; i < 3; i++) {
+                LocalDateTime ld = LocalDateTime.parse(timeStrings.get(i), formatter).minusHours(1); // very hacky because of timezones
+                Instant in = ld.toInstant(ZoneOffset.UTC); // we're converting everything to UTC
+                times.add(Date.from(in));
+            }
+
+            r.setWorkingTimeFrom(times.get(0));
+            r.setWorkingTimeTo(times.get(1));
+            r.setMinimumCancelTime(times.get(2));
+
             r.setActiveMenu(0);
 
             if(r.getCategoriesList() != null) {
@@ -163,6 +214,16 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             return filename;
         } catch(IOException e) {
             throw new IOException("Error while uploading a file to Amazon S3.");
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result reservations(Long id, String time) {
+        try {
+            return ok(toJson(service.getAllReservations(id, time)));
+        } catch (ServiceException e) {
+            return badRequest("Unknown restaurant ID.");
         }
     }
 

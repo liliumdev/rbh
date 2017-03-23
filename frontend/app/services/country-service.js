@@ -19,5 +19,9 @@ export default BaseService.extend({
         });
   	});  	
   	return cities;
+  },
+
+  getById: function(country_id) {
+    return this.ajax({url: `countries/${country_id}`, type: "GET"});
   }
 });

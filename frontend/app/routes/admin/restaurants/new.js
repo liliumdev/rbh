@@ -20,7 +20,10 @@ export default AdminRoute.extend({
 	    	latLongPoint: {type: "Point", coordinates: [43.854460, 18.380985]},
 	    	logoImageUrl: "",
 	    	coverImageUrl: "",
-	    	pricing: 1
+	    	pricing: 1,
+	    	workingTimeFrom: new Date(0, 0, 0, 8, 0, 0), // 8 AM by default
+			workingTimeTo: new Date(0, 0, 0, 23, 0, 0), // 11 PM by default
+			minimumCancelTime: new Date(0, 0, 0, 0, 0, 0), // you can cancel anytime
 	    }));
 
 	    controller.set('menuItems', Ember.A([MenuItem.create({name: "", description: "", price: ""})]));

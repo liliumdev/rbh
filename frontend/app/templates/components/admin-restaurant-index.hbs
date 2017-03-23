@@ -6,8 +6,10 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-						    	<p><b>Basic details</b></p>
-							  	{{input type="text" value=new.restaurant.name placeholder="Restaurant name" class="form-control"}}
+						    	<p>
+						    		<b>Basic details</b>
+						    	</p>
+							  	{{input type="text" value=new.restaurant.name placeholder="Restaurant name *" class="form-control"}}
 						    </div>     
 
 							<div class="form-group">
@@ -30,7 +32,7 @@
 								  optionValuePath="content.id"
 								  optionLabelPath="content.name"
 								  selection=new.restaurant.city
-								  placeholder="Select location" }}
+								  placeholder="Select location *" }}
 						    </div>
 
 						    <div class="form-group admin-restaurant-location-map">
@@ -43,11 +45,14 @@
 
 
 								{{/leaflet-map}}
+
+
+								<p><br><i>Fields with * are mandatory</i></p>
 						    </div>
 						</div>
 						<div class="col-md-6">
 						    <div class="form-group">
-								<p><b>Restaurant logo (main image)</b></p>
+								<p><b>Restaurant logo (main image) *</b></p>
 								{{#if (not-eq new.chosenLogoName "") }}
 									<p>Chosen file: {{ new.chosenLogoName }} (upload again to overwrite)</p>
 								{{/if}}
@@ -56,7 +61,7 @@
 
 
 						    <div class="form-group">
-								<p><b>Restaurant cover image</b></p>
+								<p><b>Restaurant cover image</b> *</p>
 								{{#if (not-eq new.chosenCoverName "") }}
 									<p>Chosen file: {{ new.chosenCoverName }} (upload again to overwrite)</p>
 								{{/if}}
@@ -67,6 +72,38 @@
 								<p><b>Pricing</b></p>
 								{{star-rating item=new.restaurant rating=new.restaurant.pricing on-click=(action "pricingDollarClicked") fullClassNames='fa fa-usd' emptyClassNames='fa fa-usd inactive' maxRating=4}}
 							</div>
+
+							<div class="form-group">								
+								<p><b>Start of working time *</b></p>
+								{{ember-timepicker
+								  onChange=(action 'changeWorkingTimeFrom')
+								  options=optionsFrom
+								  value=(moment-format new.restaurant.workingTimeFrom 'hh:mm A') 
+								}}
+							</div>
+
+							<div class="form-group">
+								<p><b>End of working time *</b></p>
+								{{ember-timepicker
+								  onChange=(action 'changeWorkingTimeTo')
+								  options=optionsTo
+								  value=(moment-format new.restaurant.workingTimeTo 'hh:mm A') 
+								}}
+								{{#if timeError}}
+								<p><b style="color: #000;"><br>The starting working time must be before the ending working time!</b></p>
+								{{/if}}
+							</div>
+
+							<div class="form-group pricing-group">
+								<p><b>Accepted time for cancellation before the start of reservation *</b></p>
+								{{ember-timepicker
+								  onChange=(action 'changeMinCancelTime')
+								  options=optionsCancel
+								  value=(moment-format new.restaurant.minimumCancelTime 'HH:mm') 
+								}}
+							</div>
+
+							
 						</div>
 					</div>
 				</form>

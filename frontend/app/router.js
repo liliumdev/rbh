@@ -6,6 +6,15 @@ const Router = Ember.Router.extend({
   rootURL: config.rootURL
 });
 
+Ember.Router.reopen({
+  notifyGoogleAnalytics: function() {
+    return ga('send', 'pageview', {
+        'page': this.get('url'),
+        'title': this.get('url')
+      });
+  }.on('didTransition')
+});
+
 Router.map(function() {
   this.route('restaurants', function() {
     this.route('restaurant', {path: ':id'}, function() {});
@@ -29,6 +38,7 @@ Router.map(function() {
         this.route('tables');
       });
       this.route('edit', {path: ':id'}, function() {});
+      this.route('reservations', {path: ':id/reservations'}, function() {});
     });
   });
   this.route('register');
@@ -39,6 +49,7 @@ Router.map(function() {
   this.route('my-reservations');
 
   this.route('users', function() {});
+  this.route('my-profile');
 });
 
 export default Router;

@@ -5,6 +5,8 @@ export default Ember.Controller.extend({
     showSuggestions: false,
     suggestions: [],
     hiding: false,
+    minTime: new Date(0, 0, 0, 8, 0, 0),
+    maxTime: new Date(0, 0, 0, 23, 0, 0),
 
     findSuggestions: function() {
     	if(this.get('hiding') || this.get('reservation.query') === '') {
@@ -26,13 +28,7 @@ export default Ember.Controller.extend({
     		var reservation = this.get('reservation');
             this.set('searchFromIndex', true);
 
-    		this.transitionToRoute(`/restaurants/${reservation.restaurantId}`); /*.then(function(route) {
-                console.log(route);
-				route.controller.set('reservation', reservation);
-				route.controller.set('model.restaurant.id', reservation.restaurantId);
-                console.log("DONNNNEEE");
-				//route.controller.send('findTable');
-    		}); */;
+    		this.transitionToRoute(`/restaurants/${reservation.restaurantId}`);
         },
 
         setRestaurant: function(restaurant) {
@@ -49,5 +45,11 @@ export default Ember.Controller.extend({
         		self.set('hiding', false);
         	}, 750);
         },
+
+        updateCenter: function(e) {
+            let center = e.target.getCenter();
+            this.set('mapLat', center.lat);
+            this.set('mapLong', center.lng);
+        }
     }
 });
