@@ -1,3 +1,5 @@
+{{title "Index"}}
+
 <div class="jumbotron vertical-align index">
     <div class="container-fluid">
         <div class="row-fluid">
@@ -9,47 +11,24 @@
 
                 <div class="container">
                     <br>
-                    <form role="search" class="filter-box landing">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-addon">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </span>
-                            
-                            <input type="text" name="query" class="form-control" placeholder="Location, Restaurant or Cousine">
-                            
-                            <span class="input-group-btn">                                
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                                   2 people <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">2 People</a></li>
-                                    <li><a href="#">3 People</a></li>
-                                    <li><a href="#">4 People</a></li>
-                                    <li><a href="#">5 People</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn">                                
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Apr 29, 2016  <i class="fa fa-chevron-down" aria-hidden="true"></i> </button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">to-do</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">7:00 PM  <i class="fa fa-chevron-down" aria-hidden="true"></i></button>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">to-do</a></li>
-                                </ul>
-                            </span>
-                            
-                            <span class="input-group-btn red">
-                                <button class="btn btn-primary" type="submit">Find a table</button>
-                            </span>
-                        </div>
-                    </form>
 
-                    <br>
+                    {{find-table-and-restaurant reservation=reservation findTableHandler=(action "findTable") focusOutHandler=(action "hideSuggestions") minTime=minTime maxTime=maxTime}}
+
+                    <div class="typeahead-wrap {{if (not showSuggestions) 'display-none' ''}}">
+                        <span class="tt-dropdown-menu">
+                          <div class="tt-dataset-states">
+                            <span class="tt-suggestions">   
+                            {{#each suggestions as |suggestion|}}
+                             <div class="tt-suggestion" {{action "setRestaurant" suggestion on="click"}}>
+                                  <p><b>{{suggestion.name}}</b> ({{suggestion.city.name}})</p>
+                              </div>
+                            {{/each}}
+                            </span>
+                          </div>
+                        </span>
+                    </div>
+                
+                     <br>
                     <br>
 
                 </div>
@@ -71,6 +50,33 @@
                 {{/restaurant-listing}}
             </div>
         {{/each}}
+
+        <p style="text-align: center;">
+            {{#link-to 'restaurants'}} All restaurants {{/link-to}}
+        </p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Nearest restaurants</h2>
+
+
+        {{#leaflet-map lat=mapLat lng=mapLong zoom=mapZoom  onDragend=(action "updateCenter") class="biggerLeaflet"}}
+            {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+
+          {{#each nearest as |r|}}
+            {{#marker-layer lat=r.lat lng=r.lng draggable=false as |marker|}}
+              {{#marker.popup}}
+                <b>{{#link-to 'restaurants.restaurant' r.id}} Restaurant {{r.name}} {{/link-to}}</b><br>
+                <p>A great restaurant near you!</p>
+              {{/marker.popup}}
+            {{/marker-layer}}
+          {{/each}}
+
+        {{/leaflet-map}}
+        </div>
 
     </div>
 </div>

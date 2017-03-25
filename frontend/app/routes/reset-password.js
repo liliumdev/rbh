@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import UnauthenticatedRoute from 'restaurants-app/routes/unauthenticated-route';
 
-export default Ember.Route.extend({
+export default UnauthenticatedRoute.extend({
     token: null,
 
     model: function(param) {

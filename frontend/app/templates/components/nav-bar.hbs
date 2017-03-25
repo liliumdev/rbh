@@ -12,15 +12,33 @@
         <div id="navbar" class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
                 {{#nav-link-to 'index'}}Index{{/nav-link-to}}
+                {{#nav-link-to 'restaurants'}}Restaurants{{/nav-link-to}}
 
                 {{#if session.isAuthenticated}}
-                    {{#nav-link-to 'logout' }} Logout {{/nav-link-to}}
-                    {{#if (eq currentUser.role "ADMIN")}}                        
-                        {{#nav-link-to 'admin' }} Admin {{/nav-link-to}}
-                    {{/if}}
+                    <li>
+                        <a href="javascript:;" class='dropdown-toggle' data-toggle="dropdown">
+                            {{#if (eq currentUser.role "ADMIN")}}
+                            <i class="fa fa-user-md" aria-hidden="true"></i>
+                            {{else}}
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            {{/if}}
+                            &nbsp;
+                            My profile&nbsp; 
+                            <i class="fa fa-caret-down" aria-hidden="true"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {{#if (eq currentUser.role "ADMIN")}}                        
+                                {{#nav-link-to 'admin' }} Admin {{/nav-link-to}}                        
+                            {{/if}}
+                            {{#nav-link-to 'my-profile' }} Edit information {{/nav-link-to}}
+                            {{#nav-link-to 'my-reservations' }} My Reservations {{/nav-link-to}}
+                            {{#nav-link-to 'logout' }} Logout {{/nav-link-to}}
+                        </ul>
+                    </li>
                 {{else}}
                     {{#nav-link-to 'login'}}Login{{/nav-link-to}}
                 {{/if}}
+
             </ul>
         </div>
         <!--/.nav-collapse -->

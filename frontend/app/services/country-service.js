@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import BaseService from 'restaurants-app/services/base-service';
 
 export default BaseService.extend({
@@ -20,5 +19,9 @@ export default BaseService.extend({
         });
   	});  	
   	return cities;
+  },
+
+  getById: function(country_id) {
+    return this.ajax({url: `countries/${country_id}`, type: "GET"});
   }
 });

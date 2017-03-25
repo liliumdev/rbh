@@ -1,11 +1,9 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.sql.Timestamp;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Review extends BaseModel<Review> {
     private Integer rating;
@@ -34,6 +32,7 @@ public class Review extends BaseModel<Review> {
         this.description = description;
     }
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id", nullable = false)
     public Restaurant getRestaurant() {
@@ -44,6 +43,8 @@ public class Review extends BaseModel<Review> {
         this.restaurant = restaurant;
     }
 
+
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
     public Account getAccount() {
@@ -62,6 +63,13 @@ public class Review extends BaseModel<Review> {
 
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
+    }
+
+    /* Only for Jackson JSON serialization */
+    @Transient
+    public String getAccountName() {
+        Account a = getAccount();
+        return a.getFirstName() + " " + a.getLastName();
     }
 
 

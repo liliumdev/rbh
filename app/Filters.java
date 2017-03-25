@@ -1,6 +1,3 @@
-/**
- * Created by Lilium on 29.1.2017.
- */
 import play.mvc.EssentialFilter;
 import play.filters.cors.CORSFilter;
 import play.http.HttpFilters;

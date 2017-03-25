@@ -1,0 +1,35 @@
+<div class="row">
+	<div class="col-md-12">
+		<div class="card admin-container ">
+			<div class="content">
+				<ul class="admin-nav-bar">
+					{{#nav-link-to 'admin.index'}}Dashboard{{/nav-link-to}}
+					{{#nav-link-to 'admin.categories'}}Categories{{/nav-link-to}}
+					{{#nav-link-to 'admin.locations'}}Locations{{/nav-link-to}}
+					{{#nav-link-to 'admin.users'}}Users{{/nav-link-to}}
+					{{#nav-link-to 'admin.restaurants'}}Restaurants{{/nav-link-to}}
+
+					{{#if addShown}}
+              	    <button class="btn btn-primary" style="float: right; margin-top: 10px;" {{action (action addHandler) }}>
+              	    	{{#if plusShown}}
+              	    		<i class="fa fa-minus" aria-hidden="true"></i>
+              	    	{{else}}
+              	    		<i class="fa fa-plus" aria-hidden="true"></i>
+              	    	{{/if}}
+              	    &nbsp; &nbsp; Add {{addName}}
+              	    </button>
+              	    {{/if}}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<br>
+	   	{{#each flashMessages.queue as |flash|}}
+		  {{flash-message flash=flash}}
+		{{/each}}
+	</div>
+</div>

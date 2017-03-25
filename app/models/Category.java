@@ -9,9 +9,6 @@ import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class Category extends BaseModel<Category>  {
     private String name;

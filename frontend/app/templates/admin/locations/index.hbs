@@ -1,0 +1,89 @@
+{{title "Locations"}}
+
+{{admin-nav-bar addShown=true addHandler=(action "switchAdd") addName="location" plusShown=showAdd}}
+
+{{#if showAdd}}
+ <div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card"  style="padding: 0; margin-top: 0px;" >
+                  <div class="content">
+                  <form class="form-inline">
+                    <div class="form-group">
+                    	<select onchange={{action "selectCountry" value="target.value"}}>
+							{{#each model.countries as |countryChoice|}}
+								<option value={{countryChoice.id}} selected={{eq country countryChoice.id}}>{{countryChoice.name}}</option>
+						    {{/each}}
+						</select>
+                    </div>
+                    <div class="form-group">
+                      {{input class="form-control" value=location.name placeholder="Location/city name"}}
+                    </div>
+                      <button class="btn btn-primary" {{action "add" }}>Add</button>
+                  </form>
+
+                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;">Add marker</button>
+
+                  <br><br>
+
+                  {{#leaflet-map lat=lat lng=lng zoom=zoom onDragend=(action "updateCenter")}}
+
+				    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+		  			
+		  			{{#each locationPoints as |r|}}
+				    {{#marker-layer lat=r.lat lng=r.lng draggable=true onDragend=(action "updateLocation" r)}}
+				    {{/marker-layer}}
+				  {{/each}}
+
+				  {{#polygon-layer locations=locationZone color="green"}}
+				    {{#tooltip-layer sticky=true}}
+				      Location zone
+				    {{/tooltip-layer}}
+				  {{/polygon-layer}}
+
+				{{/leaflet-map}}
+                    
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div>
+   
+</div>
+
+{{/if}}
+
+<div class="row">
+  <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="content">
+                  	<table>
+                  		<tr>
+                      		<th>Name</th>
+                      		<th style="width: 10%;">Options</th>
+						</tr>
+						 {{#each model.locations as |location|}}   
+							<tr>
+	                       		<td>
+                            {{ember-inline-edit
+                              value=location.name
+                              onSave=(action "edit" location)
+                              editIcon="hidden"
+                              saveLabel='✓'
+                              }}
+    
+                            </td>
+	                      		<td> <a href="#" {{ action "delete" location }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+							</tr> 
+						{{/each}}
+                  	</table>
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div>
+   
+</div>

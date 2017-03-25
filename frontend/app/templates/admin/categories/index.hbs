@@ -1,0 +1,60 @@
+  {{title "Categories"}}
+
+    {{admin-nav-bar addShown=true addHandler=(action "switchAdd") addName="category" plusShown=showAdd}}
+
+    {{#if showAdd}}
+     <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card"  style="padding: 0; margin-top: 0px;" >
+                      <div class="content">
+                      <form class="form-inline">
+                        <div class="form-group">
+                          {{input class="form-control" value=category.name placeholder="Category name"}}
+                        </div>
+                          <button class="btn btn-primary" {{action "add" }}>Add</button>
+                      </form>
+                        
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+
+  {{/if}}
+
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+	                      		<th style="width: 10%;">Options</th>
+							</tr>
+							 {{#each model.categories as |category|}}   
+								<tr>
+		                      		<td>
+                              {{ember-inline-edit
+                                value=category.name
+                                onSave=(action "edit" category)
+                                editIcon="hidden"
+                                saveLabel='✓'
+                                }}
+                              </td>
+		                      		<td> <a href="#" {{ action "delete" category }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>

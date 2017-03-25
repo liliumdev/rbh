@@ -47,10 +47,10 @@ public class DatabaseFakerController extends Controller {
     }
 
     @Transactional
-    @SecureAuth.Authenticated(roles={"ADMIN"})
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
     public Result seedDatabase() {
         try {
-            int[] gradoviId = new int[] {23, 19, 17, 22, 20};
+            int[] gradoviId = new int[]{23, 19, 17, 22, 20};
 
             Faker faker = new Faker();
             final GeometryFactory gf = new GeometryFactory();
@@ -73,7 +73,7 @@ public class DatabaseFakerController extends Controller {
             double lat = faker.number.between(bosnaMinLat, bosnaMaxLat);
             double lon = faker.number.between(bosnaMinLong, bosnaMaxLong);
             r.setLatLong(gf.createPoint(new Coordinate(lat, lon, 0.0)));
-            Long grad = (long)gradoviId[faker.number.between(0, 4)];
+            Long grad = (long) gradoviId[faker.number.between(0, 4)];
             r.setCity(cityService.get(grad));
 
             r = restaurantService.create(r);
@@ -86,14 +86,13 @@ public class DatabaseFakerController extends Controller {
 
             List<MenuItem> menuItems = new ArrayList<MenuItem>();
             int numOfMenuItems = faker.number.between(7, 13);
-            for(int i = 0; i < numOfMenuItems; i++)
-            {
+            for(int i = 0; i < numOfMenuItems; i++) {
                 MenuItem mi = new MenuItem();
                 mi.setMenu(m);
                 mi.setName(faker.lorem.word() + " " + faker.lorem.word());
                 mi.setDescription(faker.lorem.sentence());
                 mi.setPrice(new BigDecimal(faker.number.between(7.0, 25.0)).setScale(2, RoundingMode.CEILING));
-                mi.setSort((double)i);
+                mi.setSort((double) i);
                 menuItems.add(menuItemService.create(mi));
             }
             m.setMenuItems(menuItems);
@@ -103,9 +102,9 @@ public class DatabaseFakerController extends Controller {
             r.setMenus(menus);
 
             Set<Category> cats = new HashSet<Category>();
-            cats.add(categoryService.get((long)59));
-            cats.add(categoryService.get((long)60));
-            cats.add(categoryService.get((long)61));
+            cats.add(categoryService.get((long) 59));
+            cats.add(categoryService.get((long) 60));
+            cats.add(categoryService.get((long) 61));
             r.setCategories(cats);
             r = restaurantService.update(r.getId(), r);
 
@@ -122,7 +121,7 @@ public class DatabaseFakerController extends Controller {
             restaurantService.update(r.getId(), r);
             return ok(Json.toJson(r));
 
-        } catch (Exception e) {
+        } catch(Exception e) {
             Logger.debug(e.toString());
         }
 

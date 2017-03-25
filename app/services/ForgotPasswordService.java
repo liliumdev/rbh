@@ -8,10 +8,6 @@ import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
-
 public class ForgotPasswordService extends BaseService<ForgotPassword, ForgotPasswordRepository> {
     private AccountService accountService;
 

@@ -1,9 +1,5 @@
 package controllers;
 
-/**
- * Created by Lilium on 28.1.2017.
- */
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -54,7 +50,7 @@ public class SecureAuth {
                     return delegate.call(ctx).whenComplete(
                             (result, error) -> ctx.request().setUsername(null)
                     );
-                } catch (Exception e) {
+                } catch(Exception e) {
                     ctx.request().setUsername(null);
                     throw e;
                 }
@@ -69,7 +65,9 @@ public class SecureAuth {
             if(token != null) {
                 try {
                     // Remove "Bearer " from our token
-                    if(token.length() < 8) return null; // no token
+                    if(token.length() < 8) {
+                        return null; // no token
+                    }
                     token = token.substring(7);
                     JWTVerifier verifier = JWT.require(Algorithm.HMAC256(Play.application().configuration().getString("play.crypto.secret")))
                             .build();
@@ -79,15 +77,16 @@ public class SecureAuth {
                     JWT jwt = JWT.decode(token);
                     String username = jwt.getClaim("email").asString();
                     String role = jwt.getClaim("role").asString();
-                    if(Arrays.asList(requiredRoles).contains(role))
+                    if(Arrays.asList(requiredRoles).contains(role)) {
                         return username;
+                    }
 
                     return null;
-                } catch (JWTVerificationException e){
+                } catch(JWTVerificationException e) {
                     // The token is invalid, has been tampered with because
                     // the signature is not proper; or the syntax is wrong
                     return null;
-                } catch (UnsupportedEncodingException e) {
+                } catch(UnsupportedEncodingException e) {
                     // This shouldn't happen
                     Logger.debug("Unsupported encoding error in Authenticator class");
                     return null;

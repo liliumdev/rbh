@@ -1,0 +1,52 @@
+{{title model.restaurant.name " - Reservations"}}
+
+{{admin-nav-bar addShown=false plusShown=false}}
+
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
+				{{#if future}}
+                Future reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seePast"}}>See past reservations</a>)
+                {{else}}
+                Past reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seeFuture"}}>See future reservations</a>)
+                {{/if}}
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+                            	<th>Reservation made</th>
+	                      		<th>Number of guests</th>
+	                      		<th>Date</th>
+	                      		<th>Time</th>
+							</tr>
+              {{#if (eq model.reservations.length 0)}}
+                <tr>
+                  <td colspan="6">
+                    There are no reservations for this restaurant.
+                  </td>
+                </tr>
+              {{/if}}
+							 {{#each model.reservations as |reservation|}}   
+								<tr>
+		                      		<td>{{reservation.account.firstName}} {{reservation.account.lastName}}</td>
+                              <td>{{moment-format reservation.createdAt 'MMM DD, YYYY'}}</td>
+		                      		<td>{{reservation.persons}}</td>
+		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
+		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+   
