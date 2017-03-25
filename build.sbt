@@ -7,6 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.11.7"
 
 resolvers += "jitpack" at "https://jitpack.io"
+resolvers += "repo1" at "http://repo1.maven.org/maven2/"
 
 libraryDependencies ++= Seq(
   javaJdbc,
@@ -22,7 +23,9 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-mailer" % "5.0.0",
   "com.github.blocoio" % "faker" % "1.2.5",
   "com.bedatadriven" % "jackson-datatype-jts" % "2.2",
-  "org.mindrot" % "jbcrypt" % "0.4"
+  "org.mindrot" % "jbcrypt" % "0.4",
+  "com.amazonaws" % "aws-java-sdk" % "1.11.98",
+  "net.coobird" % "thumbnailator" % "0.4.8"
 
 
 )

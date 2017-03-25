@@ -9,8 +9,10 @@
   </div>                        
 
   <button type="submit" class="btn btn-primary">Login</button>
-
-  <div class="form-tip"> 
-    {{#link-to 'forgot-password'}}Did you forget your password?{{/link-to}}
-  </div>   
+  
+  {{#if showForgot}}
+    <div class="form-tip"> 
+      {{#link-to 'forgot-password'}}Did you forget your password?{{/link-to}}
+    </div>
+  {{/if}}   
 </form>

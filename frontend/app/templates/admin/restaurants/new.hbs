@@ -1,0 +1,9 @@
+{{title "New"}}
+
+{{outlet}}
+
+{{#if uploading}}
+<p style="float: right; margin: 22px 10px;"><b>Uploading, please wait ...</b></p>
+{{else}}
+<button class="btn btn-primary" style="float: right; margin: 15px 0px;" {{ action "addRestaurant" }} disabled={{notReady}}>Add restaurant</button>
+{{/if}}

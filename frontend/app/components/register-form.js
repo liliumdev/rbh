@@ -50,6 +50,13 @@ export default Ember.Component.extend(Validations, {
     countries: null,
     cityId: 17,
     cities: [],
+    session: Ember.inject.service(),
+    flashMessages: Ember.inject.service(),
+
+    authenticate: function(credentials) {
+        var authenticator = 'authenticator:jwt';
+        return this.get('session').authenticate(authenticator, credentials);
+    },
 
     init: function() {
         this._super();
@@ -61,8 +68,14 @@ export default Ember.Component.extend(Validations, {
         register: function() {
             var self = this;
             var registerData = this.getProperties('firstName', 'lastName', 'email', 'password', 'password2', 'cityId');
+            var credentials = {identification: registerData.email, password: registerData.password};
             this.get('accountService').register(registerData).then(function() {
-                self.set('complete', true);
+                self.authenticate(credentials).then(function(value) {
+                    self.set('complete', true);
+                }, function(reason) {
+                    // This shouldn't happen
+                    console.log("Error while logging in after registration ...");
+                });
             }, function() {
                 self.set('hasError', true);
             });

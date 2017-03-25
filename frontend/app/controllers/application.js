@@ -8,7 +8,8 @@ export default Ember.Controller.extend({
 	navbarClass: function() {
         var routesTransparentNavbar = [
             'index',
-            'restaurants.restaurant'
+            'restaurants.restaurant.index',
+            'restaurants.restaurant-reserve'
         ];
         return ($.inArray(this.get('currentPath'), routesTransparentNavbar) != -1 ? "navbar-transparent" : "navbar-white");
 	 }.property('currentPath')

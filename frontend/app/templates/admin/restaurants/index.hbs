@@ -1,0 +1,45 @@
+{{title "Restaurants"}}
+
+{{admin-nav-bar addShown=true addHandler=(action "addRestaurant") addName="resturant" plusShown=false}}
+
+{{outlet}}
+
+<div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+	                      		<th>Rating</th>
+	                      		<th>Pricing</th>
+	                      		<th style="width: 10%;">Options</th>
+							</tr>
+							 {{#each model.restaurants as |restaurant|}}   
+								<tr>
+								<td> {{restaurant.name}} </td>
+								<td> {{restaurant.roundRating }} ({{restaurant.reviewCount}})</td>
+								<td> {{restaurant.pricing}}</td>
+								<td> 
+                  {{#link-to "admin.restaurants.reservations" restaurant.id}} <i class="fa fa-th-list" aria-hidden="true"></i> {{/link-to}}
+
+                  &nbsp; &nbsp; 
+
+                  {{#link-to "admin.restaurants.edit" restaurant.id}} <i class="fa fa-pencil" aria-hidden="true"></i> {{/link-to}}
+
+                  &nbsp; &nbsp; 
+
+                  <a href="#" {{ action "delete" restaurant }}> <i class="fa fa-times" aria-hidden="true"></i> </a> 
+                </td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>

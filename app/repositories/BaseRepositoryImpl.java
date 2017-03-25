@@ -8,12 +8,11 @@ import repositories.exceptions.RepositoryException;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
 public class BaseRepositoryImpl<T> implements BaseRepository<T> {
     public long count() {
-        return (long)getSession().createCriteria(getParameterType().getSimpleName()).setProjection(Projections.rowCount()).uniqueResult();
+        Criteria criteria = getSession().createCriteria(getParameterType());
+        criteria.setProjection(Projections.rowCount());
+        return (Long)criteria.uniqueResult();
     }
 
     public void delete(Long id) throws RepositoryException {

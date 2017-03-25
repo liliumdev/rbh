@@ -1,9 +1,7 @@
 package models;
 
 import javax.persistence.*;
-/**
- * Created by Lilium on 20.1.2017.
- */
+
 @MappedSuperclass
 public abstract class BaseModel<M> {
 

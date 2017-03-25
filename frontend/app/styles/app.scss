@@ -170,6 +170,54 @@ a:hover
     color: #fd6f60;
 }
 
+.card.admin-container 
+{
+    margin: 0;
+    padding: 0px;
+}
+
+ul.admin-nav-bar {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+ul.admin-nav-bar li {
+    display: inline-block;
+}
+
+ul.admin-nav-bar li a {
+    display: block;
+    padding: 15px 20px;
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+ul.admin-nav-bar.smaller li a {
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+ul.admin-nav-bar li.active a, ul.admin-nav-bar li a:hover {
+    opacity: 1;
+    color: #fc6e5f;
+    text-decoration: none;
+}
+
+form.admin-restaurant-form input {
+    width: 100%;
+    padding: 10px;
+}
+
+form.admin-restaurant-form textarea {
+    border-radius: 2px;
+    box-shadow: none;
+    border: solid 1px #e1e1e1;
+    font-size: 16px;
+    font-weight: 600;
+    color: #131d24;
+}
+
 .jumbotron.index
 {
     background-image: url('/assets/images/cover-restaurant-dark.jpg');
@@ -637,6 +685,28 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     top: 58px;
 }
 
+/* LANDING LOOKING FOR RESERVATION */
+.filter-box.landing .date-input input {  
+    width: auto;
+    color: #303030;
+}
+
+.filter-box.landing .selectize-control.filter-selectize.ember-selectize .selectize-input {
+    height: 56px;
+}
+
+.filter-box.landing .selectize-control .item {
+    line-height: 41px;
+    padding: 0 30px;
+    width: auto;
+}
+
+.filter-box.landing .input-group-btn {
+    width: 15%;
+}
+
+/* END OF LANDING LOOKING FOR RESERVATION ?/
+
 /* not landing borders */
 .filter-box.not-landing .row-no-padding > .option 
 {
@@ -661,6 +731,8 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     width: 100%;
     height: 58px;
 }
+
+
 /* end not landing borders */
 
 .filter-box .selectize-control .item {
@@ -677,7 +749,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 
 /* end of ember custom for filter box */
 
-.filter-box .fa.fa-chevron-down
+.filter-box .fa.fa-chevron-down, .filter-box .fa.fa-chevron-up
 {
     font-size: 11px;
     opacity: 0.3;
@@ -708,6 +780,82 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     box-shadow: none;
 }
 
+/* filter box for restaurants page */
+.filter-box.restaurants {    
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.filter-box.restaurants input {
+    text-align: left;
+    font-weight: 300;
+}
+
+.filter-box.restaurants .filter.dropdown-menu {
+    width: 330px;
+    text-align: left;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a:active, .filter-box.restaurants .filter.dropdown-menu a:focus {
+    color: #fd6f60;
+    text-decoration: none;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a.category {
+    color: rgba(253, 111, 96, 0.6);
+    margin: 3px 0;
+    display: block;
+    width: 100%;
+}
+
+.filter-box.restaurants .filter.dropdown-menu a.category.active {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .title {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(46, 57, 63, 0.6);
+    padding: 10px 0;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel {
+    margin-bottom: 10px;
+}
+
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel, .pricing-group {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa, .pricing-group .fa {
+    padding: 0 2px;
+}
+
+/* inactive color is grayish */
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.active,  .pricing-group .fa.active {
+    color: #fd6f60;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa.inactive, .pricing-group .fa.inactive {
+    color: rgba(253, 111, 96, 0.3);
+}
+
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:focus,
+.filter-box.restaurants .filter.dropdown-menu .rating-panel .fa:active,
+.pricing-group .fa:focus,
+.pricing-group .fa:active{
+    text-decoration: none;
+}
+
+.filter-box.restaurants .filter.dropdown-menu .divider {
+    background-color: #e7eaec;
+    width: 100%;
+    height: 1px;
+}
+
+
 .input-group-lg>.form-control
 {
     height: 56px;
@@ -721,6 +869,11 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     color: #fff;
     margin-right: 10px;
     border: none;
+}
+
+.section-reservation .btn.btn-primary
+{
+    margin-bottom: 10px;
 }
 
 .filter-box .btn.btn-primary 
@@ -861,6 +1014,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     .filter-box.landing .input-group-btn 
     {
         margin-bottom: 0px;
+        width: 100%;
     }
     
     .filter-box.landing .input-group-addon
@@ -873,7 +1027,7 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
         margin-left: 1px;
         text-align: center;
     }
-    
+
     .filter-box .input-group-btn:not(.red)
     {
         border-top: 1px solid #e3e3e3;
@@ -883,6 +1037,11 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     {
         margin-left: 1px;
         border-radius: 0px;
+    }
+
+    .filter-box.landing .date-input input {
+        width: 100%;
+        margin-left: 0px;
     }
     
     .jumbotron.index
@@ -998,6 +1157,11 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     text-decoration: none;
 }
 
+#restaurant-container .sidebar li a:active, #restaurant-container .sidebar li a:focus {
+    text-decoration: none;
+    opacity: 1;
+}
+
 #map
 {
     height: 250px;
@@ -1092,6 +1256,30 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     font-size: 14px;
 }
 
+.card.with-info .regular-header 
+{
+    font-size: 20px;
+    font-weight: normal;
+    color: rgba(19, 29, 36, 0.4);
+}
+
+.card.with-info .tiny-text 
+{
+    color: #171717;
+    opacity: 0.4;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0px;
+}
+
+.card.with-info .regular-text
+{
+    font-size: 20px;
+    margin: 3px;
+
+}
+
 .card .grey
 {
     color: #aaa;
@@ -1101,6 +1289,81 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
 {
     color: #6eaa4e;
 }
+
+.card .orange
+{
+  color: #fd6f60;
+}
+
+.card table 
+{
+    width: 100%;
+    font-size: 18px;
+}
+
+.card th {
+    font-weight: bold;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.card td, th {    
+    padding: 10px;
+}
+
+.card tr:first-child {
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.3);
+}
+
+.card tr {
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.card tr:last-child {
+    box-shadow: none;
+}
+
+.card .form-inline {
+    padding: 10px;
+}
+
+.card .form-inline .btn.btn-primary {
+    height: 53px;
+    margin-top: -10px;
+    margin-left: 10px;
+    padding: 6px 30px;
+}
+
+.card.review .rating-panel {
+}
+
+.card.review .rating-panel .fa-star {
+    font-size: 13px;
+    color: #999;
+}
+
+.card.review .rating-panel .fa-star:hover, .card.review .rating-panel .fa-star:active, .card.review .rating-panel .fa-star:focus {
+    text-decoration: none;
+}
+
+.card.dashboard {
+    text-align: center;
+}
+
+.card.dashboard p {
+    font-size: 16px;  
+    font-weight: 600;
+    color: #131d24;
+    text-align: center;
+}
+
+.card.dashboard p b {
+    font-size: 48px; 
+    font-weight: normal; 
+}
+
+.card.dashboard a {
+    margin-bottom: -80px;
+} 
 
 table.restaurant-menu
 {
@@ -1257,7 +1520,7 @@ form:not(.filter-box) .form-group.form-group-inline select:last-child
     border-left: 0px;
 }
 
-form:not(.filter-box) .btn
+form:not(.filter-box, .form-inline) .btn
 {
     width: 100%;
     height: 53px;
@@ -1361,4 +1624,242 @@ form .form-tip
 #rateModal .rating-panel .fa.fa-star:focus,
 #rateModal .rating-panel .fa.fa-star:active {
     text-decoration: none;
+}
+
+.leaflet-container {
+    height: 300px;
+}
+
+.biggerLeaflet.leaflet-container {
+    height: 500px;
+}
+
+.ember-inline-edit input {
+    width: 75%;
+}
+
+.ember-inline-edit button {
+    width: 20%;
+}
+
+/* TYPEAHEAD */
+.typeahead-wrap {
+  display: block;
+  position: relative;
+}
+
+.tt-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  list-style: none;
+  box-shadow: 0 7px 9px rgba(0, 0, 0, .2);
+  left: 0;
+}
+
+.tt-suggestions {
+  display: block;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.tt-suggestion {
+  max-height: 45px;
+  margin: 0;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 45px;
+  position: relative;
+}
+
+.tt-suggestion:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  border-top: 1px solid #cfe0ed;
+}
+
+.tt-suggestion:first-child:before {
+  border: 0;
+}
+
+.tt-suggestion.tt-cursor,
+.tt-suggestion:hover {
+  background: #cfe0ed;
+}
+
+.tt-suggestion b {
+  display: inline-block;
+  width: auto;
+  font-weight: 600;
+}
+
+.tt-suggestion p {
+  margin: 0;
+  font-size: 15px;
+  text-align: left;
+}
+
+.tt-suggestions.no-results {
+  height: auto;
+}
+
+.tt-suggestions .message {
+  height: 2.5rem;
+  padding: 0 .75rem;
+  color: #313131;
+  cursor: pointer;
+  line-height: 2.5rem;
+}
+
+.tt-suggestions .message p {
+  margin: 0;
+}
+
+/* the only css I know of that will be used above. Everything else is open :) */
+.tt-suggestion.tt-cursor {
+  background-color: #333;
+  cursor: pointer;
+}
+
+.tt-suggestion.tt-cursor, .tt-suggestion:hover {
+    background: #cfe0ed;
+    cursor:pointer;
+}
+
+.display-none {
+    display: none;
+}
+
+.dropzone.dz-clickable {
+    border-radius: 3px;
+    border: solid 1px #e6e8eb;
+    background-color: #fff;
+}
+
+.dropzone.dz-clickable:not(.dz-started) {
+    background-image: url('/assets/images/empty-image-upload.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+.dropzone.dz-clickable .dz-default.dz-message {
+    margin-top: 5px;
+    font-weight: bold;
+    color: #cacaca;
+}
+
+.dropzone .dz-progress {
+    display: none;
+}
+
+.admin-restaurant-location-dropdown .selectize-dropdown, .admin-restaurant-category-dropdown .selectize-dropdown {
+    z-index: 1000;
+}
+
+.admin-restaurant-location-map .leaflet-container {
+    z-index: 999;
+}
+
+form.menu-item p {
+    font-size: 16px;
+    font-weight: 600;
+    color: #9898a5;    
+}
+
+form.menu-item p a {
+    font-size: 20px;
+    font-weight: 600;
+    color: #9898a5;  
+}
+
+form.menu-item .left {
+    width: 5%;
+    float: left;
+}
+
+form.menu-item .right {
+    width: 90%;
+    float: right;
+}
+
+form.menu-item .small-right {
+    width: 5%;
+    float: right;
+    text-align: center;
+}
+
+form.menu-item .menu-item-name {
+    width: 75%;
+    display: inline-block;
+}
+
+form.menu-item .menu-item-price {
+    display: inline-block;
+    width: 20%;
+    float: right;
+}
+
+form.menu-item .menu-item-description {
+    margin-top: 20px;
+}
+
+.menuItemsRow {    
+    counter-reset: menu-item-counter;
+}
+
+.menuItemsRow .menu-item span::before {
+    content: counter(menu-item-counter);
+    counter-increment: menu-item-counter;
+}
+
+.pswp img {
+    max-width: 100% !important;
+    height: auto !important;
+}
+
+.photoSwipeThumb {
+    width: 30% !important;
+    margin: 1%;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: #fff;
+    color: #fd6f60;
+}
+
+.dropdown-menu {
+    border: none;
+}
+
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus,
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+    background-color: #fff;    
+    color: #fd6f60;
+}
+
+.navbar-white .navbar-nav .dropdown-menu > .active > a {
+    color: #fd6f60;
+}
+
+.navbar.navbar-transparent .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+    background-color: transparent;
+}
+
+.navbar.navbar-transparent .dropdown-menu {
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    margin-top: -20px;
+}
+
+.navbar.navbar-transparent .dropdown-menu > .active > a, .navbar.navbar-transparent .dropdown-menu > .active > a:hover, .navbar.navbar-transparent .dropdown-menu > .active > a:focus,
+.navbar.navbar-transparent .dropdown-menu > li > a:hover, .navbar.navbar-transparent .dropdown-menu > li > a:focus {
+    background-color: transparent;  
+    color: #fd6f60;    
 }

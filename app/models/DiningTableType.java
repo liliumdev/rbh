@@ -4,9 +4,6 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 
 // TODO Remove DiningTableType model and successfully compile the project
 /* This is an unused model, it won't be used in the future. For some

@@ -1,0 +1,60 @@
+{{title "My reservations"}}
+
+<div class="container" id="normal-container">
+   <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
+          <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
+                My reservations
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <br>
+                {{#each flashMessages.queue as |flash|}}
+                {{flash-message flash=flash}}
+              {{/each}}
+            </div>
+          </div>
+
+          <div class="row">
+              <div class="col-md-12">
+                  <div class="card">
+                      <div class="content">
+                      	<table>
+                      		<tr>
+	                      		<th>Name</th>
+                            <th>Reservation made</th>
+	                      		<th>Number of guests</th>
+	                      		<th>Date</th>
+	                      		<th>Time</th>
+                            <th style="width: 10%;">Options</th>
+							</tr>
+              {{#if (eq model.reservations.length 0)}}
+                <tr>
+                  <td colspan="6">
+                    You haven't made any reservations so far.
+                  </td>
+                </tr>
+              {{/if}}
+							 {{#each model.reservations as |reservation|}}   
+								<tr>
+		                      		<td>{{reservation.name}}</td>
+                              <td>{{moment-format reservation.createdAt 'MMM DD, YYYY'}}</td>
+		                      		<td>{{reservation.persons}}</td>
+		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
+		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
+                              <td> <a href="#" {{ action "delete" reservation }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+								</tr> 
+							{{/each}}
+                      	</table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+       </div>
+       
+   </div>
+   
+</div>

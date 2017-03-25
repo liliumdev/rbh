@@ -6,9 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class ForgotPassword extends BaseModel<ForgotPassword> {
     private String token;

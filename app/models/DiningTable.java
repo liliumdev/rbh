@@ -1,8 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -10,9 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
 
-/**
- * Created by Lilium on 17.1.2017.
- */
 @Entity
 public class DiningTable extends BaseModel<DiningTable> {
     private Integer amount;
@@ -41,7 +40,8 @@ public class DiningTable extends BaseModel<DiningTable> {
         this.restaurant = restaurant;
     }
 
-    @OneToMany(mappedBy = "diningTable")
+    @JsonIgnore
+    @OneToMany(mappedBy = "diningTable", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Reservation> getReservations() {
         return reservations;
     }

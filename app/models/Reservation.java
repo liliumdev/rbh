@@ -1,41 +1,43 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import java.util.Date;
 import java.sql.Timestamp;
+import javax.persistence.TemporalType;
 
-/**
- * Created by Lilium on 14.1.2017.
- */
 @Entity
 public class Reservation extends BaseModel<Reservation> {
-    private Timestamp forTime;
-    private Timestamp createdAt;
+    private Date forTime;
+    private Date createdAt;
     private Integer persons;
     private String request;
     private DiningTable diningTable;
     private Account account;
 
     @Basic
-    @Column(name = "for_time")
-    public Timestamp getForTime() {
+    @Column(name = "for_time", columnDefinition = "timestamp without time zone")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getForTime() {
         return forTime;
     }
 
-    public void setForTime(Timestamp forTime) {
+    public void setForTime(Date forTime) {
         this.forTime = forTime;
     }
 
     @Basic
-    @Column(name = "created_at")
-    public Timestamp getCreatedAt() {
+    @Column(name = "created_at", columnDefinition = "timestamp without time zone")
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -59,7 +61,7 @@ public class Reservation extends BaseModel<Reservation> {
         this.request = request;
     }
 
-
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "table_id", referencedColumnName = "id")
     public DiningTable getDiningTable() {
@@ -103,5 +105,108 @@ public class Reservation extends BaseModel<Reservation> {
         setForTime(data.getForTime());
         setPersons(data.getPersons());
         setRequest(data.getRequest());
+    }
+
+    public static Reservation createReservation(DiningTable diningTable, Account account, Date date, Date finalReservationTime,
+                                         Integer persons) {
+        Reservation r = new Reservation();
+        r.setDiningTable(diningTable);
+        r.setAccount(account);
+        r.setCreatedAt(date);
+        r.setForTime(finalReservationTime);
+        r.setPersons(persons);
+
+        return r;
+    }
+
+    public static class ReservationSuggestionDto {
+        private Integer persons;
+        private Integer freeTables;
+        private Integer tableId;
+        private Timestamp suggestedTime;
+
+        public ReservationSuggestionDto() { }
+
+        public Integer getPersons() {
+            return persons;
+        }
+
+        public void setPersons(Integer persons) {
+            this.persons = persons;
+        }
+
+        public Integer getFreeTables() {
+            return freeTables;
+        }
+
+        public void setFreeTables(Integer freeTables) {
+            this.freeTables = freeTables;
+        }
+
+        public Integer getTableId() {
+            return tableId;
+        }
+
+        public void setTableId(Integer tableId) {
+            this.tableId = tableId;
+        }
+
+        public Timestamp getSuggestedTime() {
+            return suggestedTime;
+        }
+
+        public void setSuggestedTime(Timestamp suggestedTime) {
+            this.suggestedTime = suggestedTime;
+        }
+    }
+
+    public static class MyReservationDto {
+        private Integer id;
+        private Timestamp forTime;
+        private Timestamp createdAt;
+        private String name;
+        private Integer persons;
+
+        public MyReservationDto() { }
+
+        public Integer getId() {
+            return id;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public Timestamp getForTime() {
+            return forTime;
+        }
+
+        public void setForTime(Timestamp forTime) {
+            this.forTime = forTime;
+        }
+
+        public Timestamp getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(Timestamp createdAt) {
+            this.createdAt = forTime;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Integer getPersons() {
+            return persons;
+        }
+
+        public void setPersons(Integer persons) {
+            this.persons = persons;
+        }
     }
 }
