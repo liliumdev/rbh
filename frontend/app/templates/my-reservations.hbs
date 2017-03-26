@@ -41,7 +41,7 @@
 							 {{#each model.reservations as |reservation|}}   
 								<tr>
 		                      		<td>{{reservation.name}}</td>
-                              <td>{{moment-format reservation.createdAt 'MMM DD, YYYY'}}</td>
+                              <td>{{moment-format reservation.createdAt 'MMM DD, YYYY h:mm A'}}</td>
 		                      		<td>{{reservation.persons}}</td>
 		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
 		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>

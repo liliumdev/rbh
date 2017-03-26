@@ -119,7 +119,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
         }
     }
 
-    public Double rate(Long restaurantId, Integer rating, String description, String email) throws ServiceException {
+    public Review rate(Long restaurantId, Integer rating, String description, String email) throws ServiceException {
         try {
             // Did this user already review the retaurant?
             if(reviewService.didReview(restaurantId, email)) {
@@ -143,17 +143,21 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             // Recalculate the restaurant rating
             restaurant.setReviewCount(restaurant.getReviewCount() + 1); // First increase the count
 
-            Double newRating = (Double) reviewService.repository.getSession().createCriteria(Review.class)
-                    .setProjection(Projections.avg("rating"))
-                    .add(Restrictions.eq("restaurant.id", restaurantId))
-                    .uniqueResult();
-
-            restaurant.setReviewRating(newRating);
+            restaurant.setReviewRating(this.getRating(restaurantId));
             this.update(restaurantId, restaurant);
 
-            return newRating;
+            return review;
         } catch(ServiceException e) {
             throw new ServiceException("RestaurantService couldn't rate a restaurant.", e);
         }
+    }
+
+    public Double getRating(Long restaurantId) {
+        Double rating = (Double) reviewService.repository.getSession().createCriteria(Review.class)
+                .setProjection(Projections.avg("rating"))
+                .add(Restrictions.eq("restaurant.id", restaurantId))
+                .uniqueResult();
+
+        return rating;
     }
 }

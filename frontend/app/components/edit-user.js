@@ -59,6 +59,8 @@ export default Ember.Component.extend(Validations, {
                 if(cities.length > 0) {
                     self.set('city', cities[0].id);
                     self.set('model.account.city.id', cities[0].id);
+                } else {
+                    alert("DAYUMN!");
                 }
             });
         },
