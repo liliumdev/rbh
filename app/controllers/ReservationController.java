@@ -72,7 +72,7 @@ public class ReservationController extends BaseController<Reservation, Reservati
             Long tableId = data.getTableId();
             Integer persons = data.getPersons();
 
-            if(service.isReservationAvailable(time, restaurantId, tableId)) {
+            if(service.isReservationAvailable(time, restaurantId, tableId, persons)) {
                 return ok(Json.toJson(service.create(restaurantId, time, tableId, persons, request().username())));
             }
 
@@ -94,7 +94,7 @@ public class ReservationController extends BaseController<Reservation, Reservati
 
             CompleteReservationForm data = form.get();
 
-            Boolean available = service.isReservationAvailable(data.getTime(), data.getRestaurantId(), data.getTableId());
+            Boolean available = service.isReservationAvailable(data.getTime(), data.getRestaurantId(), data.getTableId(), data.getPersons());
             if(available) {
                 return ok(Json.toJson("Reservation is available"));
             }

@@ -43,18 +43,21 @@
         <div class="col-md-12">
             <h2>Popular for lunch today</h2>
         </div>
-
-        {{#each restaurants as |restaurant|}}
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                {{#restaurant-listing item=restaurant}}
-                {{/restaurant-listing}}
-            </div>
-        {{/each}}
-
-        <p style="text-align: center;">
-            {{#link-to 'restaurants'}} All restaurants {{/link-to}}
-        </p>
     </div>
+
+    {{#each (chunk 3 restaurants) as |restaurants_row|}}
+        <div class="row">
+            {{#each restaurants_row as |restaurant|}}
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    {{restaurant-listing item=restaurant}}
+                </div>
+            {{/each}}
+        </div>
+    {{/each}}
+
+    <p style="text-align: center;">
+        {{#link-to 'restaurants'}} All restaurants {{/link-to}}
+    </p>
 </div>
 
 <div class="container">

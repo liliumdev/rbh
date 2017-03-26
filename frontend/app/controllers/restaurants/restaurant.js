@@ -73,8 +73,9 @@ export default Ember.Controller.extend({
                 this.set('inProcessOfReservation', true);
 
                 var restaurantId = this.get('model.restaurant.id');
+                var peopleNum = this.get('reservation.persons');
 
-                this.get('reservationService').isReservationAvailable(restaurantId, time, table).then(function(data) {
+                this.get('reservationService').isReservationAvailable(restaurantId, time, table, peopleNum).then(function(data) {
                     this.set('inProcessOfReservation', false);
                     this.set('finalTime', time);
                     this.set('finalTable', table);
@@ -103,7 +104,7 @@ export default Ember.Controller.extend({
                     this.set('hasError', false);
                 } else {
                     this.set('hasError', true);
-                    this.set('errorMsg', "There are no free tables around your wished time. Sorry, please try another time.");
+                    this.set('errorMsg', "Sorry, there are no tables for that number of people around your wished time.");
                     this.set('inProcessOfReservation', false);   
                 }
 
@@ -122,11 +123,14 @@ export default Ember.Controller.extend({
         rate: function() {
             var restaurant = this.get('model.restaurant');
             var review = this.get('model.review');
+            var reviews = this.get('model.restaurant.reviews');
 
             this.get('restaurantService').rate(restaurant, review).then(function(data) {
                 this.set('model.restaurant.reviewRating', data.rating);
                 this.set('model.restaurant.reviewCount', this.get('model.restaurant.reviewCount') + 1);
                 this.set('model.review.didRate', true);
+                reviews.addObject(data.review);
+
             }.bind(this), function() {
                 console.log("Error while rating.");
             });

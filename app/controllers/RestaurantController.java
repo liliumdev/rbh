@@ -94,12 +94,18 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
             }
 
             RateForm data = form.get();
-            Double newRating = service.rate(id, data.getRating(), data.getDescription(), ctx().request().username());
+            /*Double newRating = service.rate(id, data.getRating(), data.getDescription(), ctx().request().username());
             if(newRating == null) {
+                return badRequest(Json.toJson("There's been an error while rating this restaurant."));
+            }*/
+            Review review = service.rate(id, data.getRating(), data.getDescription(), ctx().request().username());
+            if(review == null) {
                 return badRequest(Json.toJson("There's been an error while rating this restaurant."));
             }
 
-            return ok(Json.newObject().put("rating", newRating));
+            Double newRating = service.getRating(id);
+
+            return ok(Json.newObject().put("rating", newRating).putPOJO("review", review));
         } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@rate"));
         }

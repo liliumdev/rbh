@@ -4,15 +4,20 @@ import models.Account;
 import models.DiningTable;
 import models.Reservation;
 import models.Restaurant;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.transform.Transformers;
 import repositories.ReservationRepository;
 import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -67,10 +72,8 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
                 return null;
             }
 
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime reservationTime = LocalDateTime.parse(time, formatter).minusHours(1); // very hacky because of timezones
-            Instant instant = reservationTime.toInstant(ZoneOffset.UTC); // we're converting everything to UTC
-            Date finalReservationTime = Date.from(instant);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm z");
+            Date finalReservationTime = sdf.parse(time + " GMT+02:00");
 
             return create(Reservation.createReservation(diningTable, account, new Date(), finalReservationTime, persons));
         } catch(Exception e) {
@@ -105,10 +108,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             NativeQuery query = repository.getSession().createNativeQuery(sql);
 
             query.setParameter(1, email);
-            query.setResultTransformer(Transformers.aliasToBean(Reservation.MyReservationDto.class));
-
-
-            return (List<Reservation.MyReservationDto>) query.getResultList();
+            query.setResultTransformer(Transformers.aliasToBean(Reservation.MyReservationDto.class));return (List<Reservation.MyReservationDto>) query.getResultList();
         } catch(Exception e) {
             throw new ServiceException("ReservationService couldn't find reservations.", e);
         }
@@ -139,8 +139,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             LocalDateTime now = LocalDateTime.now();
 
             // When is this reservation?
-            LocalDateTime reservedTime = reservation.getForTime().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
-            reservedTime = reservedTime.plusHours(1); // hacky...not sure why...this is the right time from DB
+            LocalDateTime reservedTime = reservation.getForTime().toInstant().atZone(ZoneId.of("Europe/Sarajevo")).toLocalDateTime();
 
             // Reservation was in the past
             if(now.isAfter(reservedTime)) {
@@ -173,7 +172,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
      * @return
      * @throws ServiceException
      */
-    public Boolean isReservationAvailable(String time, Long restaurantId, Long tableId) throws ServiceException {
+    public Boolean isReservationAvailable(String time, Long restaurantId, Long tableId, Integer persons) throws ServiceException {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime wishedTime = LocalDateTime.parse(time, formatter);
@@ -202,6 +201,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
                     .append("INNER JOIN diningtable ON restaurant.id=diningtable.restaurant_id ")
                     .append("WHERE  ")
                     .append("      diningtable.id=?3 AND ")
+                    .append("      diningtable.persons>=?4 AND ")
                     .append("      reserved_times.wished_time = suggested_times.wished_time ")
                     .toString();
 
@@ -210,6 +210,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             query.setParameter(1, time);
             query.setParameter(2, restaurantId);
             query.setParameter(3, tableId);
+            query.setParameter(4, persons);
 
             return (Boolean) query.getSingleResult();
         } catch(Exception e) {
