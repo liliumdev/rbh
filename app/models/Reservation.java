@@ -190,7 +190,7 @@ public class Reservation extends BaseModel<Reservation> {
         }
 
         public void setCreatedAt(Timestamp createdAt) {
-            this.createdAt = forTime;
+            this.createdAt = createdAt;
         }
 
         public String getName() {

@@ -14,11 +14,11 @@ export default BaseService.extend({
         return this.ajax({ url: 'reservations/suggestions', type: "POST", data: JSON.stringify(data) });
     },
 
-    isReservationAvailable: function(restaurant_id, time, table_id) {
+    isReservationAvailable: function(restaurant_id, time, table_id, persons) {
         var data = {
             restaurantId: restaurant_id,
             tableId: table_id,
-            persons: 1, // not used in this api call
+            persons: persons.replace(" people", ""),
             time: moment(new Date(time)).format("YYYY-MM-DD HH:mm")
         };
 

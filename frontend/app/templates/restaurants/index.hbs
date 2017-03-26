@@ -79,12 +79,17 @@
             </div>
         {{/if}}
 
-        {{#each model.restaurants as |restaurant|}}
-            <div class="col-md-4 col-sm-6 col-xs-12">
-                {{#restaurant-listing item=restaurant}}
-                {{/restaurant-listing}}
+
+        {{#each (chunk 3 model.restaurants) as |restaurants_row|}}
+            <div class="row">
+                {{#each restaurants_row as |restaurant|}}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        {{restaurant-listing item=restaurant}}
+                    </div>
+                {{/each}}
             </div>
         {{/each}}
+
 
     </div>
 </div>
