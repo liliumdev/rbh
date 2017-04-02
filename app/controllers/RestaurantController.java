@@ -70,13 +70,17 @@ public class RestaurantController extends BaseController<Restaurant, RestaurantS
     }
 
     @Transactional
-    public Result nearest(Integer limit) {
+    public Result nearest(Integer limit, Double lat, Double lng) {
         try {
-            /*if(limit == null || limit == 0) {
-                return super.all();
+            if(limit >= 12 || limit == 0 || limit == null) {
+                limit = 12;
             }
-*/
-            return ok(toJson(service.nearest(limit)));
+
+            if(lat == null || lng == null || lat == 0 || lng == 0) {
+                return ok(toJson(service.bestRated(limit)));
+            }
+
+            return ok(toJson(service.nearest(limit, lat, lng)));
         } catch(ServiceException e) {
             return internalServerError(Json.toJson("Internal server error in RestaurantController@all"));
         }

@@ -1,6 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import play.data.validation.Constraints;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -24,7 +26,6 @@ public class Country extends BaseModel<Country> {
         this.name = name;
     }
 
-    @JsonManagedReference
     @OneToMany(mappedBy = "country")
     public List<City> getCities() {
         return cities;

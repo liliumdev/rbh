@@ -26,9 +26,10 @@
                       		<tr>
 	                      		<th>Name</th>
                             <th>Reservation made</th>
-	                      		<th>Number of guests</th>
+	                      		<th>Guests</th>
 	                      		<th>Date</th>
 	                      		<th>Time</th>
+                            <th style="width: 15%;">Special request</th>
                             <th style="width: 10%;">Options</th>
 							</tr>
               {{#if (eq model.reservations.length 0)}}
@@ -45,6 +46,7 @@
 		                      		<td>{{reservation.persons}}</td>
 		                      		<td>{{moment-format reservation.forTime 'MMM DD, YYYY'}}</td>
 		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
+                              <td><div style="max-height: 65px; overflow-y: auto;"><i>{{reservation.request}}</i></div></td>
                               <td> <a href="#" {{ action "delete" reservation }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
 								</tr> 
 							{{/each}}

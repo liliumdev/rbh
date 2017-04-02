@@ -5,7 +5,15 @@
         <div class="row-fluid">
             <div class="centering text-center">
                 <h1>Make a free reservation</h1>
-                <p>Choose your table from 757 restaurants near you</p>
+                {{#if nearest}}
+                    {{#if (eq nearest.length 1)}}
+                        <p>There's one splendid restaurant near you!</p> 
+                    {{else}}
+                        <p>Choose your table from {{nearest.length}} restaurants near you!</p> 
+                    {{/if}}               
+                {{else}}
+                <p>Choose your table from many splendid restaurants !</p>     
+                {{/if}}
                 <br>
                 <br>
 
@@ -38,7 +46,7 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container">  
     <div class="row">
         <div class="col-md-12">
             <h2>Popular for lunch today</h2>
@@ -60,29 +68,30 @@
     </p>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Nearest restaurants</h2>
-
-
-        {{#leaflet-map lat=mapLat lng=mapLong zoom=mapZoom  onDragend=(action "updateCenter") class="biggerLeaflet"}}
-            {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
-
-          {{#each nearest as |r|}}
-            {{#marker-layer lat=r.lat lng=r.lng draggable=false as |marker|}}
-              {{#marker.popup}}
-                <b>{{#link-to 'restaurants.restaurant' r.id}} Restaurant {{r.name}} {{/link-to}}</b><br>
-                <p>A great restaurant near you!</p>
-              {{/marker.popup}}
-            {{/marker-layer}}
-          {{/each}}
-
-        {{/leaflet-map}}
+{{#if nearest}}
+<div class="container">  
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Popular restaurants near you</h2>
+            </div>
         </div>
 
-    </div>
+        {{#each (chunk 3 nearest) as |restaurants_row|}}
+            <div class="row">
+                {{#each restaurants_row as |restaurant|}}
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        {{restaurant-listing item=restaurant}}
+                    </div>
+                {{/each}}
+            </div>
+        {{/each}}
+
+    <p style="text-align: center;">
+        {{#link-to 'restaurants'}} All restaurants {{/link-to}}
+    </p>
 </div>
+{{/if}}
+
 
 <div class="container">
     <h2>Popular locations</h2>

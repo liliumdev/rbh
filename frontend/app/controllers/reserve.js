@@ -14,8 +14,9 @@ export default Ember.Controller.extend({
             var time = this.get('finalTime');
             var table_id = this.get('finalTable');
             var persons = this.get('reservation.persons');
+            var request = this.get('reservation.request');
 
-            this.get('reservationService').reserve(restaurantId, time, table_id, persons).then(function() {
+            this.get('reservationService').reserve(restaurantId, time, table_id, persons, request).then(function() {
                 this.set('hasError', false);
                 this.set('errorMsg', "");
                 this.transitionToRoute('my-reservations');

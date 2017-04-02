@@ -32,19 +32,36 @@
 								  optionValuePath="content.id"
 								  optionLabelPath="content.name"
 								  selection=new.restaurant.city
-								  placeholder="Select location *" }}
+								  placeholder="Select location *" 
+								  select-item=(action 'selectedCity')
+								  }}
 						    </div>
 
 						    <div class="form-group admin-restaurant-location-map">
 						    	<p><b>Exact restaurant location (drag the marker)</b></p>
-								{{#leaflet-map lat=new.mapLat lng=new.mapLong zoom=new.zoom draggable=true}}
+								{{#leaflet-map lat=new.mapLat lng=new.mapLong zoom=new.zoom }}
 								    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
 
 								    {{#marker-layer lat=new.lat lng=new.long draggable=true onDragend=(action "updateLocation")}}
 								    {{/marker-layer}}
 
+								    {{#polygon-layer locations=new.locationPoints color="green"}}
+				                      {{#tooltip-layer sticky=true}}
+				                        Location zone
+				                      {{/tooltip-layer}}
+				                    {{/polygon-layer}}
+
 
 								{{/leaflet-map}}
+
+								{{#if new.isLocationProper}}
+								{{else}}
+								<p>
+									<b>
+									Error: The restaurant location must be inside the city boundary!
+									</b>
+								</p>
+								{{/if}}
 
 
 								<p><br><i>Fields with * are mandatory</i></p>

@@ -4,6 +4,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
 import controllers.BaseAdminController;
 import controllers.SecureAuth;
 import models.*;
@@ -16,9 +18,11 @@ import play.libs.Json;
 import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
+import services.CityService;
 import services.RestaurantService;
 import services.exceptions.ServiceException;
 
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
@@ -32,6 +36,13 @@ import java.util.List;
 import static play.libs.Json.toJson;
 
 public class RestaurantController extends BaseAdminController<Restaurant, RestaurantService> {
+
+    protected CityService cityService;
+
+    @Inject
+    public void setCityService(CityService cityService) {
+        this.cityService = cityService;
+    }
 
     @Transactional
     @SecureAuth.Authenticated(roles = {"ADMIN"})
@@ -63,7 +74,29 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             if(r.getMinimumCancelTime() == null) {
                 restaurantForm.errors().put("minimumCancelTime", ValidationHelper.singleError("minimumCancelTime", "This field is mandatory."));
             }
+
+            final GeometryFactory gf = new GeometryFactory();
+            List<Double> latLong = r.getLatLongPoint().getCoordinates();
+            Point point = gf.createPoint(new Coordinate(latLong.get(0), latLong.get(1), 0.0));
+
+            // Let's check is this restaurant inside the city bounds
+            City city = cityService.get(r.getCity().getId());
+            if(city == null) {
+                restaurantForm.errors().put("location", ValidationHelper.singleError("city", "Invalid city!"));
+            } else {
+                Polygon cityBoundary = city.getBoundary();
+                if (cityBoundary != null) {
+                    if (!point.within(cityBoundary)) {
+                        restaurantForm.errors().put("location", ValidationHelper.singleError("location", "Restaurant location must be inside the city boundaries!"));
+                    }
+                }
+            }
+
+            if(restaurantForm.hasErrors()) {
+                return badRequest(restaurantForm.errorsAsJson());
+            }
             // All mandatory validators have passed
+            r.setLatLong(point);
 
             // Parse times and convert to java.util.date
             // In following order: working time FROM, working time TO, minimum cancel time
@@ -117,10 +150,6 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
 
             r.setReviewCount(0);
             r.setReviewRating(0.0);
-
-            final GeometryFactory gf = new GeometryFactory();
-            List<Double> latLong = r.getLatLongPoint().getCoordinates();
-            r.setLatLong(gf.createPoint(new Coordinate(latLong.get(0), latLong.get(1), 0.0)));
 
             return created(toJson(service.create(r)));
         } catch(ServiceException e) {

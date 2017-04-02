@@ -35,13 +35,14 @@ GET           /api/v1/cities/:id                                controllers.City
 GET           /api/v1/countries/:countryId/cities               controllers.CityController.allFromCountry(countryId:Long)
 
 PUT           /api/v1/cities/:id                                controllers.admin.CityController.update(id:Long)
+PUT           /api/v1/cities/:id/boundary                       controllers.admin.CityController.updateBoundary(id:Long)
 DELETE        /api/v1/cities/:id                                controllers.admin.CityController.delete(id:Long)
 POST          /api/v1/countries/:countryId/cities               controllers.admin.CityController.create(countryId:Long)
 # End of City related routes
 
 # Restaurant routes
 GET           /api/v1/restaurants                               controllers.RestaurantController.all(limit: Integer ?= 0)
-GET           /api/v1/restaurants/nearest                       controllers.RestaurantController.nearest(limit: Integer ?= 0)
+GET           /api/v1/restaurants/nearest                       controllers.RestaurantController.nearest(limit: Integer ?= 0, lat: Double ?= 0, lng: Double ?= 0)
 POST          /api/v1/restaurants/filter                        controllers.RestaurantController.filter()
 GET           /api/v1/restaurants/:id                           controllers.RestaurantController.get(id:Long)
 POST          /api/v1/restaurants/:id/rate                      controllers.RestaurantController.rate(id:Long)

@@ -1333,7 +1333,8 @@ ul.block-grid-4 > li:nth-of-type(4n+1) {
     padding: 6px 30px;
 }
 
-.card.review .rating-panel {
+.card.review {
+    text-align: left;
 }
 
 .card.review .rating-panel .fa-star {

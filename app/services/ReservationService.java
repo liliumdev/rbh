@@ -55,7 +55,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
      * @return Model of the newly created reservation
      * @throws ServiceException
      */
-    public Reservation create(Long restaurantId, String time, Long tableId, Integer persons, String email) throws ServiceException {
+    public Reservation create(Long restaurantId, String time, Long tableId, Integer persons, String email, String request) throws ServiceException {
         try {
             Restaurant restaurant = restaurantService.get(restaurantId);
             if(restaurant == null) {
@@ -75,7 +75,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm z");
             Date finalReservationTime = sdf.parse(time + " GMT+02:00");
 
-            return create(Reservation.createReservation(diningTable, account, new Date(), finalReservationTime, persons));
+            return create(Reservation.createReservation(diningTable, account, new Date(), finalReservationTime, persons, request));
         } catch(Exception e) {
             throw new ServiceException("ReservationService couldn't find reservations.", e);
         }
@@ -96,7 +96,7 @@ public class ReservationService extends BaseService<Reservation, ReservationRepo
             }
 
             String sql = new StringBuilder()
-                    .append("SELECT reservation.id AS \"id\", reservation.for_time AS \"forTime\", reservation.persons AS \"persons\", reservation.created_at AS \"createdAt\", restaurant.name AS \"name\" ")
+                    .append("SELECT reservation.id AS \"id\", reservation.for_time AS \"forTime\", reservation.persons AS \"persons\", reservation.created_at AS \"createdAt\", reservation.request AS \"request\", restaurant.name AS \"name\" ")
                     .append("FROM reservation, account, diningtable, restaurant ")
                     .append("WHERE reservation.account_id=account.id AND  ")
                     .append("	  account.email = (?1) AND ")

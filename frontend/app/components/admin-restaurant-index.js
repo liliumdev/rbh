@@ -48,10 +48,55 @@ export default Ember.Component.extend({
   		return false;
   	}),
 
+
+    checkIsLocationProper: function() {
+    	if(this.get('new.locationPoints').length == 0) {
+    		this.set('new.isLocationProper', true);
+    		return;
+    	}
+
+    	// Is the location proper, raycast algorithm
+		var coordinates = this.get('new').get('coordinates')
+	    var locationPoints = this.get('new.locationPoints');
+
+	    var x = coordinates[0], y = coordinates[1];
+
+	    var inside = false;
+	    for (var i = 0, j = locationPoints.length - 1; i < locationPoints.length; j = i++) {
+	        var xi = locationPoints[i].lat, yi = locationPoints[i].lng;
+	        var xj = locationPoints[j].lat, yj = locationPoints[j].lng;
+
+	        var intersect = ((yi > y) != (yj > y))
+	            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+	        if (intersect) inside = !inside;
+	    }
+
+	    this.set('new.isLocationProper', inside);
+    },
+
 	actions: {
+		updateCenter: function(e) {
+			let center = e.target.getCenter();
+			this.set('new.mapLat', center.lat);
+			this.set('new.mapLng', center.lng);
+	    },
+
 		updateLocation: function(e) {
 			let location = e.target.getLatLng();
 			this.get('new').set('coordinates', [location.lat, location.lng]);
+			this.checkIsLocationProper();			
+	    },
+
+	    selectedCity: function(city) {
+	    	if(city.boundary !== null) {
+                var locationPoints = city.boundary.coordinates[0].map(r => ({lat: r[0], lng: r[1] }));
+                locationPoints.pop();
+                this.set('new.locationPoints', locationPoints);
+            } else {
+                this.set('new.locationPoints', Ember.A([]));
+            }
+
+			this.checkIsLocationProper();	
 	    },
 
         pricingDollarClicked: function(params) {
