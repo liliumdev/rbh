@@ -63,7 +63,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {   
-    ENV.apiHost = "http://polar-crag-51709.herokuapp.com";
+    ENV.apiHost = "https://polar-crag-51709.herokuapp.com";
     ENV.apiVersion = "1";
   }
 
