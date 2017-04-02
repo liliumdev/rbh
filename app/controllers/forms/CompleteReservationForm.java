@@ -15,6 +15,8 @@ public class CompleteReservationForm {
     @Constraints.Required
     private Integer persons;
 
+    private String request;
+
     public String getTime() {
         return time;
     }
@@ -46,4 +48,8 @@ public class CompleteReservationForm {
     public void setPersons(Integer persons) {
         this.persons = persons;
     }
+
+    public String getRequest() { return request; }
+
+    public void setRequest(String request) { this.request = request; }
 }

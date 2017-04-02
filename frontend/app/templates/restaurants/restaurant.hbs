@@ -60,7 +60,7 @@
                     <li>{{scroll-to href='#section-about' label='About'}}</li>
                     <li>{{scroll-to href='#section-menu' label='Menu'}}</li>
                     <li>{{scroll-to href='#section-photos' label='Photos'}}</li>
-                    <li><a href="#" {{action "toggleReviews"}}>{{if showReviews "Hide" "Show"}} reviews</a>
+                    <li><a href="#" data-toggle="modal" data-target="#reviewsModal">Reviews</a>
                     </li>
                 </ul>
             </div>
@@ -255,3 +255,4 @@
     </div>
 
     {{ restaurant-rate-modal review=model.review starClickedAction=(action "starClicked") rateAction=(action "rate")}}
+    {{ restaurant-reviews-modal reviews=model.restaurant.reviews }}

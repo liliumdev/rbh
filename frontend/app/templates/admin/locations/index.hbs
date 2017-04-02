@@ -20,29 +20,30 @@
                     <div class="form-group">
                       {{input class="form-control" value=location.name placeholder="Location/city name"}}
                     </div>
-                      <button class="btn btn-primary" {{action "add" }}>Add</button>
+                      <button class="btn btn-primary" {{action "add" }}><i class="fa fa-check-circle" aria-hidden="true"></i> Add</button>
                   </form>
 
-                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;">Add marker</button>
+                  <button class="btn btn-primary" {{ action "clearMarkers" }}  style="margin-left: 10px;"><i class="fa fa-eraser" aria-hidden="true"></i> Clear markers</button> 
+                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add marker</button>
 
                   <br><br>
 
                   {{#leaflet-map lat=lat lng=lng zoom=zoom onDragend=(action "updateCenter")}}
 
-				    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
-		  			
-		  			{{#each locationPoints as |r|}}
-				    {{#marker-layer lat=r.lat lng=r.lng draggable=true onDragend=(action "updateLocation" r)}}
-				    {{/marker-layer}}
-				  {{/each}}
+      				      {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+        		  			
+        		  			{{#each locationPoints as |r|}}
+          				    {{#marker-layer lat=r.lat lng=r.lng draggable=true onDragend=(action "updateLocation" r)}}
+          				    {{/marker-layer}}
+          				  {{/each}}
 
-				  {{#polygon-layer locations=locationZone color="green"}}
-				    {{#tooltip-layer sticky=true}}
-				      Location zone
-				    {{/tooltip-layer}}
-				  {{/polygon-layer}}
+          				  {{#polygon-layer locations=locationZone color="green"}}
+          				    {{#tooltip-layer sticky=true}}
+          				      Location zone
+          				    {{/tooltip-layer}}
+          				  {{/polygon-layer}}
 
-				{{/leaflet-map}}
+        				{{/leaflet-map}}
                     
                   </div>
               </div>
@@ -76,8 +77,40 @@
                               }}
     
                             </td>
-	                      		<td> <a href="#" {{ action "delete" location }}> <i class="fa fa-times" aria-hidden="true"></i> </a> </td>
+	                      		<td>
+                             <a title="Edit location boundary" href="#" {{ action "toggleEditBoundary" location }}> <i class="fa fa-map-marker" aria-hidden="true"></i> </a> &nbsp; 
+                             <a title="Delete location" href="#" {{ action "delete" location }}> <i class="fa fa-times" aria-hidden="true"></i> </a> 
+                             </td>
 							</tr> 
+              {{#if location.editing}}
+              <tr>
+                <td colspan="2">
+                  <button class="btn btn-primary" {{ action "clearMarkers" }}  style="margin-left: 10px;"><i class="fa fa-eraser" aria-hidden="true"></i> Clear markers</button> 
+                  <button class="btn btn-primary" {{ action "addMarker" }} style="margin-left: 10px;"><i class="fa fa-plus-circle" aria-hidden="true"></i> Add marker</button>                  
+                  <button class="btn btn-primary" {{ action "finishEditBoundary" location}} style="margin-left: 10px;"><i class="fa fa-check-circle" aria-hidden="true"></i> Finish editing</button>
+
+                  <br><br>
+                  {{#leaflet-map lat=lat lng=lng zoom=zoom onDragend=(action "updateCenter")}}
+
+                    {{tile-layer url="http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png"}}
+                    
+                    {{#each locationPoints as |r|}}
+                      {{#marker-layer lat=r.lat lng=r.lng draggable=true onDragend=(action "updateLocation" r)}}
+                      {{/marker-layer}}
+                    {{/each}}
+
+                    {{#polygon-layer locations=locationZone color="green"}}
+                      {{#tooltip-layer sticky=true}}
+                        Location zone
+                      {{/tooltip-layer}}
+                    {{/polygon-layer}}
+
+                {{/leaflet-map}} <br>
+
+                  <button class="btn btn-primary" {{ action "cancelEdit" location}} style="margin-left: 10px;"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</button>
+                </td>
+              </tr>
+              {{/if}}
 						{{/each}}
                   	</table>
                   </div>

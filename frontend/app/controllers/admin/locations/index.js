@@ -24,8 +24,14 @@ export default Ember.Controller.extend({
 
             var countryId = this.get('location.countryId');
             var name = this.get('location.name');
+            var boundary = this.get('locationPoints').map(r => ([r.lat, r.lng]));
 
-            this.get('cityService').create(countryId, name).then(function(newLocation) {
+            if(boundary.length > 0 && boundary.length < 3) {
+                flashMessages.danger("If you're creating a location boundary, there must be a minimum of 3 markers! Or don't create any markers at all.");
+                return;
+            }
+
+            this.get('cityService').create(countryId, name, boundary).then(function(newLocation) {
                 this.get('model.locations').pushObject(newLocation);
                 this.set('location.name', '');
             }.bind(this), function(data) {
@@ -42,6 +48,7 @@ export default Ember.Controller.extend({
             }.bind(this));
         },
         
+        // Edit related functionalities
         edit: function(city) {
             const flashMessages = Ember.get(this, 'flashMessages');
             this.get('cityService').edit(city.id, {name: city.name}).then(function() {
@@ -51,6 +58,49 @@ export default Ember.Controller.extend({
             }.bind());
         },
 
+        toggleEditBoundary: function(location) {
+            this.set('showAdd', false);
+            this.get('model.locations').setEach('editing', false);
+            location.toggleProperty('editing');
+
+            // Map Polygon to locationPoints and remove the last point which is not needed
+            if(location.boundary !== null) {
+                var locationPoints = location.boundary.coordinates[0].map(r => ({lat: r[0], lng: r[1] }));
+                locationPoints.pop();
+                this.set('locationPoints', locationPoints);
+            } else {
+                this.set('locationPoints', []);
+            }
+        },
+
+        clearMarkers: function() {
+            this.set('locationPoints', []);
+        },
+
+        finishEditBoundary: function(location) {
+            const flashMessages = Ember.get(this, 'flashMessages');
+            var boundary = this.get('locationPoints').map(r => ([r.lat, r.lng]));
+            
+            if(boundary.length > 0 && boundary.length < 3) {
+                flashMessages.danger("If you're creating a location boundary, there must be a minimum of 3 markers! Or don't create any markers at all.");
+                return;
+            }
+
+            this.get('cityService').editBoundary(location.id, boundary).then(function(updatedLocation) {
+                location.set('editing', false);
+                location.setProperties(updatedLocation);
+
+                flashMessages.success("Updated location boundaries.");
+            }.bind(this), function(data) {
+                flashMessages.danger(data.responseText);
+            }.bind(this));
+        },
+
+        cancelEdit: function(location) {            
+            location.set('editing', false);
+        },
+
+        // Add location related stuff
         switchAdd: function() {
             this.toggleProperty('showAdd');
         },

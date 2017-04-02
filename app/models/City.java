@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.vividsolutions.jts.geom.MultiPolygon;
+import com.vividsolutions.jts.geom.Polygon;
+import org.hibernate.annotations.Type;
 import play.data.validation.Constraints;
 
 import javax.persistence.Basic;
@@ -23,13 +24,12 @@ public class City extends BaseModel<City> {
     private List<Account> accounts;
     private Country country;
     private List<Restaurant> restaurants;
-    private MultiPolygon boundary;
+    private Polygon boundary;
 
+    @Column(name = "boundary", columnDefinition = "geometry(Polygon, 4326)")
+    public Polygon getBoundary() { return boundary; }
 
-    @Column(name = "boundary")
-    public MultiPolygon getBoundary() { return boundary; }
-
-    public void setBoundary(MultiPolygon boundary) { this.boundary = boundary; }
+    public void setBoundary(Polygon boundary) { this.boundary = boundary; }
 
     @Basic
     @Column(name = "name")
@@ -51,8 +51,8 @@ public class City extends BaseModel<City> {
         this.accounts = accounts;
     }
 
-    @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true) // otherwise first ref as POJO, others as id
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId=true)
     @ManyToOne
     @JoinColumn(name = "country_id", referencedColumnName = "id", nullable = false)
     public Country getCountry() {
@@ -80,6 +80,7 @@ public class City extends BaseModel<City> {
         c.setAccounts(model.getAccounts());
         c.setCountry(model.getCountry());
         c.setRestaurants(model.getRestaurants());
+        c.setBoundary(model.getBoundary());
 
         return c;
     }
@@ -90,5 +91,6 @@ public class City extends BaseModel<City> {
         if(data.getAccounts() != null) setAccounts(data.getAccounts());
         if(data.getCountry() != null) setCountry(data.getCountry());
         if(data.getRestaurants() != null) setRestaurants(data.getRestaurants());
+        if(data.getBoundary() != null) setBoundary(data.getBoundary());
     }
 }

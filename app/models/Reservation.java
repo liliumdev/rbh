@@ -108,13 +108,14 @@ public class Reservation extends BaseModel<Reservation> {
     }
 
     public static Reservation createReservation(DiningTable diningTable, Account account, Date date, Date finalReservationTime,
-                                         Integer persons) {
+                                         Integer persons, String request) {
         Reservation r = new Reservation();
         r.setDiningTable(diningTable);
         r.setAccount(account);
         r.setCreatedAt(date);
         r.setForTime(finalReservationTime);
         r.setPersons(persons);
+        r.setRequest(request);
 
         return r;
     }
@@ -166,6 +167,7 @@ public class Reservation extends BaseModel<Reservation> {
         private Timestamp createdAt;
         private String name;
         private Integer persons;
+        private String request;
 
         public MyReservationDto() { }
 
@@ -207,6 +209,14 @@ public class Reservation extends BaseModel<Reservation> {
 
         public void setPersons(Integer persons) {
             this.persons = persons;
+        }
+
+        public String getRequest() {
+            return request;
+        }
+
+        public void setRequest(String request) {
+            this.request = request;
         }
     }
 }

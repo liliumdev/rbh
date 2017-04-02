@@ -15,6 +15,7 @@ export default Ember.Controller.extend({
     tablesLeft: 0,
     inProcessOfReservation: false,
     showReviews: false,
+
     findTableOptions: Ember.computed('model.restaurant.workingTimeFrom', function() {
         var options = {
             scrollbar: true, 
@@ -27,6 +28,11 @@ export default Ember.Controller.extend({
 
         return options;
     }),
+
+    changedTableOption: function() {
+        this.set('gotSuggestions', false);
+        this.set('hasError', false);
+    }.observes('reservation.persons', 'reservation.date', 'reservation.wishedTime'),
 
     photos: Ember.computed('model.restaurant.photos', function() {
         if(Ember.isEmpty(this.get('model.restaurant.photos')))
@@ -46,6 +52,8 @@ export default Ember.Controller.extend({
         }
         return photosForGallery;
     }),
+
+
 
     clear: function() {
         this.setProperties({
