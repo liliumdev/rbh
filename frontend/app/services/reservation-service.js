@@ -25,12 +25,13 @@ export default BaseService.extend({
         return this.ajax({ url: 'reservations/available', type: "POST", data: JSON.stringify(data) });
     },
 
-    reserve: function(restaurant_id, time, table_id, persons) {
+    reserve: function(restaurant_id, time, table_id, persons, request) {
         var data = {
             restaurantId: restaurant_id,
             tableId: table_id,
             persons: persons.replace(" people", ""),
-            time: moment(new Date(time)).format("YYYY-MM-DD HH:mm")
+            time: moment(new Date(time)).format("YYYY-MM-DD HH:mm"),
+            request: request
         };
 
         return this.ajax({ url: 'reservations', type: "POST", data: JSON.stringify(data) });

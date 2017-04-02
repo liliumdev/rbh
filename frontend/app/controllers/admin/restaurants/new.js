@@ -8,7 +8,7 @@ export default Ember.Controller.extend({
 	notReady: Ember.computed('restaurant', 'restaurant.city', 'restaurant.diningTables', 
 							 'restaurant.name', 'restaurant.menus', 'restaurant.logoImageUrl', 
 							 'restaurant.coverImageUrl', 'uploading', 'restaurant.workingTimeFrom', 
-							 'restaurant.workingTimeTo', function() {
+							 'restaurant.workingTimeTo', 'isLocationProper', function() {
 
 		var restaurant = this.get('restaurant');
 
@@ -17,7 +17,8 @@ export default Ember.Controller.extend({
 
 		// Logo and cover must not be empty, name must not be empty, menu needs to have
 		// at least one item, a location must be chosen, there must be at least one table
-		// and table properties need to be valid (integers, and > 0)
+		// and table properties need to be valid (integers, and > 0), also the location
+		// must be inside a boundary (if there is one)
 		var mainMenu = this.get('restaurant.menus')[0];
 		var validation = Ember.isEmpty(this.get('restaurant.logoImageUrl')) 	|| 
 					     Ember.isEmpty(this.get('restaurant.coverImageUrl'))	||
@@ -25,7 +26,8 @@ export default Ember.Controller.extend({
 				   	     Ember.isEmpty(mainMenu.menuItems)						||
 				   	     !restaurant.hasOwnProperty('city')						||
 				   	     Ember.isEmpty(this.get('restaurant.diningTables'))	    ||
-				   	     moment(to).isSameOrBefore(from);
+				   	     moment(to).isSameOrBefore(from) 						||
+				   	     !this.get('isLocationProper');
 
 
 
@@ -72,8 +74,9 @@ export default Ember.Controller.extend({
 				}, function(response) {
 	                flashMessages.danger("Couldn't add an account.");
 				});
-			}, function() {
-	                flashMessages.danger("Couldn't upload images to AWS S3.");
+			}, function(data) {
+	                flashMessages.danger("Couldn't add restaurant.");
+	                flashMessages.danger(data);
 			});
 		},
 	}

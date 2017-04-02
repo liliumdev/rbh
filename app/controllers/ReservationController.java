@@ -71,9 +71,10 @@ public class ReservationController extends BaseController<Reservation, Reservati
             Long restaurantId = data.getRestaurantId();
             Long tableId = data.getTableId();
             Integer persons = data.getPersons();
+            String request = data.getRequest();
 
             if(service.isReservationAvailable(time, restaurantId, tableId, persons)) {
-                return ok(Json.toJson(service.create(restaurantId, time, tableId, persons, request().username())));
+                return ok(Json.toJson(service.create(restaurantId, time, tableId, persons, request().username(), request)));
             }
 
             return badRequest("Oops, seems that someone got this table before you did!");
@@ -151,6 +152,9 @@ public class ReservationController extends BaseController<Reservation, Reservati
                 if(toTime.isAfter(maximum)) {
                     toTime = maximum;
                     fromTime = toTime.minusHours(3);
+                    if(fromTime.isBefore(minimum)) {
+                        fromTime = minimum; // Because of minusHours(3) we have to check this again
+                    }
                 }
 
                 // If from time is before the current time

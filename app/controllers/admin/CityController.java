@@ -1,10 +1,13 @@
 package controllers.admin;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import controllers.BaseAdminController;
 import controllers.SecureAuth;
 import models.City;
 import play.data.Form;
 import play.db.jpa.Transactional;
+import play.libs.Json;
+import play.mvc.BodyParser;
 import play.mvc.Result;
 import services.CityService;
 import services.exceptions.ServiceException;
@@ -16,16 +19,27 @@ public class CityController extends BaseAdminController<City, CityService> {
     @SecureAuth.Authenticated(roles = {"ADMIN"})
     public Result create(Long countryId) {
         try {
-            Form<City> form = formFactory.form(City.class).bindFromRequest();
-            if(form.hasErrors()) {
-                return badRequest(form.errorsAsJson());
-            }
+            City city = Json.mapper().readValue(request().body().asJson().toString(), City.class);
 
-            return created(toJson(service.create(countryId, form.get())));
+            return created(toJson(service.create(countryId, city)));
         } catch(ServiceException e) {
             return badRequest("Service error in CityController@create");
         } catch(Exception e) {
             return internalServerError("Internal server error in CityController@create");
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result updateBoundary(Long id) {
+        try {
+            City city = Json.mapper().readValue(request().body().asJson().toString(), City.class);
+
+            return ok(toJson(service.update(id, city)));
+        } catch(ServiceException e) {
+            return badRequest("Service error in BaseController@update");
+        } catch(Exception e) {
+            return internalServerError("Internal server error in BaseController@update");
         }
     }
 

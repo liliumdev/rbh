@@ -32,6 +32,9 @@ export default AdminRoute.extend({
 	    controller.set('mapLong', 18.380985);	
 	    controller.set('chosenLogoName', "");
 	    controller.set('chosenCoverName', "");
-	    controller.set('uploading', false)
+	    controller.set('uploading', false)			
+    	controller.set('locationPoints', Ember.A([]));
+    	controller.set('isLocationProper', false);
+    	controller.set('zoom', 12);
 	}
 });

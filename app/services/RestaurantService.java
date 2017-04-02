@@ -1,16 +1,22 @@
 package services;
 
+import com.vividsolutions.jts.geom.Coordinate;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Point;
 import models.Reservation;
 import models.Restaurant;
 import models.Review;
 import models.filters.RestaurantFilterBuilder;
+import models.helpers.OrderByRawSql;
 import org.hibernate.Criteria;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.spatial.GeolatteGeometryType;
+import org.hibernate.spatial.criterion.SpatialRestrictions;
 import org.hibernate.spatial.dialect.postgis.PGGeometryTypeDescriptor;
 import org.hibernate.transform.Transformers;
 import repositories.RestaurantRepository;
@@ -45,22 +51,31 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
         }
     }
 
-    public List<Restaurant.RestaurantMapPointDto> nearest(Integer limit) throws ServiceException {
+    public List<Restaurant> bestRated(Integer limit) throws ServiceException {
         try {
-            String sql = new StringBuilder()
-                    .append("SELECT id, name, ST_X(lat_long) AS lat, ST_Y(lat_long) AS lng ")
-                    .append("FROM restaurant ")
-                    .append("WHERE ST_DWithin(restaurant.lat_long, ST_Geomfromtext('POINT(43.85 18.38)'), 3000) ")
-                    .append("ORDER BY ST_Distance(restaurant.lat_long, ST_Geomfromtext('POINT(43.85 18.38)')) ")
-                    .append("LIMIT " + limit.toString())
-                    .toString();
+            Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
+            criteria.addOrder(Order.desc("reviewRating"));
+            criteria.setMaxResults(limit);
+            return criteria.list();
+        } catch(HibernateException e) {
+            throw new ServiceException("RestaurantService couldn't find random restaurants.", e);
+        }
+    }
 
-            NativeQuery query = repository.getSession().createNativeQuery(sql);
+    public List<Restaurant.RestaurantMapPointDto> nearest(Integer limit, Double lat, Double lng) throws ServiceException {
+        try {
+            final GeometryFactory gf = new GeometryFactory();
+            Point point = gf.createPoint(new Coordinate(lat, lng, 0.0));
 
-            query.setResultTransformer(Transformers.aliasToBean(Restaurant.RestaurantMapPointDto.class));
+            Criteria criteria = repository.getSession().createCriteria(Restaurant.class);
+            // Distance is given in degrees. Calculating with matlab and km2deg, a spherical distance of
+            // 5km is around 0.045
+            criteria.add(SpatialRestrictions.distanceWithin("latLong", point, 0.05));
+            criteria.addOrder(OrderByRawSql.sql("ST_Distance(lat_long, ST_Geomfromtext('POINT(" + lat + " " + lng + ")'))"));
+            criteria.setMaxResults(limit);
+            return criteria.list();
 
 
-            return (List<Restaurant.RestaurantMapPointDto>)query.getResultList();
         } catch(Exception e) {
             throw new ServiceException("RestaurantService couldn't find nearest restaurants.", e);
         }

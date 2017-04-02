@@ -14,9 +14,10 @@ export default BaseService.extend({
 	  	return restaurants;
     },
 
-    nearestRestaurants: function(limit) {
+    nearestRestaurants: function(limit, lat, lng) {
+        // If lat or long is 0, returns best rated restaurants
         var restaurants = [];
-        this.ajax({ url: `restaurants/nearest?limit=${limit}`, type: "GET"}).then(function(data) {
+        this.ajax({ url: `restaurants/nearest?limit=${limit}&lat=${lat}&lng=${lng}`, type: "GET"}).then(function(data) {
             data.forEach(function(restaurant) {
                 restaurants.addObject(Restaurant.create(restaurant));
             });
@@ -95,8 +96,9 @@ export default BaseService.extend({
     },
 
     add: function(restaurant) {
-        // This was only a helper field (country id)
+        // This was only a helper field (country id), also we should delete the boundary
         delete restaurant.city.country;
+        delete restaurant.city.boundary; // causes problems on the backend
 
         return this.ajax({ url: 'restaurants', type: "POST", data: JSON.stringify(restaurant)});
     },
