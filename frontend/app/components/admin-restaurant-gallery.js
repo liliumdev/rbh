@@ -18,7 +18,12 @@ export default Ember.Component.extend({
   	actions: {
   		removeAddedPhoto: function(file) {
 	  		this.get('new.restaurant.photos').removeObject(file);
+	  	},
+
+	  	removeAddedUploadedPhoto: function(file) {
+	  		this.get('new.restaurant.photos').removeObject(file);
 	  	}
+
   	}
   	
 	

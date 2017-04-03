@@ -15,7 +15,11 @@
 					<b>Already added files: </b>
 					<ul>
 						{{#each new.restaurant.photos as |photo| }}
-						<li>{{photo.name}} &nbsp; &nbsp; <a href="javascript:;" {{action "removeAddedPhoto" photo}}><i class="fa fa-remove"></i></a></li>
+							{{#if isEdit}}
+								<li>{{photo.imageUrl}} &nbsp; &nbsp; <a href="javascript:;" {{action "removeAddedUploadedPhoto" photo}}><i class="fa fa-remove"></i></a></li>
+							{{else}}
+								<li>{{photo.name}} &nbsp; &nbsp; <a href="javascript:;" {{action "removeAddedPhoto" photo}}><i class="fa fa-remove"></i></a></li>
+							{{/if}}
 						{{/each}}
 					</ul>
 				</p>

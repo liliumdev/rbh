@@ -13,6 +13,27 @@
 				</div>
 
 				<div class="row menuItemsRow">
+					{{#if showHeader}}
+					  <div class="col-md-8">
+					      <form class="menu-item">
+							<div class="left">
+								<p>
+								</p>
+							</div>
+
+							<div class="small-right">
+								<p>
+								</p>
+							</div>
+
+							<div class="form-group right">
+									{{input class="form-control menu-item-name" placeholder="Number of persons" disabled=true}}
+									{{input class="form-control menu-item-price" placeholder="Amount" disabled=true}}
+							</div>
+						</form>
+						</div>
+					{{/if}}
+
 					  {{#each new.diningTables as |table|}}
 					    <div class="col-md-8">
 					      <form class="menu-item">

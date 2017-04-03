@@ -56,6 +56,10 @@ export default BaseService.extend({
     	return restaurant;
     },
 
+    getById_wo_reservations: function(id) {
+        return this.ajax({ url: `restaurants/${id}`, type: "GET"});        
+    },
+
     rate: function(restaurant, review) {
         return this.ajax({ url: `restaurants/${restaurant.id}/rate`, type: "POST", 
                            data: JSON.stringify({rating: review.rating, description: review.description})

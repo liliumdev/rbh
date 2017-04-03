@@ -84,7 +84,7 @@ export default Ember.Component.extend({
 		updateLocation: function(e) {
 			let location = e.target.getLatLng();
 			this.get('new').set('coordinates', [location.lat, location.lng]);
-			this.checkIsLocationProper();			
+			this.checkIsLocationProper();
 	    },
 
 	    selectedCity: function(city) {

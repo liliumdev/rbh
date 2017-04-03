@@ -37,7 +37,11 @@ Router.map(function() {
         this.route('gallery');
         this.route('tables');
       });
-      this.route('edit', {path: ':id'}, function() {});
+      this.route('edit', {path: ':id'}, function() {
+        this.route('menu');
+        this.route('tables');
+        this.route('gallery');
+      });
       this.route('reservations', {path: ':id/reservations'}, function() {});
     });
   });

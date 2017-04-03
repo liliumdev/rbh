@@ -7,47 +7,47 @@ import Photo from 'restaurants-app/models/photo';
 
 export default AdminRoute.extend({
 	restaurantService: Ember.inject.service(),
+	categoryService: Ember.inject.service(),
+    cityService: Ember.inject.service(),
 
 	model: function(params, transition) {
 		return Ember.RSVP.hash({
-			restaurant: this.get('restaurantService').getById(params.id)
-		});
-	}
-
-/*	categoryService: Ember.inject.service(),
-    cityService: Ember.inject.service(),
-
-	model: function() {
-		return Ember.RSVP.hash({
+			restaurant: this.get('restaurantService').getById_wo_reservations(params.id),
 			categories: this.get('categoryService').all(),
 			locations: this.get('cityService').all()
 		});
-	}
+	},
 
-	
 	setupController: function(controller, models) {		
-	    controller.set('restaurant', Restaurant.create({
-	    	name: "",
-	    	diningTables: [], 
-	    	menus: [{
-	    		name: "Main menu", 
-	    		menuItems: []
-	    	}], 
-	    	photos: [], 
-	    	categoriesList: Ember.A([]),
-	    	latLongPoint: {type: "Point", coordinates: [43.854460, 18.380985]},
-	    	logoImageUrl: "",
-	    	coverImageUrl: "",
-	    	pricing: 1
-	    }));
+	    var lat = models.restaurant.latLong.coordinates[0], lng = models.restaurant.latLong.coordinates[1];
 
-	    controller.set('menuItems', Ember.A([MenuItem.create({name: "", description: "", price: ""})]));
-	    controller.set('diningTables', Ember.A([DiningTable.create({amount: "", persons: ""})]));
-	    controller.set('mapLat', 43.854460);
-	    controller.set('mapLong', 18.380985);	
-	    controller.set('chosenLogoName', "");
-	    controller.set('chosenCoverName', "");
-	    controller.set('uploading', false)
+	    // Convert restaurant API json to frontend required json
+	    // This should be done in the model ... but not possible atm
+	    var restaurant = Restaurant.create({});
+	    restaurant.setProperties(models.restaurant);
+	    restaurant.set('categoriesList', restaurant.categories);
+
+	    controller.set('restaurant', restaurant);
+	    controller.set('menuItems', restaurant.menus[0].menuItems);
+	    controller.set('diningTables', restaurant.diningTables);
+	    controller.set('lat', lat);
+	    controller.set('long', lng);	
+	    controller.set('mapLat', lat);
+	    controller.set('mapLong', lng);	
+
+	    controller.set('chosenLogoName', restaurant.logoImageUrl);
+	    controller.set('chosenCoverName', restaurant.coverImageUrl);
+
+	    controller.set('uploading', false)		
+
+	    var locationPoints = [];
+	    if(restaurant.city.boundary !== null) {
+		    locationPoints = restaurant.city.boundary.coordinates[0].map(r => ({lat: r[0], lng: r[1] }));
+	        locationPoints.pop();
+	    }
+
+    	controller.set('locationPoints', locationPoints);
+    	controller.set('isLocationProper', true);
+    	controller.set('zoom', 12);
 	}
-	*/ 
 });
