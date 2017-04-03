@@ -35,5 +35,6 @@ export default Ember.Component.extend(Validations, {
     empty: function() {
     	this.set('identification', '');
     	this.set('password', '');
+        this.set('remember', false);
     }
 });

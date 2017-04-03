@@ -2,6 +2,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
+        {{#if (eq reviews.length 0)}}
+          <p><br>There are no visible reviews for this restaurant.</p>
+        {{/if}}
         {{#each reviews as |review|}}                                            
             <div class="card review">
                 <div class="padded">

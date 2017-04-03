@@ -1485,7 +1485,7 @@ form:not(.filter-box) .form-group
     margin-bottom: 10px;
 }
 
-form:not(.filter-box) .form-group input, form .form-group select
+form:not(.filter-box) .form-group input:not([type='checkbox']), form .form-group select
 {
     border-radius: 2px;
     box-shadow: none;
@@ -1525,7 +1525,6 @@ form:not(.filter-box, .form-inline) .btn
 {
     width: 100%;
     height: 53px;
-    margin-top: 30px;
 }
 
 .input-error .error {

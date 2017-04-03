@@ -48,6 +48,8 @@ export default BaseService.extend({
     edit: function(accountId, data) {
         // This was only a helper field (country id)
         delete data.city.country;
+        delete data.city.boundary;
+        
         return this.ajax({ url: `accounts/${accountId}`, type: "PUT", data: JSON.stringify(data) });
     },
 

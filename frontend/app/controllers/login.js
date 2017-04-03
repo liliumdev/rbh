@@ -11,7 +11,12 @@ export default Ember.Controller.extend({
     },
 
     actions: {
-        login: function(credentials, doRedirect) {
+        login: function(credentials, doRedirect, remember) {
+            var expirationTime = remember === true ? (30 * 24 * 60 * 60) : 'Session'; // 30 days
+            this.set('session.store.cookieExpirationTime', expirationTime);
+            console.log("exp time");
+            console.log(expirationTime);
+
             const flashMessages = Ember.get(this, 'flashMessages');
             var self = this;
             this.authenticate(credentials).then(function(value) {
@@ -26,11 +31,12 @@ export default Ember.Controller.extend({
 
         loginNormal: function() {
             var credentials = this.getProperties('identification', 'password');
-            this.send('login', credentials, true);
+            var remember = this.get('remember');
+            this.send('login', credentials, true, remember);
         },
 
-        loginWithoutRedirect: function(credentials) {
-            this.send('login', credentials, false);
+        loginWithoutRedirect: function(credentials, remember) {
+            this.send('login', credentials, false, remember);
         }
     }
 });

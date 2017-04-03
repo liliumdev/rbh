@@ -13,5 +13,6 @@ export default BaseRoute.extend({
         controller.set('reservation', restaurantController.get('reservation'));
         controller.set('finalTime', restaurantController.get('finalTime'));
         controller.set('finalTable', restaurantController.get('finalTable'));
+        controller.set('remember', false);
     }
 });

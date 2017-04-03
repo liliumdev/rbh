@@ -8,8 +8,13 @@
   	{{validated-input type="password" model=this placeholder="Password" valuePath="password"}}
   </div>                        
 
-  <button type="submit" class="btn btn-primary">Login</button>
+  <div class="form-group">
+    {{input type="checkbox" name="rememberMe" checked=remember}} Remember me
+  </div>
+
+  <button type="submit" class="btn btn-primary" disabled={{v-get this 'isInvalid'}}>Login</button>
   
+
   {{#if showForgot}}
     <div class="form-tip"> 
       {{#link-to 'forgot-password'}}Did you forget your password?{{/link-to}}

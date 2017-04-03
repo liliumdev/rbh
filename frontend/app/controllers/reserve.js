@@ -27,7 +27,7 @@ export default Ember.Controller.extend({
         },
 
         loginWithoutRedirect: function() {
-            this.get('login').send('loginWithoutRedirect', this.getProperties('identification', 'password')); 
+            this.get('login').send('loginWithoutRedirect', this.getProperties('identification', 'password'), this.get('remember')); 
         },
 
         toggleLoginRegister: function() {

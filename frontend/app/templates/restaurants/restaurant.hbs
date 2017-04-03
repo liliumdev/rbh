@@ -68,39 +68,7 @@
             <div class="col-md-9 col-sm-9 col-xs-12" id="pull-up-column">
 
                 {{outlet}}
-
-                {{#if showReviews}}
-                    {{#each model.restaurant.reviews as |review|}}                                            
-                        <div class="card review">
-                            <div class="padded">
-                                <div class="title">
-                                    <div class="row">
-                                        <div class="col-md-9 col-sm-9 col-xs-6 main v-align-center">
-                                            Review
-                                            
-        {{star-rating item=review rating=review.rating maxRating=review.rating fullClassNames='fa fa-star' emptyClassNames='fa fa-star inactive'}} 
-                                        </div><!--
-                                     --><div class="col-md-3 col-sm-3 col-xs-6 sub v-align-center">
-                                            <span style="height: 10px;">{{ review.accountName}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="content">
-                                   <div class="row">
-                                       <div class="col-md-12">
-                                            <p>
-                                                {{ review.description }}
-                                            </p>  
-                                            
-                                       </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    {{/each}}
-
-                {{else}}                
+              
                 <div class="card" id="section-reservation">
                     <div class="padded">
                         <div class="title">
@@ -245,8 +213,6 @@
                         </div>
                     </div>
                 </div>
-
-                {{/if}}
 
 
             </div>
