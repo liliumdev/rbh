@@ -1,5 +1,6 @@
 package controllers.admin;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -19,6 +20,7 @@ import play.mvc.BodyParser;
 import play.mvc.Http;
 import play.mvc.Result;
 import services.CityService;
+import services.PhotoService;
 import services.RestaurantService;
 import services.exceptions.ServiceException;
 
@@ -32,22 +34,27 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static play.libs.Json.toJson;
 
 public class RestaurantController extends BaseAdminController<Restaurant, RestaurantService> {
-
     protected CityService cityService;
+    private PhotoService photoService;
 
     @Inject
     public void setCityService(CityService cityService) {
         this.cityService = cityService;
     }
 
+    @Inject
+    public void setPhotoService(PhotoService photoService) {
+        this.photoService = photoService;
+    }
+
     @Transactional
-    @SecureAuth.Authenticated(roles = {"ADMIN"})
-    @BodyParser.Of(BodyParser.Json.class)
-    public Result add() {
+    public BoundRestaurant bindRestaurantFromRequest(Boolean updating, Long existingId) throws ServiceException {
+        BoundRestaurant result = new BoundRestaurant();
         try {
             Form<Restaurant> restaurantForm = formFactory.form(Restaurant.class).bindFromRequest();
             Restaurant r = restaurantForm.get();
@@ -92,9 +99,12 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
                 }
             }
 
+            result.setRestaurantForm(restaurantForm);
+
             if(restaurantForm.hasErrors()) {
-                return badRequest(restaurantForm.errorsAsJson());
+                return result;
             }
+
             // All mandatory validators have passed
             r.setLatLong(point);
 
@@ -148,55 +158,188 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
                 }
             }
 
-            r.setReviewCount(0);
-            r.setReviewRating(0.0);
+            if(!updating) {
+                r.setReviewCount(0);
+                r.setReviewRating(0.0);
+                result.setRestaurant(r);
+            } else {
+                Restaurant existing = service.get(existingId);
+                existing.setName(r.getName());
+                existing.setDescription(r.getDescription());
+                existing.setLogoImageUrl(r.getLogoImageUrl());
+                existing.setCity(r.getCity());
+                existing.setPricing(r.getPricing());
+                existing.setWorkingTimeFrom(r.getWorkingTimeFrom());
+                existing.setWorkingTimeTo(r.getWorkingTimeTo());
+                existing.setMinimumCancelTime(r.getMinimumCancelTime());
+                existing.setLatLong(point);
 
-            return created(toJson(service.create(r)));
+                List<Photo> existingPhotos = existing.getPhotos();
+                for(Photo p : r.getPhotos()) {
+                    if(p.getId() == null) {
+                        existingPhotos.add(p);
+                    }
+                }
+
+                List<DiningTable> existingTables = existing.getDiningTables();
+                List<DiningTable> newTables = r.getDiningTables();
+
+                // Any old tables to remove?
+                for(int i = 0; i < existingTables.size(); i++) {
+                    DiningTable dt = existingTables.get(i);
+
+                    // There was a problem using .stream().filter().findFirst() <- kept throwing nullpointerexception
+                    DiningTable nt = null;
+                    for(int j = 0; j < newTables.size(); j++) {
+                        if(dt.getId().equals(newTables.get(j).getId())) {
+                            nt = newTables.get(j); break;
+                        }
+                    }
+
+                    if(nt == null) {
+                        // This table has been removed
+                        existingTables.remove(dt);
+                        i--;
+                    } else {
+                        dt.setPersons(nt.getPersons());
+                        dt.setAmount(nt.getAmount());
+                    }
+                }
+
+                // Any new tables to add?
+                for(DiningTable t : newTables) {
+                    if(t.getId() == null) {
+                        existingTables.add(t);
+                    }
+                }
+
+                // We can just replace the menu because there are no special relationships except the restaurant
+                existing.getMenus().clear();
+                existing.getMenus().addAll(r.getMenus());
+
+                // Same goes for categories
+                existing.getCategories().clear();
+                existing.getCategories().addAll(r.getCategoriesList());
+
+                result.setRestaurant(existing);
+            }
+
+            return result;
         } catch(ServiceException e) {
+            throw new ServiceException("Couldn't bind Restaurant from form data!");
+        }
+    }
+
+    @Transactional
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result add() {
+        try {
+            BoundRestaurant br = bindRestaurantFromRequest(false, null);
+            Form<Restaurant> form = br.getRestaurantForm();
+            if(form != null) {
+                if(form.hasErrors()) {
+                    return badRequest(form.errorsAsJson());
+                }
+
+                Restaurant r = br.getRestaurant();
+                return created(toJson(service.create(r)));
+            }
+
+            return badRequest("Restaurant creation error");
+        } catch (Exception e) {
             return badRequest("Restaurant creation error");
         }
     }
 
+    @Transactional
     @SecureAuth.Authenticated(roles = {"ADMIN"})
-    public Result uploadImages() {
+    @BodyParser.Of(BodyParser.Json.class)
+    public Result update(Long id) {
+        try {
+            BoundRestaurant br = bindRestaurantFromRequest(true, id);
+            Form<Restaurant> form = br.getRestaurantForm();
+            if(form != null) {
+                if(form.hasErrors()) {
+                    return badRequest(form.errorsAsJson());
+                }
+
+                Restaurant r = br.getRestaurant();
+                return ok(toJson(service.update(id, r)));
+            }
+
+
+            return super.update(id);
+            //return badRequest("Restaurant creation error");
+        } catch (Exception e) {
+            return badRequest("Restaurant edit error");
+        }
+    }
+
+    @SecureAuth.Authenticated(roles = {"ADMIN"})
+    public Result uploadImages(Integer logoProvided, Integer coverProvided) {
         try {
             Http.MultipartFormData body = request().body().asMultipartFormData();
 
             List<Http.MultipartFormData.FilePart> allFiles = body.getFiles();
 
+            Integer minSize = (logoProvided > 0 ? 1 : 0) + (coverProvided > 0 ? 1 : 0);
+
             // No logo or image file uploaded
-            if(allFiles.size() < 2) {
+            if(allFiles.size() < minSize) {
                 return badRequest("File upload error");
             }
 
-            Http.MultipartFormData.FilePart<File> logoImage = allFiles.get(0);
-            Http.MultipartFormData.FilePart<File> coverImage = allFiles.get(1);
-
-            if(logoImage != null && coverImage != null) {
-                if((!logoImage.getContentType().equals("image/jpeg") && !logoImage.getContentType().equals("image/png")) ||
-                        (!coverImage.getContentType().equals("image/jpeg") && !coverImage.getContentType().equals("image/png"))) {
-                    return badRequest("Wrong file format!");
-                }
-
-                String logoImageUrl = this.uploadFile(logoImage.getFile(), "gallery/logos", true, 438, 350);
-                String coverImageUrl = this.uploadFile(coverImage.getFile(), "gallery/covers", false, 0, 0);
-
-                // Start building the response
-                List<Photo.ImageUploaded> photos = new ArrayList<>();
-                for(int i = 2; i < allFiles.size(); i++) {
-                    Http.MultipartFormData.FilePart<File> photo = allFiles.get(i);
-                    String uploadedPhoto = this.uploadFile(photo.getFile(), "gallery", true, 500, 500);
-                    photos.add(new Photo.ImageUploaded(uploadedPhoto, 0.0));
-                }
-
-                Photo.ImagesUploadResult result = new Photo.ImagesUploadResult(logoImageUrl, coverImageUrl, photos);
-
-                return ok(Json.toJson(result));
-            } else {
-                return badRequest("File upload error");
+            Http.MultipartFormData.FilePart<File> logoImage = null;
+            if(logoProvided > 0) {
+                logoImage = allFiles.get(0);
             }
+            Http.MultipartFormData.FilePart<File> coverImage = null;
+            if(coverProvided > 0) {
+                coverImage = allFiles.get(logoProvided > 0 ? 1 : 0); // if there's a logo too, cover will be the second file, otherwise the first
+            }
+
+            String logoImageUrl = "";
+            if(logoImage != null) {
+                if((!logoImage.getContentType().equals("image/jpeg") && !logoImage.getContentType().equals("image/png"))) {
+                    return badRequest("Wrong file format for logo!");
+                }
+
+                logoImageUrl = this.uploadFile(logoImage.getFile(), "gallery/logos", true, 438, 350);
+            }
+
+            String coverImageUrl = "";
+            if(coverImage != null) {
+                if((!coverImage.getContentType().equals("image/jpeg") && !coverImage.getContentType().equals("image/png"))) {
+                    return badRequest("Wrong file format for cover!");
+                }
+
+                coverImageUrl = this.uploadFile(coverImage.getFile(), "gallery/covers", false, 0, 0);
+            }
+
+            // Start building the response
+            List<Photo.ImageUploaded> photos = new ArrayList<>();
+            for(int i = minSize; i < allFiles.size(); i++) {
+                Http.MultipartFormData.FilePart<File> photo = allFiles.get(i);
+                String uploadedPhoto = this.uploadFile(photo.getFile(), "gallery", true, 500, 500);
+                photos.add(new Photo.ImageUploaded(uploadedPhoto, 0.0));
+            }
+
+            Photo.ImagesUploadResult result = new Photo.ImagesUploadResult(logoImageUrl, coverImageUrl, photos);
+
+            return ok(Json.toJson(result));
         } catch(Exception e) {
             return badRequest("File upload error");
+        }
+    }
+
+    @Transactional
+    public Result deleteImage(Long restaurantId, String file, String directory, Integer thumb) {
+        try {
+            service.deletePhotoFromAws(restaurantId, directory, file, thumb > 0);
+            return ok();
+        } catch (ServiceException e) {
+            return internalServerError("Could not delete an image.");
         }
     }
 
@@ -253,6 +396,32 @@ public class RestaurantController extends BaseAdminController<Restaurant, Restau
             return ok(toJson(service.getAllReservations(id, time)));
         } catch (ServiceException e) {
             return badRequest("Unknown restaurant ID.");
+        }
+    }
+
+    public class BoundRestaurant {
+        private Restaurant restaurant;
+        private Form<Restaurant> restaurantForm;
+
+        public BoundRestaurant() {
+            restaurant = null;
+            restaurantForm = null;
+        }
+
+        public Restaurant getRestaurant() {
+            return restaurant;
+        }
+
+        public void setRestaurant(Restaurant restaurant) {
+            this.restaurant = restaurant;
+        }
+
+        public Form<Restaurant> getRestaurantForm() {
+            return restaurantForm;
+        }
+
+        public void setRestaurantForm(Form<Restaurant> restaurantForm) {
+            this.restaurantForm = restaurantForm;
         }
     }
 

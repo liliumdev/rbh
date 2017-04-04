@@ -36,30 +36,69 @@ export default Ember.Controller.extend({
 
 	zoom: 14,
 
-	coordinates: Ember.computed.alias('restaurant.latLong.coordinates'),
+	coordinates: Ember.computed.alias('restaurant.latLongPoint.coordinates'),
 
-	lat: Ember.computed('restaurant.latLong.coordinates', function() {
-		return this.get('restaurant.latLong.coordinates')[0];
+	lat: Ember.computed('restaurant.latLongPoint.coordinates', function() {
+		return this.get('restaurant.latLongPoint.coordinates')[0];
 	}),
 
-	long: Ember.computed('restaurant.latLong.coordinates', function() {
-		return this.get('restaurant.latLong.coordinates')[1];
+	long: Ember.computed('restaurant.latLongPoint.coordinates', function() {
+		return this.get('restaurant.latLongPoint.coordinates')[1];
 	}),
 
 	actions: {
-		// TO-DO: do this
 		editRestaurant: function() {
 			const flashMessages = Ember.get(this, 'flashMessages');
 			var self = this;
 
 			this.set('uploading', true);
 
+			// We should delete the old images first
+			var photos = this.get('restaurant.photos');
+			var photosAlreadyUploaded = Ember.A([]);
+			var photosToUpload = Ember.A([]);
+			for(var i = 0; i < photos.length; i++) {
+				if(photos[i].hasOwnProperty('imageUrl')) {
+					// delete this, it was already uploaded
+					photosAlreadyUploaded.pushObject(photos[i]);					
+				} else {
+					photosToUpload.pushObject(photos[i]);
+				}
+			}
+
+			console.log("photos to upload: ");
+			console.log(photosToUpload);
+			console.log("photos already uploaded");
+			console.log(photosAlreadyUploaded);
+
+			this.set('restaurant.photos', photosToUpload);
+
 			// First upload images
-			this.get('restaurantService').uploadImages(this.get('restaurant')).then(function(response) {
+			var isLogoProvided = typeof this.get('restaurant.logoImageUrl').name == 'string';
+			var isCoverProvided = typeof this.get('restaurant.coverImageUrl').name == 'string';
+
+			this.get('restaurantService').uploadImages(this.get('restaurant'), isLogoProvided, isCoverProvided).then(function(response) {
+				if(response !== "Empty") {
+					if(isLogoProvided) {
+						self.set('restaurant.logoImageUrl', response.logoImageUrl);
+					}
+					if(isCoverProvided) {
+						self.set('restaurant.coverImageUrl', response.coverImageUrl);
+					}
+					self.set('restaurant.photos', photosAlreadyUploaded.concat(response.photos));
+				} else {
+					self.set('restaurant.photos', photosAlreadyUploaded);
+				}
+
+				self.set('restaurant.latLongPoint', self.get('restaurant.latLong'));
+				self.set('restaurant.latLong', null);
+				//self.set('restaurant.categoriesList', self.get('restaurant.categories'));
+				self.set('restaurant.categories', null);
+				self.set('restaurant.reviews', null);
+				self.set('restaurant.reviewRating', null);
+				self.set('restaurant.reviewCount', null);
+
 				var restaurant = self.get('restaurant');
-				
-			 	// Images are uploaded
-				self.get('restaurant').setProperties(response);
 
 				// Transform time variables
 		        self.get('restaurant').setProperties({
@@ -68,12 +107,16 @@ export default Ember.Controller.extend({
 		        	minimumCancelTime: moment(restaurant.minimumCancelTime).format("YYYY-MM-DD HH:mm")
 		        });
 
+
+				console.log("RESTAURANTS ISSS");
+				console.log(restaurant);
+
 				// Restaurant model is now ready
-				self.get('restaurantService').add(self.get('restaurant')).then(function() {		
-	                flashMessages.success("Added a restaurant.");		
+				self.get('restaurantService').update(self.get('restaurant')).then(function() {		
+	                flashMessages.success("Edited a restaurant successfully.");		
 	                self.transitionToRoute('admin.restaurants.index');
 				}, function(response) {
-	                flashMessages.danger("Couldn't add an account.");
+	                flashMessages.danger("Couldn't edit the restaurant.");
 				});
 			}, function(data) {
 	                flashMessages.danger("Couldn't add restaurant.");

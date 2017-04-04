@@ -1,13 +1,18 @@
 package services;
 
+import com.amazonaws.SdkClientException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.Point;
+import models.Photo;
 import models.Reservation;
 import models.Restaurant;
 import models.Review;
 import models.filters.RestaurantFilterBuilder;
 import models.helpers.OrderByRawSql;
+import modules.PlayS3;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
@@ -23,12 +28,14 @@ import repositories.RestaurantRepository;
 import services.exceptions.ServiceException;
 
 import javax.inject.Inject;
+import javax.xml.ws.Service;
 import java.util.Date;
 import java.util.List;
 
 public class RestaurantService extends BaseService<Restaurant, RestaurantRepository> {
     private ReviewService reviewService;
     private AccountService accountService;
+    private PhotoService photoService;
 
     @Inject
     public void setReviewService(ReviewService reviewService) {
@@ -38,6 +45,41 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
     @Inject
     public void setAccountService(AccountService accountService) {
         this.accountService = accountService;
+    }
+
+    @Inject
+    public void setPhotoService(PhotoService photoService) {
+        this.photoService = photoService;
+    }
+
+    public void delete(Long id) throws ServiceException {
+        // First delete images from AWS S3
+        Restaurant r = get(id);
+        deletePhotoFromAws(id, "gallery/logos", r.getLogoImageUrl(), true);
+        deletePhotoFromAws(id, "gallery/covers", r.getCoverImageUrl(), false);
+        for(Photo p : r.getPhotos()) {
+            deletePhotoFromAws(id, "gallery", p.getImageUrl(), true);
+        }
+
+        super.delete(id);
+    }
+
+    public void deletePhotoFromAws(Long restaurantId, String directory, String filename, Boolean deleteThumb) throws ServiceException {
+        try {
+            AmazonS3 client = PlayS3.getAmazonS3();
+            client.deleteObject(new DeleteObjectRequest(PlayS3.getBucketName(), directory + "/" + filename));
+            if(deleteThumb) {
+                client.deleteObject(new DeleteObjectRequest(PlayS3.getBucketName(), directory + "/thumbs/" + filename));
+                Photo p = photoService.getByFilenameAndRestaurantId(filename, restaurantId);
+                if(p != null) {
+                    photoService.delete(p.getId());
+                }
+            }
+        } catch (SdkClientException e) {
+            throw new ServiceException("Could not delete an image from AWS!");
+        } catch (ServiceException e) {
+            throw new ServiceException("Could not delete an image from AWS!");
+        }
     }
 
     public List<Restaurant> random(Integer limit) throws ServiceException {

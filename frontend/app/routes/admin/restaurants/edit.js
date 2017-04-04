@@ -26,12 +26,13 @@ export default AdminRoute.extend({
 	    var restaurant = Restaurant.create({});
 	    restaurant.setProperties(models.restaurant);
 	    restaurant.set('categoriesList', restaurant.categories);
+	    restaurant.set('latLongPoint', restaurant.latLong);
 
 	    controller.set('restaurant', restaurant);
 	    controller.set('menuItems', restaurant.menus[0].menuItems);
 	    controller.set('diningTables', restaurant.diningTables);
-	    controller.set('lat', lat);
-	    controller.set('long', lng);	
+	   /* controller.set('lat', lat);
+	    controller.set('long', lng);	*/
 	    controller.set('mapLat', lat);
 	    controller.set('mapLong', lng);	
 

@@ -99,6 +99,11 @@ export default Ember.Component.extend({
 			this.checkIsLocationProper();	
 	    },
 
+	    removedCategory: function(category) {
+	    	var categoriesList = this.get('new.restaurant.categoriesList');
+	    	this.set('new.restaurant.categoriesList', categoriesList.filter(function(c) { return c.id !== category.id}));
+	    },
+
         pricingDollarClicked: function(params) {
             this.set('new.restaurant.pricing', params.rating);
         },

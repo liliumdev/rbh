@@ -54,7 +54,7 @@ export default Ember.Controller.extend({
 			this.set('uploading', true);
 
 			// First upload images
-			this.get('restaurantService').uploadImages(this.get('restaurant')).then(function(response) {
+			this.get('restaurantService').uploadImages(this.get('restaurant'), true, true).then(function(response) {
 				var restaurant = self.get('restaurant');
 				
 			 	// Images are uploaded
@@ -72,7 +72,7 @@ export default Ember.Controller.extend({
 	                flashMessages.success("Added a restaurant.");		
 	                self.transitionToRoute('admin.restaurants.index');
 				}, function(response) {
-	                flashMessages.danger("Couldn't add an account.");
+	                flashMessages.danger("Couldn't add a restaurant.");
 				});
 			}, function(data) {
 	                flashMessages.danger("Couldn't add restaurant.");

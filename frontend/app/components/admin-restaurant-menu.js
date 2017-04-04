@@ -44,6 +44,7 @@ export default Ember.Component.extend({
                 	flashMessages.danger("Item price must be a number!");
                 	return;
             	}
+            	delete menuItems[i].id;
 			}
 
         	flashMessages.success("Applied changes!");

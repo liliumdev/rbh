@@ -32,7 +32,7 @@ export default Ember.Controller.extend({
             }
 
             this.get('cityService').create(countryId, name, boundary).then(function(newLocation) {
-                this.get('model.locations').pushObject(newLocation);
+                this.get('model.locations').pushObject(Location.create(newLocation));
                 this.set('location.name', '');
             }.bind(this), function(data) {
                 flashMessages.danger(data.responseText);

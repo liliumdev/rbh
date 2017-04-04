@@ -50,9 +50,11 @@ GET           /api/v1/restaurants/:id/did-rate                  controllers.Rest
 GET           /api/v1/restaurants/:id/reservations-today        controllers.RestaurantController.getNumberOfReservationsToday(id:Long)
 
 POST          /api/v1/restaurants                               controllers.admin.RestaurantController.add()
-POST          /api/v1/restaurants/upload-images                 controllers.admin.RestaurantController.uploadImages()
+POST          /api/v1/restaurants/upload-images                 controllers.admin.RestaurantController.uploadImages(logoProvided:Integer ?= 1, coverProvided: Integer ?= 1)
+DELETE        /api/v1/restaurants/delete-image/:restaurantId/:file/:directory   controllers.admin.RestaurantController.deleteImage(restaurantId: Long, file:String, directory:String, thumb: Integer ?= 0)
 DELETE        /api/v1/restaurants/:id                           controllers.admin.RestaurantController.delete(id:Long)
 GET           /api/v1/restaurants/:id/reservations/:time        controllers.admin.RestaurantController.reservations(id:Long, time:String)
+PUT           /api/v1/restaurants/:id                           controllers.admin.RestaurantController.update(id:Long)
 # End of restaurant related routes
 
 #  Reservation routes

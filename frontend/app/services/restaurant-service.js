@@ -79,18 +79,32 @@ export default BaseService.extend({
     },
 
     /* Admin stuff */
-    uploadImages: function(restaurant) {
+    uploadImages: function(restaurant, logoProvided, coverProvided) {
+        var isLogoProvided = logoProvided ? 1 : 0;
+        var isCoverProvided = coverProvided ? 1 : 0;
+
         // Let's test uploading of file
         var data = new FormData();
-        data.append("files[]", restaurant.logoImageUrl); // logoImageUrl is actually a File
-        data.append("files[]", restaurant.coverImageUrl); // coverImageUrl is actually a File
+
+        if(logoProvided) {
+            data.append("files[]", restaurant.logoImageUrl); // logoImageUrl is actually a File
+        }
+        if(coverProvided) {
+            data.append("files[]", restaurant.coverImageUrl); // coverImageUrl is actually a File
+        }
 
         for(var i = 0; i < restaurant.photos.length; i++) {
             data.append("files[]", restaurant.photos[i]);
         }
 
+        // Were there any images actually to upload?
+        if(!logoProvided && !coverProvided && restaurant.photos.length === 0) {
+            // Just return an empty promise
+            return new Ember.RSVP.Promise(function(resolve, reject) { resolve("Empty"); });
+        }
+
         return this.ajaxWithoutContentType({
-            url: 'restaurants/upload-images',
+            url: `restaurants/upload-images?logoProvided=${isLogoProvided}&coverProvided=${isCoverProvided}`,
             data: data,
             cache: false,
             contentType: false,
@@ -107,8 +121,21 @@ export default BaseService.extend({
         return this.ajax({ url: 'restaurants', type: "POST", data: JSON.stringify(restaurant)});
     },
 
+    update: function(restaurant) { // This was only a helper field (country id), also we should delete the boundary
+        delete restaurant.city.country;
+        delete restaurant.city.boundary; // causes problems on the backend
+
+
+        return this.ajax({ url: `restaurants/${restaurant.id}`, type: "PUT", data: JSON.stringify(restaurant)});
+    },
+
     delete: function(restaurantId) {
         return this.ajax({ url: `restaurants/${restaurantId}`, type: "DELETE"});
+    },
+
+    deleteImage: function(filename, directory, thumb, restaurantId) {
+        var doThumb = thumb ? 1 : 0;
+        return this.ajax({ url: `restaurants/delete-image/${restaurantId}/${filename}/${directory}?thumb=${doThumb}`, type: "DELETE"});
     },
 
     allReservations: function(restaurantId, time) {
