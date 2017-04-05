@@ -41,6 +41,7 @@
               {{/if}}
 							 {{#each model.reservations as |reservation|}}   
 								<tr>
+                {{log reservation}}
 		                      		<td>{{reservation.name}}</td>
                               <td>{{moment-format reservation.createdAt 'MMM DD, YYYY h:mm A'}}</td>
 		                      		<td>{{reservation.persons}}</td>

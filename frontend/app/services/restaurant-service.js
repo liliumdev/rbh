@@ -139,7 +139,7 @@ export default BaseService.extend({
     },
 
     allReservations: function(restaurantId, time) {
-        var reservations = [];
+        var reservations = Ember.A([]);
         this.ajax({ url: `restaurants/${restaurantId}/reservations/${time}`, type: "GET"}).then(function(data) {
             data.forEach(function(reservation) {
                 reservations.addObject(Reservation.create(reservation));

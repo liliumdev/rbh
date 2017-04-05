@@ -156,7 +156,7 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
 
     public List<Reservation> getAllReservations(Long restaurantId, String time) throws ServiceException {
         try {
-            if(!time.equals("past") && !time.equals("future")) {
+            if(!time.equals("past") && !time.equals("future") && !time.equals("all")) {
                 time = "past";
             }
 
@@ -167,7 +167,9 @@ public class RestaurantService extends BaseService<Restaurant, RestaurantReposit
             criteria.createAlias("diningTable.restaurant", "restaurant");
             criteria.add(Restrictions.eqProperty("reservation.diningTable.id", "diningTable.id"));
             criteria.add(Restrictions.eq("diningTable.restaurant.id", restaurantId));
-            criteria.add(time.equals("past") ? Restrictions.le("reservation.forTime", now) : Restrictions.ge("reservation.forTime", now));
+            if(!time.equals("all")) {
+                criteria.add(time.equals("past") ? Restrictions.le("reservation.forTime", now) : Restrictions.ge("reservation.forTime", now));
+            }
             criteria.addOrder(Order.asc("reservation.createdAt"));
 
             return criteria.list();

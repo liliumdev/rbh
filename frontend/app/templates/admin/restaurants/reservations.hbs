@@ -6,18 +6,17 @@
       <div class="col-md-12 col-sm-12 col-xs-12 col-centered">
           <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12 page-title v-align-center">
-				{{#if future}}
-                Future reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seePast"}}>See past reservations</a>)
-                {{else}}
-                Past reservations at {{ model.restaurant.name }} (<a href="javascript:;" {{action "seeFuture"}}>See future reservations</a>)
-                {{/if}}
+				        Reservations at {{ model.restaurant.name }}
             </div>
           </div>
           <div class="row">
               <div class="col-md-12">
+
+                        {{full-calendar events=events defaultView='agendaWeek' header=headerOptions eventClick=(action 'eventClicked')}}
+
                   <div class="card">
                       <div class="content">
-                      	<table>
+                 <!--     	<table>
                       		<tr>
 	                      		<th>Name</th>
                             	<th>Reservation made</th>
@@ -41,7 +40,7 @@
 		                      		<td>{{moment-format reservation.forTime 'h:mm A'}}</td>
 								</tr> 
 							{{/each}}
-                      	</table>
+                      	</table>-->
                       </div>
                   </div>
               </div>
@@ -50,3 +49,37 @@
        
    </div>
    
+<div class="modal fade" id="reservationModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <button type="button" class="close" data-dismiss="modal"><span class="fa fa-remove" aria-hidden="true"></span></button>
+        
+        <p class="title">Reservation</p>
+
+        <p>
+
+          <br>
+          <table border="0">
+          <tr>
+            <td>For:</td> 
+            <td>{{event.name}}</td>
+          </tr>
+          <tr>
+            <td>Persons:</td> 
+            <td>{{event.persons}}</td>
+          </tr>
+
+          </table>
+          <br><br>
+          {{#if event.request}}
+            {{event.request}}
+          {{else}}
+            There is no special request for this reservation.
+          {{/if}}
+          <br>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

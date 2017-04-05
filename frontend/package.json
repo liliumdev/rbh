@@ -49,6 +49,7 @@
     "ember-data": "^2.11.0",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.2.0",
+    "ember-fullcalendar": "1.7.0",
     "ember-g-map": "0.0.23",
     "ember-inline-edit": "https://github.com/liliumdev/ember-inline-edit",
     "ember-justified-gallery": "0.0.2",

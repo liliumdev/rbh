@@ -6,7 +6,7 @@ export default Ember.Route.extend({
 	model: function(params, transition) {
 		return Ember.RSVP.hash({
 			restaurant: this.get('restaurantService').getById(params.id),
-			reservations: this.get('restaurantService').allReservations(params.id, 'future')
+			reservations: this.get('restaurantService').allReservations(params.id, 'all')
 		});
 	},
 

@@ -1626,6 +1626,24 @@ form .form-tip
     text-decoration: none;
 }
 
+#reservationModal p.title {    
+    font-size: 24px;
+    color: #131d24;
+    font-weight: normal;
+    padding: 15px;
+}
+
+#reservationModal table {
+    margin-left: auto; 
+    margin-right: auto; 
+    text-align: left;
+    font-size: 16px;
+}
+
+#reservationModal table td {
+    padding: 10px;
+}
+
 .leaflet-container {
     height: 300px;
 }
