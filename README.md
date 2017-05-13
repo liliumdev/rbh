@@ -1,1 +1,1 @@
-# Restaurants-AtlantBH Internship January-March 2017
+# Restaurants-AtlantBH January-March 2017
